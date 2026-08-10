@@ -905,11 +905,15 @@ input:focus-visible { outline: 3px solid rgba(244, 199, 47, .45); outline-offset
       if (document.getElementById("setup-warning")) return;
       const bar = document.createElement("div");
       bar.id = "setup-warning";
-      bar.innerHTML = "<strong>Some course files could not be found.</strong>" +
-        "This usually means the page was opened from inside the ZIP file. " +
-        "Please unzip the whole <b>AI_For_All_Offline_Training</b> folder first - " +
-        "right-click the ZIP and choose <b>Extract All</b> - then open " +
-        "<b>START_TRAINING.html</b> from the extracted folder.";
+      const onWeb = location.protocol.startsWith("http");
+      bar.innerHTML = "<strong>Some course files could not be found.</strong>" + (onWeb
+        ? "The <b>course</b> folder is missing from the website. Upload it "
+          + "alongside index.html, keeping its images, brand, audio and media "
+          + "folders inside it."
+        : "This usually means the page was opened from inside the ZIP file. "
+          + "Please unzip the whole <b>AI_For_All_Offline_Training</b> folder first - "
+          + "right-click the ZIP and choose <b>Extract All</b> - then open "
+          + "<b>START_TRAINING.html</b> from the extracted folder.");
       document.body.prepend(bar);
     }
 
