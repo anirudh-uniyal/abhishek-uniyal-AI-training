@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>AI For All — Introduction to AI</title>
+  <style>
+:root {
+  --ink: #101827;
+  --muted: #5e6a7c;
+  --blue: #1677ff;
+  --blue-dark: #0a4ea8;
+  --blue-soft: #eaf4ff;
+  --line: #dce3ec;
+  --shell: #0d1525;
+  --gold: #f4c72f;
+  --gold-dark: #a97900;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body { margin: 0; background: #e9eef5; color: var(--ink); font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+button { font: inherit; }
+button:focus-visible { outline: 3px solid #72b6ff; outline-offset: 3px; }
+input:focus-visible { outline: 3px solid rgba(244, 199, 47, .45); outline-offset: 2px; }
+
+.access-screen {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: max(28px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+  background:
+    radial-gradient(circle at 14% 14%, rgba(244, 199, 47, .18), transparent 27%),
+    radial-gradient(circle at 88% 88%, rgba(24, 119, 255, .16), transparent 29%),
+    #080a0e;
+}
+.access-screen::before { content: ""; position: absolute; inset: 0; opacity: .14; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 44px 44px; }
+.access-glow { position: absolute; width: 320px; height: 320px; border-radius: 50%; filter: blur(2px); opacity: .3; }
+.access-glow-one { left: -190px; bottom: -120px; background: var(--gold); }
+.access-glow-two { right: -210px; top: -120px; background: #1677ff; }
+.access-card { position: relative; z-index: 1; width: min(1080px, 100%); min-height: 650px; display: grid; grid-template-columns: 1.08fr .92fr; overflow: hidden; border: 1px solid rgba(244,199,47,.32); border-radius: 30px; background: #fff; box-shadow: 0 34px 95px rgba(0,0,0,.5); }
+.access-brand-panel { position: relative; padding: 48px 52px; display: flex; flex-direction: column; justify-content: space-between; color: white; background: linear-gradient(145deg, #070809, #15171c); }
+.access-brand-panel::after { content: ""; position: absolute; right: -90px; bottom: -110px; width: 310px; height: 310px; border: 1px solid rgba(244,199,47,.18); border-radius: 50%; box-shadow: 0 0 0 48px rgba(244,199,47,.04), 0 0 0 96px rgba(244,199,47,.025); }
+.access-logo { position: relative; z-index: 1; width: 225px; max-width: 70%; height: auto; display: block; object-fit: contain; }
+.access-kicker { margin: 28px 0 13px; color: var(--gold); font-size: 12px; font-weight: 900; letter-spacing: .16em; }
+.access-brand-panel h1 { margin: 0; max-width: 590px; font-size: clamp(42px, 5vw, 66px); line-height: .98; letter-spacing: -.052em; }
+.access-brand-panel > div > p:last-child { margin: 20px 0 0; max-width: 520px; color: #b9bec9; font-size: 18px; line-height: 1.52; }
+.access-features { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; }
+.access-features span { padding: 9px 11px; border: 1px solid rgba(244,199,47,.22); border-radius: 999px; color: #e4e6eb; background: rgba(255,255,255,.055); font-size: 11px; font-weight: 700; }
+.access-form-panel { padding: 52px 46px; display: flex; flex-direction: column; justify-content: center; }
+.access-form-panel h2 { margin: 0; font-size: clamp(34px, 4vw, 47px); letter-spacing: -.045em; }
+.access-help { margin: 12px 0 28px; color: var(--muted); font-size: 15px; line-height: 1.5; }
+.access-form-panel form { display: grid; gap: 12px; }
+.access-form-panel label { color: #39465a; font-size: 12px; font-weight: 800; }
+.access-form-panel input { width: 100%; min-height: 54px; padding: 0 16px; border: 1px solid #cfd7e2; border-radius: 13px; color: var(--ink); background: #fbfcfe; font-size: 16px; }
+.access-form-panel input::placeholder { color: #8c96a5; }
+.access-enter-button, .request-access-button { width: 100%; min-height: 52px; border-radius: 13px; cursor: pointer; font-size: 15px; font-weight: 850; }
+.access-enter-button { margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid #111318; color: #111318; background: linear-gradient(135deg, #f8d34c, #e5ae12); box-shadow: 0 12px 25px rgba(181,132,0,.2); }
+.access-enter-button span { font-size: 12px; }
+.request-access-button { border: 1px solid #ccd5e0; color: #34445a; background: white; }
+.access-enter-button:hover, .request-access-button:hover { transform: translateY(-1px); }
+.access-feedback { min-height: 36px; margin: 16px 0 0; color: #7b8797; font-size: 12px; line-height: 1.45; }
+.access-feedback.visible { color: #a25a16; font-weight: 700; }
+.access-sound-note { margin: 13px 0 0; padding-top: 13px; border-top: 1px solid #e1e6ed; color: #697588; font-size: 11px; line-height: 1.5; }
+
+.launch-screen {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 34px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(55, 138, 255, .32), transparent 28%),
+    radial-gradient(circle at 85% 90%, rgba(28, 205, 182, .22), transparent 31%),
+    linear-gradient(135deg, #07101e 0%, #101e33 55%, #0a1424 100%);
+}
+
+.launch-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .17;
+  background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+.ambient { position: absolute; width: 340px; height: 340px; border-radius: 50%; opacity: .4; }
+.orb-one { left: -190px; bottom: 12%; background: linear-gradient(145deg, #1a80ff, transparent 70%); }
+.orb-two { right: -160px; top: 5%; background: linear-gradient(145deg, #22ccb7, transparent 70%); }
+
+.launch-card {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, 100%);
+  min-height: min(650px, calc(100svh - 68px));
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 32px;
+  background: rgba(255,255,255,.98);
+  box-shadow: 0 32px 90px rgba(0,0,0,.38);
+}
+
+.launch-copy { padding: 48px 58px; display: flex; flex-direction: column; justify-content: center; }
+.brand-lockup { display: flex; align-items: center; gap: 12px; color: #184270; letter-spacing: .12em; font-size: 14px; }
+.brand-mark { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 14px; color: white; background: linear-gradient(145deg, #2085ff, #0b5fc6); box-shadow: 0 8px 20px rgba(22,119,255,.27); font-size: 15px; letter-spacing: 0; }
+.brand-mark.small { width: 36px; height: 36px; border-radius: 11px; font-size: 12px; }
+.eyebrow { margin: 0 0 13px; color: var(--blue-dark); font-size: 12px; line-height: 1; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.launch-eyebrow { margin-top: 48px; }
+.launch-copy h1 { margin: 0; max-width: 640px; font-size: clamp(46px, 5.1vw, 70px); line-height: .98; letter-spacing: -.055em; }
+.launch-lead { margin: 24px 0 0; max-width: 590px; color: var(--muted); font-size: 20px; line-height: 1.52; }
+.launch-meta { margin-top: 25px; display: flex; flex-wrap: wrap; gap: 9px; }
+.launch-meta span { padding: 9px 12px; border-radius: 999px; color: #435166; background: #f0f4f8; font-size: 12px; font-weight: 700; }
+.start-button { margin-top: 33px; width: fit-content; min-width: 240px; padding: 15px 26px; display: flex; align-items: center; justify-content: center; gap: 13px; border: 0; border-radius: 16px; color: white; background: linear-gradient(135deg, #1677ff, #0758c0); box-shadow: 0 14px 30px rgba(13,105,231,.3); cursor: pointer; font-size: 19px; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease; }
+.start-button:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(13,105,231,.36); }
+.play-dot { width: 30px; height: 30px; display: grid; place-items: center; padding-left: 2px; border-radius: 50%; background: rgba(255,255,255,.2); font-size: 12px; }
+.launch-hint { margin: 12px 0 0; color: #7a8595; font-size: 12px; }
+.launch-art { position: relative; min-height: 620px; overflow: hidden; background: linear-gradient(150deg, #dff2ff 0%, #eafcff 47%, #dbe9ff 100%); }
+.launch-art::before { content: ""; position: absolute; inset: 28px; z-index: 1; border: 1px solid rgba(21,95,172,.12); border-radius: 26px; }
+.launch-art > img { position: absolute; inset: 2% -6% -4% -8%; width: 114%; height: 102%; object-fit: cover; object-position: center; filter: saturate(.96) contrast(1.03); }
+.art-halo { position: absolute; z-index: 1; width: 360px; height: 360px; left: 50%; top: 47%; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(22,119,255,.23); box-shadow: 0 0 0 44px rgba(255,255,255,.15), 0 0 0 88px rgba(22,119,255,.06); }
+.mini-card { position: absolute; z-index: 3; min-width: 160px; padding: 14px 16px; display: flex; align-items: center; gap: 11px; border: 1px solid rgba(255,255,255,.7); border-radius: 16px; color: #17385e; background: rgba(255,255,255,.88); backdrop-filter: blur(10px); box-shadow: 0 14px 30px rgba(33,77,123,.16); }
+.mini-card b { color: var(--blue); font-size: 22px; }
+.mini-card span { font-size: 12px; font-weight: 700; }
+.mini-card-top { right: 26px; top: 80px; }
+.mini-card-bottom { left: 28px; bottom: 74px; }
+.launch-footer { position: absolute; z-index: 1; bottom: 11px; color: rgba(255,255,255,.62); font-size: 12px; letter-spacing: .04em; }
+
+.course-shell { min-height: 100svh; min-height: 100dvh; display: grid; grid-template-rows: 76px minmax(0, 1fr) 70px; background: #e9eef5; }
+.course-bar { position: relative; z-index: 10; display: grid; grid-template-columns: minmax(220px, 1fr) minmax(220px, 440px) minmax(360px, 1fr); align-items: center; gap: 24px; padding: 0 28px; color: white; background: linear-gradient(90deg, #0a1424, #10203a); box-shadow: 0 4px 18px rgba(15,26,43,.22); }
+.brand-button { padding: 0; display: flex; align-items: center; gap: 11px; border: 0; color: white; background: transparent; cursor: pointer; text-align: left; }
+.course-brand-logo { width: 102px; height: 58px; display: block; flex: 0 0 auto; object-fit: contain; border-radius: 7px; }
+.course-brand-copy { min-width: 0; }
+.brand-button strong, .brand-button small { display: block; }
+.brand-button strong { font-size: 13px; letter-spacing: .12em; }
+.brand-button small { margin-top: 3px; color: #9fb0c7; font-size: 11px; }
+.course-progress-meta { text-align: center; }
+.course-progress-meta > span { display: block; margin-bottom: 9px; color: #b9c7d8; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.15); }
+.progress-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #47a4ff, #4de2cb); transition: width .35s ease; }
+.player-tools { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+.tool-button { min-width: 48px; height: 50px; padding: 5px 8px; display: grid; place-items: center; border: 0; border-radius: 10px; color: #c5d2e3; background: transparent; cursor: pointer; font-weight: 800; }
+.tool-button span { display: block; font-size: 9px; font-weight: 600; }
+.tool-button:hover, .tool-button.active { color: white; background: rgba(255,255,255,.1); }
+.tool-button:disabled { opacity: .35; cursor: not-allowed; }
+
+.slide-stage { min-height: 0; display: grid; place-items: center; padding: 22px 32px; background: radial-gradient(circle at 50% 12%, rgba(255,255,255,.92), transparent 52%), #e9eef5; }
+.slide-card { position: relative; width: min(1180px, 100%); height: min(calc(100svh - 190px), 674px); min-height: 510px; padding: 30px 42px 27px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; border: 1px solid rgba(159,174,193,.42); border-radius: 24px; background: white; box-shadow: 0 20px 55px rgba(29,46,67,.14); }
+.slide-card::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: var(--tone, var(--blue)); }
+.tone-blue { --tone: #1677ff; --tone-soft: #eaf4ff; }
+.tone-cyan { --tone: #00a9c7; --tone-soft: #e6f9fc; }
+.tone-yellow { --tone: #d99b0b; --tone-soft: #fff6d8; }
+.tone-green { --tone: #189765; --tone-soft: #e9f8f1; }
+.tone-red { --tone: #d64b4b; --tone-soft: #fdeeee; }
+.slide-heading { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 30px; }
+.slide-heading h1 { max-width: 960px; margin: 0; font-size: clamp(29px, 3vw, 45px); line-height: 1.04; letter-spacing: -.045em; }
+.slide-subtitle { margin: 9px 0 0; color: var(--muted); font-size: 17px; line-height: 1.4; }
+.screen-number { color: var(--tone); font-size: 36px; font-weight: 800; letter-spacing: -.05em; opacity: .16; }
+.slide-content { position: relative; z-index: 2; min-height: 0; padding: 20px 0 12px; display: flex; align-items: center; overflow: auto; scrollbar-width: thin; }
+
+.cover-layout { width: 100%; display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 42px; }
+.cover-copy h2 { margin: 14px 0 0; max-width: 650px; font-size: clamp(40px, 4.7vw, 62px); line-height: .98; letter-spacing: -.055em; }
+.level-pill, .success-pill { display: inline-flex; width: fit-content; padding: 8px 12px; border-radius: 999px; color: var(--blue-dark); background: var(--blue-soft); font-size: 12px; font-weight: 800; }
+.lead { margin: 16px 0 0; color: var(--muted); font-size: clamp(18px, 1.8vw, 24px); line-height: 1.43; }
+.support-copy { margin: 14px 0 0; max-width: 610px; color: #657287; font-size: 15px; line-height: 1.52; }
+.hero-frame { position: relative; height: 330px; overflow: hidden; border-radius: 24px; background: linear-gradient(145deg, #e3f4ff, #e9fbff); }
+.hero-frame > img { width: 100%; height: 100%; object-fit: cover; }
+.float-chip { position: absolute; padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-radius: 12px; color: #28415f; background: rgba(255,255,255,.92); box-shadow: 0 10px 25px rgba(28,74,123,.14); font-size: 11px; font-weight: 800; }
+.float-chip b { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; color: white; background: var(--tone); }
+.chip-one { left: 16px; top: 20px; }
+.chip-two { right: 16px; bottom: 18px; }
+
+.cards-layout { position: relative; width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+.cards-layout.count-3 { grid-template-columns: repeat(3, 1fr); }
+.cards-layout .course-callout { grid-column: 1 / -1; }
+.item-card { min-height: 132px; padding: 18px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, white, #f9fbfd); }
+.item-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.item-icon { width: 39px; height: 39px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 12px; color: white; background: var(--tone); font-size: 12px; font-weight: 800; }
+.item-label { color: var(--tone); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .12em; text-align: right; }
+.item-card h3 { margin: 15px 0 0; font-size: 20px; line-height: 1.12; letter-spacing: -.025em; }
+.item-card p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.42; }
+.corner-illustration { position: absolute; right: -12px; bottom: -12px; width: 170px; height: 120px; object-fit: cover; border: 8px solid white; border-radius: 24px; box-shadow: 0 10px 28px rgba(41,65,93,.15); }
+.course-callout { padding: 11px 15px; border-left: 4px solid var(--tone); border-radius: 0 12px 12px 0; color: #445167; background: var(--tone-soft); font-size: 14px; font-weight: 700; }
+
+.question-layout { width: min(930px, 100%); margin: auto; }
+.question-layout .success-pill { margin-bottom: 10px; color: #14724f; background: #e9f8f1; }
+.question-context { margin: 0 0 15px; padding: 13px 17px; border-left: 4px solid var(--tone); border-radius: 0 12px 12px 0; color: #445167; background: var(--tone-soft); font-size: 16px; line-height: 1.43; }
+.option-list { display: grid; gap: 9px; }
+.answer-option { width: 100%; min-height: 58px; padding: 8px 15px 8px 9px; display: grid; grid-template-columns: 42px 1fr 26px; align-items: center; gap: 13px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: white; cursor: pointer; text-align: left; transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
+.answer-option > span { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 11px; color: var(--blue-dark); background: var(--blue-soft); font-weight: 800; }
+.answer-option strong { font-size: 16px; }
+.answer-option i { color: var(--tone); font-style: normal; font-size: 21px; }
+.answer-option:hover { border-color: var(--tone); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(37,68,102,.1); }
+
+.feedback-layout { width: min(920px, 100%); margin: auto; display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 52px; }
+.feedback-mark, .complete-mark { width: 210px; height: 210px; display: grid; place-items: center; border: 2px solid var(--tone); border-radius: 50%; color: var(--tone); background: var(--tone-soft); font-size: 96px; font-weight: 800; }
+.feedback-label { margin: 0 0 9px; color: var(--tone); font-size: 12px; font-weight: 900; letter-spacing: .15em; }
+.feedback-layout h2 { margin: 0; font-size: clamp(36px, 4vw, 54px); letter-spacing: -.045em; }
+
+.split-layout { width: 100%; display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 40px; }
+.big-callout { color: var(--tone); font-size: clamp(44px, 5.8vw, 76px); font-weight: 900; letter-spacing: -.055em; line-height: .95; }
+.big-callout.compact { font-size: clamp(36px, 4.2vw, 56px); }
+.feature-image { width: 100%; height: 278px; object-fit: cover; border-radius: 22px; background: var(--tone-soft); }
+
+.concept-layout { width: 100%; display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 34px; }
+.concept-copy { padding-right: 12px; }
+.concept-label { margin: 7px 0 0; color: #33445a; font-size: 17px; font-weight: 800; }
+.mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.mini-grid .item-card { min-height: 108px; }
+.mini-grid .item-card h3 { margin-top: 12px; font-size: 17px; }
+.mini-grid.three { grid-template-columns: repeat(3, 1fr); }
+
+.compare-grid { width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.compare-grid .item-card { min-height: 230px; padding: 25px; }
+.compare-grid .item-icon { width: 50px; height: 50px; font-size: 16px; }
+.compare-grid .item-card h3 { margin-top: 25px; font-size: 26px; }
+.compare-grid .item-card p { margin-top: 12px; font-size: 15px; }
+
+.process-layout { width: 100%; display: grid; gap: 12px; }
+.process-layout.with-image { grid-template-columns: 1fr 250px; align-items: stretch; }
+.process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.process-layout.with-image .process-grid { grid-template-columns: 1fr; gap: 9px; }
+.process-layout.with-image .item-card { min-height: 86px; padding: 13px; display: grid; grid-template-columns: 44px 1fr; column-gap: 12px; align-items: center; }
+.process-layout.with-image .item-top { grid-row: 1 / 3; }
+.process-layout.with-image .item-card h3 { margin: 0; font-size: 17px; }
+.process-layout.with-image .item-card p { margin-top: 3px; }
+.process-image { width: 100%; height: 100%; min-height: 280px; object-fit: cover; border-radius: 20px; background: var(--tone-soft); }
+.process-layout.with-image .course-callout { grid-column: 1 / -1; }
+
+.video-wrap { width: min(920px, 100%); height: 100%; min-height: 300px; margin: auto; display: grid; place-items: center; overflow: hidden; border-radius: 19px; background: #08111e; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
+.video-wrap video { width: 100%; height: 100%; object-fit: contain; }
+
+.final-intro-layout { width: min(900px, 100%); margin: auto; display: grid; grid-template-columns: 250px 1fr; align-items: center; gap: 50px; }
+.final-orb { width: 230px; height: 230px; display: grid; place-items: center; align-content: center; border-radius: 50%; color: white; background: linear-gradient(145deg, var(--tone), #0b4f9d); box-shadow: 0 20px 50px rgba(22,119,255,.25); }
+.final-orb span { font-size: 90px; line-height: .9; font-weight: 900; }
+.final-orb small { margin-top: 8px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+
+.complete-layout { width: 100%; display: grid; gap: 20px; }
+.completion-top { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 26px; }
+.complete-mark { width: 110px; height: 110px; font-size: 50px; }
+.completion-top .lead { margin-top: 5px; font-size: 19px; }
+.complete-layout .mini-grid .item-card { min-height: 115px; }
+
+.slide-actions { position: relative; z-index: 5; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.primary-action, .secondary-action { min-height: 45px; padding: 0 19px; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 800; }
+.primary-action { min-width: 158px; display: flex; justify-content: center; align-items: center; gap: 18px; border: 1px solid var(--tone); color: white; background: var(--tone); }
+.secondary-action { border: 1px solid var(--line); color: #34445a; background: white; }
+.caption-panel { position: absolute; z-index: 8; left: 42px; right: 42px; bottom: 79px; padding: 12px 15px; display: grid; grid-template-columns: 35px 1fr; gap: 12px; align-items: start; border-radius: 13px; color: white; background: rgba(10,20,36,.95); box-shadow: 0 12px 30px rgba(0,0,0,.25); }
+.caption-panel span { display: grid; place-items: center; width: 33px; height: 25px; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; font-size: 10px; font-weight: 800; }
+.caption-panel p { margin: 1px 0 0; font-size: 13px; line-height: 1.43; }
+
+.course-nav { display: grid; grid-template-columns: 190px 1fr 190px; align-items: center; gap: 20px; padding: 0 30px; border-top: 1px solid #d7dee7; background: #f8fafc; }
+.course-nav > button { height: 43px; padding: 0 17px; border: 1px solid #ccd5e0; border-radius: 12px; color: #324259; background: white; cursor: pointer; font-size: 13px; font-weight: 800; }
+.course-nav > button:disabled { opacity: .43; cursor: not-allowed; }
+.course-nav > .next-button { color: white; border-color: var(--blue); background: var(--blue); }
+.nav-center { min-width: 0; text-align: center; }
+.nav-center span, .nav-center b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-center span { color: #7d8998; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+.nav-center b { margin-top: 3px; color: #34445a; font-size: 12px; }
+
+@media (max-height: 730px) and (min-width: 981px) {
+  .slide-card { padding-top: 24px; min-height: 485px; }
+  .slide-heading h1 { font-size: 35px; }
+  .slide-content { padding-top: 14px; }
+  .item-card { min-height: 112px; padding: 14px; }
+  .item-card h3 { margin-top: 10px; font-size: 18px; }
+  .compare-grid .item-card { min-height: 195px; }
+  .hero-frame { height: 270px; }
+  .feedback-mark { width: 180px; height: 180px; font-size: 82px; }
+  .feedback-layout { grid-template-columns: 190px 1fr; }
+}
+
+@media (max-width: 980px) {
+  .access-screen { padding: 20px; }
+  .access-card { grid-template-columns: 1fr; min-height: 0; }
+  .access-brand-panel { min-height: 390px; padding: 38px 34px; }
+  .access-logo { width: 185px; }
+  .access-form-panel { padding: 40px 34px; }
+  .launch-screen { padding: 20px; }
+  .launch-card { grid-template-columns: 1fr; min-height: 0; }
+  .launch-copy { padding: 38px 32px; }
+  .launch-eyebrow { margin-top: 38px; }
+  .launch-art { min-height: 330px; }
+  .course-shell { grid-template-rows: auto minmax(0, 1fr) 68px; }
+  .course-bar { grid-template-columns: 1fr auto; gap: 14px; padding: 12px 18px; }
+  .course-progress-meta { order: 3; grid-column: 1 / -1; }
+  .player-tools { gap: 1px; }
+  .tool-button span { display: none; }
+  .slide-stage { padding: 16px; }
+  .slide-card { height: auto; min-height: calc(100svh - 210px); padding: 27px 25px 24px; }
+  .cover-layout, .split-layout, .concept-layout { grid-template-columns: 1fr; }
+  .hero-frame, .feature-image { height: 235px; }
+  .cards-layout.count-3 { grid-template-columns: 1fr; }
+  .process-layout.with-image { grid-template-columns: 1fr; }
+  .process-image { display: none; }
+  .slide-content { align-items: flex-start; }
+  .caption-panel { left: 25px; right: 25px; bottom: 76px; }
+}
+
+@media (max-width: 640px) {
+  .access-screen { padding: 0; align-items: stretch; }
+  .access-card { min-height: 100dvh; border: 0; border-radius: 0; }
+  .access-brand-panel { min-height: 310px; padding: max(28px, env(safe-area-inset-top)) 24px 28px; }
+  .access-logo { width: 150px; }
+  .access-kicker { margin-top: 22px; }
+  .access-brand-panel h1 { font-size: 39px; }
+  .access-brand-panel > div > p:last-child { margin-top: 14px; font-size: 15px; }
+  .access-features span:nth-child(2) { display: none; }
+  .access-form-panel { padding: 32px 24px max(32px, env(safe-area-inset-bottom)); }
+  .access-form-panel h2 { font-size: 34px; }
+  .access-help { margin-bottom: 22px; }
+  .launch-screen { padding: 0; align-items: stretch; }
+  .launch-card { border-radius: 0; }
+  .launch-copy { padding: 32px 24px; }
+  .launch-copy h1 { font-size: 46px; }
+  .launch-art, .launch-footer { display: none; }
+  .course-bar { grid-template-columns: auto minmax(0, 1fr); gap: 9px 14px; padding: max(9px, env(safe-area-inset-top)) 13px 9px; }
+  .brand-button { display: flex; }
+  .course-brand-logo { width: 78px; height: 42px; border-radius: 5px; }
+  .course-brand-copy { display: none; }
+  .player-tools { justify-content: center; }
+  .player-tools { grid-column: 1 / -1; }
+  .course-progress-meta { order: initial; grid-column: 2; text-align: left; }
+  .course-progress-meta > span { margin-bottom: 7px; }
+  .slide-stage { padding: 9px; }
+  .slide-card { min-height: calc(100svh - 203px); border-radius: 17px; padding: 21px 17px 19px; }
+  .slide-heading h1 { font-size: 29px; }
+  .screen-number { display: none; }
+  .cards-layout, .mini-grid, .mini-grid.three, .compare-grid, .process-grid { grid-template-columns: 1fr; }
+  .item-card { min-height: 105px; padding: 15px; }
+  .compare-grid .item-card { min-height: 170px; }
+  .answer-option { grid-template-columns: 40px 1fr; }
+  .answer-option i { display: none; }
+  .feedback-layout { grid-template-columns: 1fr; gap: 18px; text-align: center; }
+  .feedback-mark { width: 118px; height: 118px; margin: auto; font-size: 54px; }
+  .final-intro-layout { grid-template-columns: 1fr; gap: 20px; text-align: center; }
+  .final-orb { width: 140px; height: 140px; margin: auto; }
+  .final-orb span { font-size: 58px; }
+  .completion-top { grid-template-columns: 80px 1fr; gap: 15px; }
+  .complete-mark { width: 74px; height: 74px; font-size: 34px; }
+  .slide-actions { justify-content: stretch; }
+  .slide-actions button { flex: 1; }
+  .course-nav { grid-template-columns: 1fr 1fr; padding: 0 11px max(0px, env(safe-area-inset-bottom)); }
+  .nav-center { display: none; }
+  .caption-panel { left: 17px; right: 17px; bottom: 73px; max-height: 132px; overflow-y: auto; }
+  .video-wrap { min-height: 250px; }
+}
+
+    [hidden] { display: none !important; }
+    #setup-warning { position: fixed; z-index: 999; left: 0; right: 0; top: 0; padding: 16px 22px; color: #3d2600; background: #ffd977; border-bottom: 2px solid #c98a00; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.55; box-shadow: 0 6px 22px rgba(0,0,0,.28); }
+#setup-warning strong { display: block; margin-bottom: 4px; font-size: 16px; }
+#setup-warning b { background: rgba(255,255,255,.65); padding: 1px 5px; border-radius: 4px; }
+.offline-status { margin-top: 13px; display: inline-flex; align-items: center; gap: 7px; color: #617083; font-size: 12px; font-weight: 700; }
+    .offline-status::before { content: "✓"; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; color: #14724f; background: #e9f8f1; }
+    .media-message { margin: 10px 0 0; color: #f0b74b; font-size: 12px; }
+    noscript { display: block; max-width: 760px; margin: 40px auto; padding: 24px; border-radius: 16px; background: white; font: 16px/1.5 Arial, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <audio id="narration" preload="auto"></audio>
+  <noscript>Please enable JavaScript in your browser to run this interactive training.</noscript>
+  <script>
+    const course = {"slides":[{"id":"welcome","section":"AI FOR ALL · MODULE 1","title":"Introduction to Artificial Intelligence","subtitle":"A narrated, interactive beginner module","kind":"cover","tone":"blue","image":"/course/images/ai-hero.webp","body":"Learn what AI means, how it learns, where you may already use it, and how to use it safely.","primaryAction":{"label":"Begin module","target":"how-to"},"narration":"Welcome to AI for All. This beginner module introduces Artificial Intelligence in simple English. You do not need any computer knowledge. Select Begin module when you are ready.","audioFemale":"course/audio/01-welcome.mp3","audioMale":"course/audio/male/01-welcome.mp3"},{"id":"how-to","section":"BEFORE YOU BEGIN","title":"Use sound, clicks, and feedback to learn","subtitle":"Move through the course at your own pace.","kind":"cards","tone":"blue","items":[{"icon":"01","title":"Watch","body":"Play the short lesson video with sound. Captions are included."},{"icon":"02","title":"Learn","body":"Move through the simple examples one screen at a time."},{"icon":"03","title":"Answer","body":"Choose an answer and use the feedback to continue."}],"callout":"Keep your speakers on.","primaryAction":{"label":"I’m ready","target":"goals"},"secondaryAction":{"label":"Back","target":"welcome"},"narration":"This course uses sound, clickable buttons, and instant feedback. Watch the short lesson, move through the examples, and answer the questions. Keep your speakers on, then select I’m ready.","audioFemale":"course/audio/02-how-to.mp3","audioMale":"course/audio/male/02-how-to.mp3"},{"id":"goals","section":"YOUR LEARNING GOALS","title":"By the end, you can explain AI in simple words","kind":"cards","tone":"cyan","items":[{"icon":"01","title":"Explain what AI means"},{"icon":"02","title":"Describe how AI learns from examples"},{"icon":"03","title":"Recognize everyday and generative AI"},{"icon":"04","title":"Use AI with three safe habits"}],"primaryAction":{"label":"Continue","target":"warm-up"},"secondaryAction":{"label":"Back","target":"how-to"},"narration":"By the end of this module, you will be able to explain what AI means, describe how it learns from examples, recognize everyday and generative AI, and use AI with three safe habits.","audioFemale":"course/audio/03-goals.mp3","audioMale":"course/audio/male/03-goals.mp3"},{"id":"warm-up","section":"WARM-UP","title":"You may already use AI every day","subtitle":"Which of these may use AI?","kind":"question","tone":"yellow","options":[{"label":"A","text":"A phone camera","target":"warm-answer"},{"label":"B","text":"A map that suggests the fastest route","target":"warm-answer"},{"label":"C","text":"An app that suggests a movie","target":"warm-answer"},{"label":"D","text":"All of these","target":"warm-answer"}],"secondaryAction":{"label":"Back","target":"goals"},"narration":"Warm-up. Which of these may use AI? A phone camera, a map that suggests the fastest route, an app that suggests a movie, or all of these? Select your answer.","audioFemale":"course/audio/04-warm-up.mp3","audioMale":"course/audio/male/04-warm-up.mp3"},{"id":"warm-answer","section":"WARM-UP ANSWER","title":"AI often works quietly in the background","kind":"insight","tone":"green","callout":"ALL OF THEM","body":"A camera may recognize a face. A map may compare routes. An app may predict what you could like. The important idea is the job the AI is doing.","image":"/course/images/ai-everyday.webp","primaryAction":{"label":"Watch the lesson","target":"video-lesson"},"secondaryAction":{"label":"Try again","target":"warm-up"},"narration":"The answer is all of them. A camera may recognize a face. A map may compare routes. An app may predict what you could like. The important idea is the job the AI is doing.","audioFemale":"course/audio/05-warm-answer.mp3","audioMale":"course/audio/male/05-warm-answer.mp3"},{"id":"video-lesson","section":"NARRATED LESSON","title":"Watch: What is Artificial Intelligence?","subtitle":"Press play. The video includes sound and full captions.","kind":"video","tone":"blue","video":"/course/media/ai-introduction-lesson.mp4","audioMode":"video","primaryAction":{"label":"Continue after video","target":"simple-meaning"},"secondaryAction":{"label":"Back","target":"warm-answer"},"narration":"This screen contains the narrated lesson video. Press play to watch it with sound and captions."},{"id":"simple-meaning","section":"THE SIMPLE MEANING","title":"AI helps computers do tasks that seem smart","kind":"concept","tone":"blue","callout":"AI","subtitle":"Artificial Intelligence","body":"AI is technology that helps computers perform tasks that usually need human intelligence.","items":[{"icon":"Aa","title":"Understand words"},{"icon":"◉","title":"Recognize pictures"},{"icon":"→","title":"Make suggestions"},{"icon":"+","title":"Create content"}],"primaryAction":{"label":"Continue","target":"software"},"secondaryAction":{"label":"Back","target":"video-lesson"},"narration":"AI means Artificial Intelligence. AI is technology that helps computers perform tasks that usually need human intelligence. Examples include understanding words, recognizing pictures, making suggestions, and creating content.","audioFemale":"course/audio/07-simple-meaning.mp3","audioMale":"course/audio/male/07-simple-meaning.mp3"},{"id":"software","section":"A COMMON MISUNDERSTANDING","title":"AI is usually software, not a walking robot","kind":"concept","tone":"cyan","callout":"SOFTWARE","body":"Software means instructions that work inside a computer. AI software can work inside a phone, app, website, car, camera, or machine.","items":[{"icon":"▣","title":"Phone"},{"icon":"◎","title":"App"},{"icon":"⌁","title":"Website"},{"icon":"◇","title":"Machine"}],"primaryAction":{"label":"Continue","target":"rules-vs-patterns"},"secondaryAction":{"label":"Back","target":"simple-meaning"},"narration":"AI is usually software, not a walking robot. Software means instructions that work inside a computer. AI software can work inside a phone, an app, a website, a car, a camera, or a machine.","audioFemale":"course/audio/08-software.mp3","audioMale":"course/audio/male/08-software.mp3"},{"id":"rules-vs-patterns","section":"TWO WAYS TO SOLVE A TASK","title":"Normal programs follow rules; AI can learn patterns","kind":"compare","tone":"blue","items":[{"icon":"1","label":"NORMAL PROGRAM","title":"A person writes exact rules","body":"Example: a calculator follows fixed rules for addition."},{"icon":"2","label":"AI SYSTEM","title":"The system learns patterns from examples","body":"Example: face recognition learns from many pictures."}],"primaryAction":{"label":"Continue","target":"learning-steps"},"secondaryAction":{"label":"Back","target":"software"},"narration":"There are two ways to solve a task. A normal program follows exact rules written by a person. An AI system can learn patterns from examples. A calculator follows fixed rules. Face recognition learns from many pictures.","audioFemale":"course/audio/09-rules-vs-patterns.mp3","audioMale":"course/audio/male/09-rules-vs-patterns.mp3"},{"id":"learning-steps","section":"HOW AI LEARNS","title":"AI learning has three simple steps","kind":"process","tone":"blue","items":[{"icon":"1","title":"See examples","body":"Pictures, words, sounds, or numbers"},{"icon":"2","title":"Find patterns","body":"Notice what repeats or goes together"},{"icon":"3","title":"Use the pattern","body":"Answer something new"}],"image":"/course/images/ai-learning.webp","primaryAction":{"label":"Continue","target":"data-model"},"secondaryAction":{"label":"Back","target":"rules-vs-patterns"},"narration":"AI learning has three simple steps. First, see examples such as pictures, words, sounds, or numbers. Second, find patterns. Third, use the pattern to answer something new.","audioFemale":"course/audio/10-learning-steps.mp3","audioMale":"course/audio/male/10-learning-steps.mp3"},{"id":"data-model","section":"TWO USEFUL WORDS","title":"Data and model are simpler than they sound","kind":"compare","tone":"cyan","items":[{"icon":"D","label":"DATA","title":"The examples or information given to the AI","body":"Pictures, words, sounds, or numbers can all be data."},{"icon":"M","label":"MODEL","title":"The pattern the AI learned","body":"The model uses that pattern to make an answer or prediction."}],"primaryAction":{"label":"Continue","target":"fruit-example"},"secondaryAction":{"label":"Back","target":"learning-steps"},"narration":"Two useful words are data and model. Data means the examples or information given to the AI. A model is the pattern the AI learned from those examples. The model uses the pattern to make an answer or prediction.","audioFemale":"course/audio/11-data-model.mp3","audioMale":"course/audio/male/11-data-model.mp3"},{"id":"fruit-example","section":"A CHILD-FRIENDLY EXAMPLE","title":"Teach AI with apples and bananas","kind":"process","tone":"yellow","items":[{"icon":"1","title":"Show many labelled pictures","body":"These pictures are the examples."},{"icon":"2","title":"Let the AI find differences","body":"It notices colours, shapes, and patterns."},{"icon":"3","title":"Ask it to label a new picture","body":"It uses the learned pattern for a new answer."}],"callout":"Poor examples can lead to a poor answer.","primaryAction":{"label":"Quick check","target":"pattern-question"},"secondaryAction":{"label":"Back","target":"data-model"},"narration":"Imagine teaching AI with apples and bananas. First, show many labelled pictures. Next, let the AI find differences. Then ask it to label a new picture. Remember, poor examples can lead to a poor answer.","audioFemale":"course/audio/12-fruit-example.mp3","audioMale":"course/audio/male/12-fruit-example.mp3"},{"id":"pattern-question","section":"KNOWLEDGE CHECK","title":"Quick check: what is the AI doing?","subtitle":"Choose the best answer.","kind":"question","tone":"yellow","body":"A photo app studies thousands of cat and dog pictures. Then it labels a new photo.","options":[{"label":"A","text":"Feeling emotions like a person","target":"pattern-wrong"},{"label":"B","text":"Finding patterns in examples","target":"pattern-correct"},{"label":"C","text":"Using magic to know the answer","target":"pattern-wrong"}],"secondaryAction":{"label":"Back","target":"fruit-example"},"narration":"Quick check. A photo app studies thousands of cat and dog pictures. Then it labels a new photo. Is the AI feeling emotions, finding patterns in examples, or using magic? Select the best answer.","audioFemale":"course/audio/13-pattern-question.mp3","audioMale":"course/audio/male/13-pattern-question.mp3"},{"id":"pattern-correct","section":"KNOWLEDGE CHECK","title":"The AI is finding patterns","kind":"feedback","tone":"green","mark":"✓","label":"THAT’S RIGHT","body":"It learned from many examples, then used the pattern to label a new picture.","primaryAction":{"label":"Continue","target":"everyday-ai"},"narration":"That is right. The AI is finding patterns. It learned from many examples, then used the pattern to label a new picture. Select Continue.","audioFemale":"course/audio/14-pattern-correct.mp3","audioMale":"course/audio/male/14-pattern-correct.mp3"},{"id":"pattern-wrong","section":"KNOWLEDGE CHECK","title":"Remember: examples, patterns, answer","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"AI does not use feelings or magic. It uses patterns learned from examples.","primaryAction":{"label":"Try again","target":"pattern-question"},"narration":"Try again. AI does not use feelings or magic. It uses patterns learned from examples. Select Try again.","audioFemale":"course/audio/15-pattern-wrong.mp3","audioMale":"course/audio/male/15-pattern-wrong.mp3"},{"id":"everyday-ai","section":"AI AROUND YOU","title":"Look for the job AI is doing","kind":"cards","tone":"blue","image":"/course/images/ai-everyday.webp","items":[{"icon":"◉","title":"Camera","body":"Recognizes a face or subject"},{"icon":"⌖","title":"Maps","body":"Compares routes and predicts time"},{"icon":"☆","title":"Suggestions","body":"Recommend what you may like"},{"icon":"▤","title":"Banking","body":"Spots unusual payment activity"}],"primaryAction":{"label":"Continue","target":"generative-ai"},"secondaryAction":{"label":"Back","target":"pattern-correct"},"narration":"AI may work around you every day. A camera may recognize a face. Maps may compare routes and predict time. An app may recommend something you like. A bank may spot unusual payment activity. Look for the job the AI is doing.","audioFemale":"course/audio/16-everyday-ai.mp3","audioMale":"course/audio/male/16-everyday-ai.mp3"},{"id":"generative-ai","section":"A POPULAR TYPE OF AI","title":"Generative AI creates new content from learned patterns","kind":"concept","tone":"cyan","callout":"GENERATIVE","body":"Generative means able to create. A person gives an instruction. The AI uses learned patterns to create a new result.","items":[{"icon":"Aa","title":"Text"},{"icon":"▧","title":"Pictures"},{"icon":"♪","title":"Audio"},{"icon":"{ }","title":"Code and ideas"}],"primaryAction":{"label":"Continue","target":"ai-jobs"},"secondaryAction":{"label":"Back","target":"everyday-ai"},"narration":"Generative AI creates new content from learned patterns. Generative means able to create. A person gives an instruction, and the AI creates a new result such as text, pictures, audio, code, or ideas.","audioFemale":"course/audio/17-generative-ai.mp3","audioMale":"course/audio/male/17-generative-ai.mp3"},{"id":"ai-jobs","section":"WHAT AI CAN DO","title":"AI is a tool for specific jobs","kind":"cards","tone":"blue","items":[{"icon":"Aa","label":"UNDERSTAND","title":"Words and speech","body":"Work with questions, language, or speech."},{"icon":"◉","label":"RECOGNIZE","title":"Objects and patterns","body":"Notice faces, sounds, objects, or patterns."},{"icon":"→","label":"RECOMMEND","title":"Useful next steps","body":"Suggest a route, product, movie, or action."},{"icon":"+","label":"CREATE","title":"New content","body":"Draft text, pictures, audio, code, or ideas."}],"callout":"One AI system may be good at one job and poor at another.","primaryAction":{"label":"Continue","target":"limits"},"secondaryAction":{"label":"Back","target":"generative-ai"},"narration":"AI is a tool for specific jobs. It can understand words or speech, recognize objects or patterns, recommend useful next steps, and create new content. One AI system may be good at one job and poor at another.","audioFemale":"course/audio/18-ai-jobs.mp3","audioMale":"course/audio/male/18-ai-jobs.mp3"},{"id":"limits","section":"WHAT AI CANNOT DO","title":"Useful does not mean always correct","kind":"cards","tone":"red","items":[{"icon":"!","title":"AI can be wrong","body":"A confident answer can still contain a mistake."},{"icon":"?","title":"AI may miss context","body":"It may not understand the full situation."},{"icon":"≠","title":"AI can repeat unfair patterns","body":"Poor or one-sided data can affect the result."},{"icon":"人","title":"People stay responsible","body":"A person remains responsible for important decisions."}],"primaryAction":{"label":"Practice","target":"safety-question"},"secondaryAction":{"label":"Back","target":"ai-jobs"},"narration":"Useful does not mean always correct. AI can be wrong, may miss context, and can repeat unfair patterns from poor data. AI has no human responsibility. A person remains responsible for important decisions.","audioFemale":"course/audio/19-limits.mp3","audioMale":"course/audio/male/19-limits.mp3"},{"id":"safety-question","section":"PRACTICE SCENARIO","title":"What should you do next?","subtitle":"Choose the safest next step.","kind":"question","tone":"yellow","body":"An AI drafts a work email. It includes a fact you are not sure about.","options":[{"label":"A","text":"Send it immediately because the AI sounds confident","target":"safety-wrong"},{"label":"B","text":"Check the fact with a trusted source","target":"safety-correct"},{"label":"C","text":"Add private customer data to make the answer better","target":"safety-wrong"}],"secondaryAction":{"label":"Back","target":"limits"},"narration":"Practice scenario. An AI drafts a work email, but it includes a fact you are not sure about. Should you send it immediately, check the fact with a trusted source, or add private customer data? Select the safest answer.","audioFemale":"course/audio/20-safety-question.mp3","audioMale":"course/audio/male/20-safety-question.mp3"},{"id":"safety-correct","section":"PRACTICE SCENARIO","title":"Check before you trust","kind":"feedback","tone":"green","mark":"✓","label":"THAT’S RIGHT","body":"A confident tone is not proof. Verify important information before you use it.","primaryAction":{"label":"Continue","target":"safe-habits"},"narration":"That is right. Check before you trust. A confident tone is not proof. Verify important information before you use it.","audioFemale":"course/audio/21-safety-correct.mp3","audioMale":"course/audio/male/21-safety-correct.mp3"},{"id":"safety-wrong","section":"PRACTICE SCENARIO","title":"Confidence is not proof","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"Check important facts and keep private information protected.","primaryAction":{"label":"Try again","target":"safety-question"},"narration":"Try again. Confidence is not proof. Check important facts and keep private information protected.","audioFemale":"course/audio/22-safety-wrong.mp3","audioMale":"course/audio/male/22-safety-wrong.mp3"},{"id":"safe-habits","section":"USE AI WISELY","title":"Use AI with three simple habits","kind":"process","tone":"green","image":"/course/images/ai-verify.webp","items":[{"icon":"1","title":"Ask clearly","body":"Explain what you need and give useful context."},{"icon":"2","title":"Check important answers","body":"Compare the result with a trusted source or person."},{"icon":"3","title":"Protect private information","body":"Do not share passwords, customer data, or confidential files."}],"primaryAction":{"label":"Final check","target":"final-intro"},"secondaryAction":{"label":"Back","target":"safety-correct"},"narration":"Use AI with three simple habits. First, ask clearly. Second, check important answers with a trusted source or person. Third, protect private information. Do not share passwords, customer data, or confidential files.","audioFemale":"course/audio/23-safe-habits.mp3","audioMale":"course/audio/male/23-safe-habits.mp3"},{"id":"final-intro","section":"FINAL KNOWLEDGE CHECK","title":"Three questions will confirm your AI foundation","kind":"finalIntro","tone":"blue","callout":"FINAL CHECK","body":"Choose the best answer. A correct answer unlocks the next question. If you miss one, use the feedback and try again.","primaryAction":{"label":"Start final check","target":"final-q1"},"secondaryAction":{"label":"Back","target":"safe-habits"},"narration":"The final knowledge check has three questions. Choose the best answer. A correct answer unlocks the next question. If you miss one, use the feedback and try again.","audioFemale":"course/audio/24-final-intro.mp3","audioMale":"course/audio/male/24-final-intro.mp3"},{"id":"final-q1","section":"FINAL CHECK · QUESTION 1 OF 3","title":"Which sentence best explains AI?","kind":"question","tone":"yellow","options":[{"label":"A","text":"A human mind living inside a computer","target":"final-q1-wrong"},{"label":"B","text":"Technology that helps computers perform smart tasks","target":"final-q2"},{"label":"C","text":"Magic that always knows the correct answer","target":"final-q1-wrong"}],"secondaryAction":{"label":"Back","target":"final-intro"},"narration":"Final check, question one of three. Which sentence best explains AI? A human mind living inside a computer, technology that helps computers perform smart tasks, or magic that always knows the correct answer?","audioFemale":"course/audio/25-final-q1.mp3","audioMale":"course/audio/male/25-final-q1.mp3"},{"id":"final-q1-wrong","section":"FINAL CHECK · QUESTION 1","title":"AI is technology, not magic","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"It helps computers with tasks. It is not a human mind and it is not always correct.","primaryAction":{"label":"Try question 1","target":"final-q1"},"narration":"Try again. AI is technology, not magic. It helps computers with tasks. It is not a human mind and it is not always correct.","audioFemale":"course/audio/26-final-q1-wrong.mp3","audioMale":"course/audio/male/26-final-q1-wrong.mp3"},{"id":"final-q2","section":"FINAL CHECK · QUESTION 2 OF 3","title":"What is the simple AI learning pattern?","kind":"question","tone":"yellow","callout":"Question 1 correct","options":[{"label":"A","text":"Examples → patterns → a new answer","target":"final-q3"},{"label":"B","text":"Feelings → magic → a perfect answer","target":"final-q2-wrong"},{"label":"C","text":"A robot body → a human mind","target":"final-q2-wrong"}],"secondaryAction":{"label":"Back","target":"final-q1"},"narration":"Question one is correct. Question two of three. What is the simple AI learning pattern? Examples, patterns, and a new answer; feelings, magic, and a perfect answer; or a robot body and a human mind?","audioFemale":"course/audio/27-final-q2.mp3","audioMale":"course/audio/male/27-final-q2.mp3"},{"id":"final-q2-wrong","section":"FINAL CHECK · QUESTION 2","title":"Remember the three steps","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"AI sees examples, finds patterns, and uses the pattern to answer something new.","primaryAction":{"label":"Try question 2","target":"final-q2"},"narration":"Try again. Remember the three steps. AI sees examples, finds patterns, and uses the pattern to answer something new.","audioFemale":"course/audio/28-final-q2-wrong.mp3","audioMale":"course/audio/male/28-final-q2-wrong.mp3"},{"id":"final-q3","section":"FINAL CHECK · QUESTION 3 OF 3","title":"Before using an important AI answer at work, what should you do?","kind":"question","tone":"yellow","callout":"Questions 1 and 2 correct","options":[{"label":"A","text":"Trust it immediately","target":"final-q3-wrong"},{"label":"B","text":"Check it with a trusted source","target":"complete"},{"label":"C","text":"Share private data with the AI","target":"final-q3-wrong"}],"secondaryAction":{"label":"Back","target":"final-q2"},"narration":"Questions one and two are correct. Final question. Before using an important AI answer at work, should you trust it immediately, check it with a trusted source, or share private data with the AI?","audioFemale":"course/audio/29-final-q3.mp3","audioMale":"course/audio/male/29-final-q3.mp3"},{"id":"final-q3-wrong","section":"FINAL CHECK · QUESTION 3","title":"Use the safe habits","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"Check important results and keep private information protected.","primaryAction":{"label":"Try question 3","target":"final-q3"},"narration":"Try again. Use the safe habits. Check important results and keep private information protected.","audioFemale":"course/audio/30-final-q3-wrong.mp3","audioMale":"course/audio/male/30-final-q3-wrong.mp3"},{"id":"complete","section":"MODULE 1 COMPLETE","title":"You can now explain what AI really is","kind":"complete","tone":"green","mark":"✓","body":"AI is technology that learns or uses patterns to help with tasks. It is useful, not perfect, and people stay responsible.","items":[{"icon":"1","title":"Meaning","body":"AI helps computers perform smart tasks."},{"icon":"2","title":"Learning","body":"Examples → patterns → a new answer."},{"icon":"3","title":"Safe use","body":"Ask clearly, check answers, protect data."}],"primaryAction":{"label":"Restart module","target":"welcome"},"secondaryAction":{"label":"Replay video","target":"video-lesson"},"narration":"Congratulations. Module one is complete. You can now explain that AI is technology that learns or uses patterns to help with tasks. It is useful, not perfect, and people stay responsible.","audioFemale":"course/audio/31-complete.mp3","audioMale":"course/audio/male/31-complete.mp3"}]};
+    const slides = course.slides;
+    const app = document.getElementById("app");
+    const narration = document.getElementById("narration");
+    const idToIndex = new Map(slides.map((slide, index) => [slide.id, index]));
+    /* =========================================================================
+       APPROVED LEARNER EMAILS  --  edit this list to give someone access.
+       Add a new line inside the brackets, in quotes, with a comma after it:
+           "newperson@example.com",
+       Use lowercase only. Save the file, then reload the page.
+       ========================================================================= */
+    const approvedEmails = new Set([
+      "anirudhuniyal14@gmail.com",
+      "ankii0210@gmail.com"
+    ]);
+
+    // Where "Request Access" emails are sent.
+    const accessRequestRecipient = "anirudhuniyal14@gmail.com";
+
+    /* =========================================================================
+       NARRATION VOICE
+         "male"   - plays course/audio/male/*.mp3
+                    Those files are created by running MAKE_MALE_VOICES.bat.
+                    Until they exist, the course reads each screen aloud with
+                    your computer's own male voice, so nothing is ever silent.
+         "female" - plays the original clips already in course/audio/
+       ========================================================================= */
+    const VOICE = "male";
+    const state = { started: false, slideIndex: 0, captions: false, playing: false, muted: false, audioReady: true, mediaKey: "", usingSpeech: false, speechKey: "" };
+
+    const escapeHtml = (value = "") => String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+    const assetPath = (value = "") => value.replace(/^\//, "");
+    const currentSlide = () => slides[state.slideIndex];
+    // Every screen has its own clip - no more single sample repeating throughout.
+    const narrationPath = () => {
+      const slide = currentSlide();
+      return assetPath((VOICE === "female" ? slide.audioFemale : slide.audioMale) ?? "");
+    };
+    const isVideoSlide = () => currentSlide().audioMode === "video";
+    const lessonVideo = () => document.getElementById("lesson-video");
+    // On the video screen the player controls the video; everywhere else, the narration.
+    const activeMedia = () => (isVideoSlide() ? lessonVideo() : narration);
+
+    /* ---------------------------------------------------------------------
+       Built-in voice fallback. Used only when the male mp3 files are not in
+       the folder yet, so the training always speaks the right words.
+       --------------------------------------------------------------------- */
+    const speech = window.speechSynthesis ?? null;
+    let speechKeepAlive = null;
+
+    function maleVoice() {
+      const voices = speech?.getVoices?.() ?? [];
+      if (!voices.length) return null;
+      const english = voices.filter((v) => /^en/i.test(v.lang));
+      const pool = english.length ? english : voices;
+      // Known male voices, best first.
+      for (const name of [/christopher/i, /\bguy\b/i, /prabhat/i, /\bryan\b/i, /\bdavid\b/i, /\bmark\b/i, /\bravi\b/i, /\balex\b/i, /\bdaniel\b/i, /\bgeorge\b/i, /\bjames\b/i]) {
+        const hit = pool.find((v) => name.test(v.name));
+        if (hit) return hit;
+      }
+      const female = /zira|hazel|susan|heera|samantha|victoria|karen|moira|tessa|fiona|catherine|linda|\beva\b|aria|jenny|michelle|\bana\b|neerja|serena|allison/i;
+      return pool.find((v) => !female.test(v.name)) ?? pool[0];
+    }
+
+    function stopSpeech() {
+      clearInterval(speechKeepAlive);
+      speechKeepAlive = null;
+      speech?.cancel();
+      state.usingSpeech = false;
+      state.speechKey = "";
+    }
+
+    function speakSlide() {
+      const slide = currentSlide();
+      if (!speech || state.muted || !slide.narration) return false;
+      speech.cancel();
+      const utterance = new SpeechSynthesisUtterance(slide.narration);
+      const voice = maleVoice();
+      if (voice) { utterance.voice = voice; utterance.lang = voice.lang; }
+      utterance.rate = 0.94;
+      utterance.pitch = 0.9;
+      utterance.onend = () => { stopSpeech(); updatePlayerTools(); };
+      utterance.onerror = () => { stopSpeech(); updatePlayerTools(); };
+      speech.speak(utterance);
+      state.usingSpeech = true;
+      state.speechKey = slide.id;
+      // Chrome silently cuts utterances after ~15s unless nudged.
+      clearInterval(speechKeepAlive);
+      speechKeepAlive = setInterval(() => {
+        if (!speech.speaking) { clearInterval(speechKeepAlive); return; }
+        speech.pause(); speech.resume();
+      }, 9000);
+      return true;
+    }
+
+    function fallbackToSpeech() {
+      if (isVideoSlide()) return;
+      if (state.speechKey === currentSlide().id && speech?.speaking) return;
+      state.playing = speakSlide();
+      updatePlayerTools();
+    }
+
+    const speechIsPlaying = () => Boolean(state.usingSpeech && speech?.speaking && !speech.paused);
+    // Chrome populates the voice list asynchronously.
+    if (speech) speech.addEventListener?.("voiceschanged", () => {});
+    const lockedKinds = new Set(["question", "feedback", "finalIntro", "complete"]);
+
+    function itemCard(item, index) {
+      return `<article class="item-card">
+        <div class="item-top">
+          <span class="item-icon" aria-hidden="true">${escapeHtml(item.icon ?? String(index + 1).padStart(2, "0"))}</span>
+          ${item.label ? `<span class="item-label">${escapeHtml(item.label)}</span>` : ""}
+        </div>
+        <h3>${escapeHtml(item.title)}</h3>
+        ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ""}
+      </article>`;
+    }
+
+    function renderBody(slide) {
+      const items = slide.items ?? [];
+      if (slide.kind === "cover") {
+        return `<div class="cover-layout">
+          <div class="cover-copy">
+            <span class="level-pill">Beginner · About 15 minutes</span>
+            <h2>${escapeHtml(slide.title)}</h2>
+            <p class="lead">${escapeHtml(slide.subtitle)}</p>
+            <p class="support-copy">${escapeHtml(slide.body)}</p>
+          </div>
+          <div class="hero-frame">
+            <img src="${assetPath(slide.image)}" alt="A friendly learner exploring artificial intelligence">
+            <div class="float-chip chip-one"><b>01</b> Simple English</div>
+            <div class="float-chip chip-two"><b>✓</b> Practice included</div>
+          </div>
+        </div>`;
+      }
+
+      if (slide.kind === "video") {
+        return `<div class="video-wrap">
+          <video id="lesson-video" controls playsinline preload="metadata" poster="course/images/ai-learning.webp" src="${assetPath(slide.video)}"></video>
+        </div>`;
+      }
+
+      if (slide.kind === "question") {
+        return `<div class="question-layout">
+          ${slide.callout ? `<div class="success-pill">✓ ${escapeHtml(slide.callout)}</div>` : ""}
+          ${slide.body ? `<p class="question-context">${escapeHtml(slide.body)}</p>` : ""}
+          <div class="option-list" role="group" aria-label="Answer choices">
+            ${(slide.options ?? []).map((option) => `<button class="answer-option" data-target="${escapeHtml(option.target)}"><span>${escapeHtml(option.label)}</span><strong>${escapeHtml(option.text)}</strong><i aria-hidden="true">→</i></button>`).join("")}
+          </div>
+        </div>`;
+      }
+
+      if (slide.kind === "feedback") {
+        return `<div class="feedback-layout">
+          <div class="feedback-mark" aria-hidden="true">${escapeHtml(slide.mark)}</div>
+          <div><p class="feedback-label">${escapeHtml(slide.label)}</p><h2>${escapeHtml(slide.title)}</h2><p class="lead">${escapeHtml(slide.body)}</p></div>
+        </div>`;
+      }
+
+      if (slide.kind === "insight") {
+        return `<div class="split-layout">
+          <div><div class="big-callout">${escapeHtml(slide.callout)}</div><p class="lead">${escapeHtml(slide.body)}</p></div>
+          ${slide.image ? `<img class="feature-image" src="${assetPath(slide.image)}" alt="Everyday examples of artificial intelligence">` : ""}
+        </div>`;
+      }
+
+      if (slide.kind === "concept") {
+        return `<div class="concept-layout">
+          <div class="concept-copy"><div class="big-callout compact">${escapeHtml(slide.callout)}</div>${slide.subtitle ? `<p class="concept-label">${escapeHtml(slide.subtitle)}</p>` : ""}<p class="lead">${escapeHtml(slide.body)}</p></div>
+          <div class="mini-grid">${items.map(itemCard).join("")}</div>
+        </div>`;
+      }
+
+      if (slide.kind === "compare") {
+        return `<div class="compare-grid">${items.map(itemCard).join("")}</div>`;
+      }
+
+      if (slide.kind === "process") {
+        return `<div class="process-layout ${slide.image ? "with-image" : ""}">
+          <div class="process-grid">${items.map(itemCard).join("")}</div>
+          ${slide.image ? `<img class="process-image" src="${assetPath(slide.image)}" alt="A simple diagram showing how AI learns">` : ""}
+          ${slide.callout ? `<div class="course-callout">${escapeHtml(slide.callout)}</div>` : ""}
+        </div>`;
+      }
+
+      if (slide.kind === "finalIntro") {
+        return `<div class="final-intro-layout"><div class="final-orb"><span>3</span><small>questions</small></div><div><div class="big-callout compact">${escapeHtml(slide.callout)}</div><p class="lead">${escapeHtml(slide.body)}</p></div></div>`;
+      }
+
+      if (slide.kind === "complete") {
+        return `<div class="complete-layout">
+          <div class="completion-top"><div class="complete-mark">${escapeHtml(slide.mark)}</div><div><p class="feedback-label">MODULE COMPLETE</p><p class="lead">${escapeHtml(slide.body)}</p></div></div>
+          <div class="mini-grid three">${items.map(itemCard).join("")}</div>
+        </div>`;
+      }
+
+      return `<div class="cards-layout count-${items.length}">
+        ${items.map(itemCard).join("")}
+        ${slide.image ? `<img class="corner-illustration" src="${assetPath(slide.image)}" alt="Artificial intelligence examples">` : ""}
+        ${slide.callout ? `<div class="course-callout">${escapeHtml(slide.callout)}</div>` : ""}
+      </div>`;
+    }
+
+    function renderAccess() {
+      app.innerHTML = `<main class="access-screen">
+        <div class="access-glow access-glow-one"></div><div class="access-glow access-glow-two"></div>
+        <section class="access-card" aria-labelledby="access-title">
+          <div class="access-brand-panel">
+            <img class="access-logo" src="course/brand/gold-technology-logo.jpg" alt="Gold Technology">
+            <div>
+              <p class="access-kicker">AI FOR ALL · MODULE 1</p>
+              <h1 id="access-title">Introduction to Artificial Intelligence</h1>
+              <p>A narrated, interactive course made for complete beginners.</p>
+            </div>
+            <div class="access-features"><span>31 guided screens</span><span>Audio on every lesson</span><span>iPhone &amp; desktop ready</span></div>
+          </div>
+          <div class="access-form-panel">
+            <p class="eyebrow">PRIVATE TRAINING ACCESS</p>
+            <h2>Enter your email</h2>
+            <p class="access-help">Approved learners will enter the training immediately.</p>
+            <form id="access-form">
+              <label for="training-email">Work or approved email</label>
+              <input id="training-email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required>
+              <button class="access-enter-button" type="submit"><span>▶</span> Enter Training</button>
+              <button id="request-access" class="request-access-button" type="button">Request Access</button>
+            </form>
+            <p id="access-feedback" class="access-feedback" aria-live="polite">Access is limited to approved email addresses.</p>
+            <p class="access-sound-note">Keep sound on. Your supplied voice sample plays automatically on every training screen.</p>
+            <div class="offline-status">Ready to run offline</div>
+          </div>
+        </section>
+      </main>`;
+      document.getElementById("access-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        validateAndStart();
+      });
+      document.getElementById("request-access").addEventListener("click", requestAccess);
+    }
+
+    function enteredEmail() {
+      return document.getElementById("training-email")?.value.trim().toLowerCase() ?? "";
+    }
+
+    function showAccessFeedback(message) {
+      const feedback = document.getElementById("access-feedback");
+      if (!feedback) return;
+      feedback.textContent = message;
+      feedback.classList.add("visible");
+    }
+
+    function validateAndStart() {
+      const email = enteredEmail();
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        showAccessFeedback("Please enter a valid email address.");
+        return;
+      }
+      if (!approvedEmails.has(email)) {
+        showAccessFeedback("This email does not have access yet. Select Request Access below.");
+        return;
+      }
+      startTraining();
+    }
+
+    function requestAccess() {
+      const email = enteredEmail();
+      if (!/^\S+@\S+\.\S+$/.test(email)) {
+        showAccessFeedback("Enter your email first, then select Request Access.");
+        return;
+      }
+      if (approvedEmails.has(email)) {
+        startTraining();
+        return;
+      }
+      const subject = encodeURIComponent("Access request — AI For All training");
+      const body = encodeURIComponent("Please grant AI training access to: " + email);
+      window.location.href = "mailto:" + accessRequestRecipient + "?subject=" + subject + "&body=" + body;
+      showAccessFeedback("Your email app will open with a ready-to-send access request.");
+    }
+
+    function actionButton(action, className) {
+      if (!action) return "";
+      return `<button class="${className}" data-target="${escapeHtml(action.target)}">${escapeHtml(action.label)}${className === "primary-action" ? "<span>→</span>" : ""}</button>`;
+    }
+
+    function renderCourse() {
+      const slide = currentSlide();
+      const progress = ((state.slideIndex + 1) / slides.length) * 100;
+      const lockedNext = lockedKinds.has(slide.kind);
+      const isVideo = slide.audioMode === "video";
+      app.innerHTML = `<main class="course-shell">
+        <header class="course-bar">
+          <button class="brand-button" data-target="welcome" aria-label="Go to course start"><img class="course-brand-logo" src="course/brand/gold-technology-logo.jpg" alt="Gold Technology"><span class="course-brand-copy"><strong>AI FOR ALL</strong><small>Introduction to AI</small></span></button>
+          <div class="course-progress-meta"><span>Screen ${state.slideIndex + 1} of ${slides.length}</span><div class="progress-track" aria-label="${Math.round(progress)} percent complete"><i style="width:${progress}%"></i></div></div>
+          <div class="player-tools">
+            <button id="toggle-play" class="tool-button" aria-label="Play or pause narration">▶<span>Play</span></button>
+            <button id="replay-media" class="tool-button" aria-label="Replay narration">↻<span>Replay</span></button>
+            <button id="toggle-captions" class="tool-button ${state.captions ? "active" : ""}" aria-label="Toggle captions">CC<span>Captions</span></button>
+            <button id="toggle-mute" class="tool-button" aria-label="${state.muted ? "Unmute" : "Mute"}">${state.muted ? "×" : "◖"}<span>${state.muted ? "Muted" : "Sound"}</span></button>
+            <button id="full-screen" class="tool-button" aria-label="Enter full screen">⛶<span>Full screen</span></button>
+          </div>
+        </header>
+        <section class="slide-stage tone-${escapeHtml(slide.tone ?? "blue")}" aria-live="polite">
+          <article class="slide-card">
+            <header class="slide-heading"><div><p class="eyebrow">${escapeHtml(slide.section)}</p><h1>${escapeHtml(slide.title)}</h1>${slide.subtitle && slide.kind !== "cover" ? `<p class="slide-subtitle">${escapeHtml(slide.subtitle)}</p>` : ""}</div><div class="screen-number" aria-hidden="true">${String(state.slideIndex + 1).padStart(2, "0")}</div></header>
+            <div class="slide-content">${renderBody(slide)}</div>
+            ${state.captions ? `<div class="caption-panel" role="status"><span>CC</span><p>${escapeHtml(slide.narration)}</p></div>` : ""}
+            ${slide.primaryAction || slide.secondaryAction ? `<footer class="slide-actions">${actionButton(slide.secondaryAction, "secondary-action")}${actionButton(slide.primaryAction, "primary-action")}</footer>` : ""}
+          </article>
+        </section>
+        <nav class="course-nav" aria-label="Course navigation">
+          <button id="previous-slide" ${state.slideIndex === 0 ? "disabled" : ""}>← Previous</button>
+          <div class="nav-center"><span>${escapeHtml(slide.section)}</span><b>${Math.round(progress)}% complete</b></div>
+          ${lockedNext ? `<button disabled>${slide.kind === "question" ? "Choose an answer" : "Use the button above"}</button>` : `<button id="next-slide" class="next-button">Next →</button>`}
+        </nav>
+      </main>`;
+
+      document.querySelectorAll("[data-target]").forEach((button) => button.addEventListener("click", () => goTo(button.dataset.target)));
+      document.getElementById("previous-slide")?.addEventListener("click", () => goRelative(-1));
+      document.getElementById("next-slide")?.addEventListener("click", () => goRelative(1));
+      document.getElementById("toggle-play")?.addEventListener("click", togglePlay);
+      document.getElementById("replay-media")?.addEventListener("click", replayMedia);
+      document.getElementById("toggle-captions")?.addEventListener("click", toggleCaptions);
+      document.getElementById("toggle-mute")?.addEventListener("click", toggleMute);
+      document.getElementById("full-screen")?.addEventListener("click", toggleFullScreen);
+      if (isVideo) attachVideoEvents();
+      updatePlayerTools();
+    }
+
+    function pauseCurrentMedia() {
+      narration.pause();
+      lessonVideo()?.pause();
+      stopSpeech();
+      state.playing = false;
+    }
+
+    function startTraining() {
+      state.started = true;
+      state.slideIndex = 0;
+      renderCourse();
+      playCurrentMedia(true);
+    }
+
+    function goTo(target) {
+      const next = idToIndex.get(target);
+      if (next === undefined) return;
+      pauseCurrentMedia();
+      state.slideIndex = next;
+      renderCourse();
+      playCurrentMedia(true);
+    }
+
+    function goRelative(delta) {
+      const next = Math.min(slides.length - 1, Math.max(0, state.slideIndex + delta));
+      if (next === state.slideIndex) return;
+      pauseCurrentMedia();
+      state.slideIndex = next;
+      renderCourse();
+      playCurrentMedia(true);
+    }
+
+    async function playCurrentMedia(restart = false) {
+      // The video screen has its own soundtrack - never talk over it.
+      if (isVideoSlide()) {
+        narration.pause();
+        state.playing = false;
+        updatePlayerTools();
+        return;
+      }
+      stopSpeech();
+      const nextPath = narrationPath();
+      if (!nextPath) {
+        narration.pause();
+        fallbackToSpeech();
+        return;
+      }
+      // Some voice tools hand back .wav instead of .mp3 - accept either.
+      for (const candidate of [nextPath, nextPath.replace(/\.mp3$/i, ".wav")]) {
+        if (state.mediaKey !== candidate) {
+          narration.src = candidate;
+          narration.load();
+          state.mediaKey = candidate;
+        } else if (restart) {
+          narration.currentTime = 0;
+        }
+        narration.muted = state.muted;
+        try {
+          await narration.play();
+          state.playing = true;
+          state.audioReady = true;
+          state.usingSpeech = false;
+          updatePlayerTools();
+          return;
+        } catch {
+          state.mediaKey = "";
+        }
+      }
+      // No file in the folder yet - read the screen with the built-in voice.
+      state.audioReady = false;
+      fallbackToSpeech();
+      return;
+      updatePlayerTools();
+    }
+
+    function togglePlay() {
+      if (isVideoSlide()) {
+        const video = lessonVideo();
+        if (!video) return;
+        if (video.paused) video.play().catch(() => {}); else video.pause();
+        updatePlayerTools();
+        return;
+      }
+      if (state.usingSpeech) {
+        if (speech?.paused) speech.resume();
+        else if (speech?.speaking) speech.pause();
+        else fallbackToSpeech();
+        updatePlayerTools();
+        return;
+      }
+      if (narration.paused) playCurrentMedia(false); else narration.pause();
+    }
+
+    function replayMedia() {
+      if (isVideoSlide()) {
+        const video = lessonVideo();
+        if (!video) return;
+        video.currentTime = 0;
+        video.play().catch(() => {});
+        updatePlayerTools();
+        return;
+      }
+      playCurrentMedia(true);
+    }
+
+    // Captions are toggled in place so the video keeps playing from where it was.
+    function toggleCaptions() {
+      state.captions = !state.captions;
+      const card = document.querySelector(".slide-card");
+      if (!card) return;
+      const existing = card.querySelector(".caption-panel");
+      if (state.captions && !existing) {
+        const panel = document.createElement("div");
+        panel.className = "caption-panel";
+        panel.setAttribute("role", "status");
+        panel.innerHTML = `<span>CC</span><p>${escapeHtml(currentSlide().narration)}</p>`;
+        card.insertBefore(panel, card.querySelector(".slide-actions"));
+      } else if (!state.captions && existing) {
+        existing.remove();
+      }
+      document.getElementById("toggle-captions")?.classList.toggle("active", state.captions);
+    }
+
+    function toggleFullScreen() {
+      if (document.fullscreenElement) document.exitFullscreen?.();
+      else document.documentElement.requestFullscreen?.();
+    }
+
+    function toggleMute() {
+      state.muted = !state.muted;
+      narration.muted = state.muted;
+      if (state.muted) stopSpeech();
+      else if (!state.audioReady) fallbackToSpeech();
+      const video = document.getElementById("lesson-video");
+      if (video) video.muted = state.muted;
+      updatePlayerTools();
+    }
+
+    function attachVideoEvents() {
+      const video = document.getElementById("lesson-video");
+      if (!video || video.dataset.bound === "true") return;
+      video.dataset.bound = "true";
+      video.muted = state.muted;
+      video.addEventListener("play", () => { narration.pause(); state.playing = true; updatePlayerTools(); });
+      video.addEventListener("pause", () => { state.playing = false; updatePlayerTools(); });
+      video.addEventListener("ended", () => { state.playing = false; updatePlayerTools(); });
+    }
+
+    function updatePlayerTools() {
+      const media = activeMedia();
+      state.playing = speechIsPlaying() || Boolean(media && !media.paused && !media.ended);
+      const playButton = document.getElementById("toggle-play");
+      if (playButton) {
+        playButton.classList.toggle("active", state.playing);
+        playButton.innerHTML = `${state.playing ? "Ⅱ" : "▶"}<span>${state.playing ? "Pause" : "Play"}</span>`;
+        playButton.setAttribute("aria-label", state.playing ? "Pause narration" : "Play narration");
+      }
+      const muteButton = document.getElementById("toggle-mute");
+      if (muteButton) {
+        muteButton.innerHTML = `${state.muted ? "×" : "◖"}<span>${state.muted ? "Muted" : "Sound"}</span>`;
+        muteButton.setAttribute("aria-label", state.muted ? "Unmute" : "Mute");
+      }
+      const fullScreenButton = document.getElementById("full-screen");
+      if (fullScreenButton) {
+        const on = Boolean(document.fullscreenElement);
+        fullScreenButton.innerHTML = `⛶<span>${on ? "Exit" : "Full screen"}</span>`;
+        fullScreenButton.setAttribute("aria-label", on ? "Exit full screen" : "Enter full screen");
+        fullScreenButton.classList.toggle("active", on);
+      }
+    }
+
+    document.addEventListener("fullscreenchange", updatePlayerTools);
+    narration.addEventListener("play", () => { state.playing = true; updatePlayerTools(); });
+    narration.addEventListener("pause", () => { state.playing = false; updatePlayerTools(); });
+    narration.addEventListener("ended", () => { state.playing = false; updatePlayerTools(); });
+    narration.addEventListener("error", () => {
+      state.audioReady = false;
+      fallbackToSpeech();
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (!state.started) return;
+      const slide = currentSlide();
+      if (event.key === "ArrowLeft") goRelative(-1);
+      if (event.key === "ArrowRight" && !lockedKinds.has(slide.kind)) goRelative(1);
+      if (event.key === " ") {
+        // Let Space activate whatever the learner has focused (answer buttons, video).
+        const tag = document.activeElement?.tagName;
+        if (tag === "BUTTON" || tag === "INPUT" || tag === "TEXTAREA" || tag === "VIDEO") return;
+        event.preventDefault();
+        togglePlay();
+      }
+    });
+
+    /* ---------------------------------------------------------------------
+       If the folder was not fully extracted (most often the page was opened
+       from inside the ZIP), every image, sound and video is missing. Say so
+       plainly instead of showing a half-broken page.
+       --------------------------------------------------------------------- */
+    function showSetupWarning() {
+      if (document.getElementById("setup-warning")) return;
+      const bar = document.createElement("div");
+      bar.id = "setup-warning";
+      bar.innerHTML = "<strong>Some course files could not be found.</strong>" +
+        "This usually means the page was opened from inside the ZIP file. " +
+        "Please unzip the whole <b>AI_For_All_Offline_Training</b> folder first - " +
+        "right-click the ZIP and choose <b>Extract All</b> - then open " +
+        "<b>START_TRAINING.html</b> from the extracted folder.";
+      document.body.prepend(bar);
+    }
+
+    const assetProbe = new Image();
+    assetProbe.addEventListener("error", showSetupWarning);
+    assetProbe.src = "course/brand/gold-technology-logo.jpg";
+
+    renderAccess();
+  </script>
+</body>
+</html>
