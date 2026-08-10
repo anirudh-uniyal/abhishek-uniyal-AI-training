@@ -1,927 +1,716 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <title>AI For All — Introduction to AI</title>
-  <style>
-:root {
-  --ink: #101827;
-  --muted: #5e6a7c;
-  --blue: #1677ff;
-  --blue-dark: #0a4ea8;
-  --blue-soft: #eaf4ff;
-  --line: #dce3ec;
-  --shell: #0d1525;
-  --gold: #f4c72f;
-  --gold-dark: #a97900;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>AI For All — Introduction to Artificial Intelligence</title>
+<style>
+:root{
+  --bg:#0A0E18; --panel:#111726; --panel2:#171F31; --raise:#1D2639;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --ink:#F4F6FA; --muted:#8C97AC; --dim:#616C80;
+  --gold:#E0B84C; --gold2:#C99B2E; --goldsoft:rgba(224,184,76,.12);
+  --ok:#3DD68C; --oksoft:rgba(61,214,140,.12);
+  --no:#F2726B; --nosoft:rgba(242,114,107,.12);
+  --r:14px;
 }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+img{display:block;max-width:100%}
 
-* { box-sizing: border-box; }
-html, body { min-height: 100%; }
-body { margin: 0; background: #e9eef5; color: var(--ink); font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
-button { font: inherit; }
-button:focus-visible { outline: 3px solid #72b6ff; outline-offset: 3px; }
-input:focus-visible { outline: 3px solid rgba(244, 199, 47, .45); outline-offset: 2px; }
+/* ---------- shared bits ---------- */
+.eyebrow{margin:0;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.18em}
+.callout{margin-top:18px;padding:13px 16px;border-left:2px solid var(--gold);
+  border-radius:0 8px 8px 0;background:var(--goldsoft);color:#DCE3EF;font-size:14px;line-height:1.55}
+.lead{color:var(--muted);font-size:17px;line-height:1.6;margin:14px 0 0}
 
-.access-screen {
-  position: relative;
-  min-height: 100svh;
-  min-height: 100dvh;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  padding: max(28px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
-  background:
-    radial-gradient(circle at 14% 14%, rgba(244, 199, 47, .18), transparent 27%),
-    radial-gradient(circle at 88% 88%, rgba(24, 119, 255, .16), transparent 29%),
-    #080a0e;
+/* ---------- access ---------- */
+.gate{min-height:100dvh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(900px 500px at 15% 0%,rgba(224,184,76,.10),transparent 60%),
+             radial-gradient(800px 500px at 100% 100%,rgba(58,110,200,.12),transparent 60%),var(--bg)}
+.gate-card{width:min(1020px,100%);display:grid;grid-template-columns:1.05fr .95fr;
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel);
+  box-shadow:0 40px 90px rgba(0,0,0,.55)}
+.gate-brand{padding:46px 44px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;
+  background:linear-gradient(160deg,#0E1421,#141C2D);border-right:1px solid var(--line)}
+.gate-logo{width:150px;height:auto;border-radius:6px}
+.gate-brand h1{margin:14px 0 0;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-.03em;font-weight:600}
+.gate-brand p{margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.6;max-width:42ch}
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pills span{padding:7px 11px;border:1px solid var(--line2);border-radius:100px;
+  color:#C3CCDC;font-size:11px;font-weight:600}
+.gate-form{padding:46px 44px;display:flex;flex-direction:column;justify-content:center}
+.gate-form h2{margin:12px 0 0;font-size:28px;font-weight:600;letter-spacing:-.02em}
+.gate-form>p{margin:10px 0 26px;color:var(--muted);font-size:14px}
+label{display:block;margin-bottom:8px;color:#AEB8C8;font-size:12px;font-weight:600;letter-spacing:.04em}
+input{width:100%;min-height:52px;padding:0 15px;border:1px solid var(--line2);border-radius:10px;
+  background:#0C1220;color:var(--ink);font-size:16px}
+input::placeholder{color:#596274}
+.btn-gold,.btn-ghost{width:100%;min-height:50px;border-radius:10px;cursor:pointer;
+  font-size:15px;font-weight:600;transition:transform .15s,filter .15s}
+.btn-gold{margin-top:14px;border:0;color:#12161F;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.btn-ghost{margin-top:9px;border:1px solid var(--line2);background:transparent;color:#C3CCDC}
+.btn-gold:hover,.btn-ghost:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.note{min-height:22px;margin:14px 0 0;color:var(--dim);font-size:12.5px;line-height:1.5}
+.note.bad{color:#F0A9A4}
+.gate-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px}
+
+/* ---------- shell ---------- */
+.shell{min-height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:26px;
+  padding:14px 26px;border-bottom:1px solid var(--line);background:rgba(10,14,24,.92);
+  position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+.bar-brand{display:flex;align-items:center;gap:11px;border:0;background:none;cursor:pointer;padding:0}
+.bar-brand img{width:38px;height:38px;object-fit:contain;border-radius:6px}
+.bar-brand b{display:block;font-size:12px;letter-spacing:.14em;font-weight:700}
+.bar-brand small{display:block;margin-top:2px;color:var(--dim);font-size:11px}
+.prog{max-width:420px;margin:0 auto;width:100%}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:7px;
+  color:var(--dim);font-size:10.5px;font-weight:600;letter-spacing:.1em}
+.prog-bar{height:4px;border-radius:100px;background:rgba(255,255,255,.09);overflow:hidden}
+.prog-bar i{display:block;height:100%;border-radius:inherit;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .4s ease}
+.tools{display:flex;gap:3px}
+.tool{min-width:42px;height:42px;display:grid;place-items:center;gap:2px;padding:4px;
+  border:0;border-radius:9px;background:transparent;color:var(--dim);cursor:pointer;font-size:13px}
+.tool small{font-size:8.5px;letter-spacing:.04em}
+.tool:hover,.tool.on{background:rgba(255,255,255,.07);color:var(--ink)}
+.tool:disabled{opacity:.3;cursor:not-allowed}
+
+.stage{min-height:0;display:grid;place-items:center;padding:22px 26px}
+.card{position:relative;width:min(1120px,100%);
+  min-height:min(560px,100%);max-height:100%;
+  padding:30px 40px 22px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;
+  border:1px solid var(--line);border-radius:18px;background:var(--panel);
+  box-shadow:0 26px 70px rgba(0,0,0,.42)}
+.card::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;
+  border-radius:18px 18px 0 0;background:linear-gradient(90deg,var(--gold),transparent 65%)}
+.card.warn::before{background:linear-gradient(90deg,var(--no),transparent 65%)}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:26px}
+.head h1{margin:11px 0 0;font-size:clamp(24px,2.7vw,36px);line-height:1.14;letter-spacing:-.028em;font-weight:600;max-width:22ch}
+.head .lead{max-width:60ch}
+.num{color:var(--line2);font-size:13px;font-weight:700;letter-spacing:.1em;white-space:nowrap;padding-top:2px}
+.body{min-height:0;display:flex;align-items:center;overflow:auto;scrollbar-width:thin}
+.body>*{min-width:0}
+.body::-webkit-scrollbar{width:6px}
+.body::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+.acts{display:flex;justify-content:flex-end;gap:10px;align-items:center}
+.act,.act2{min-height:44px;padding:0 22px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;
+  transition:transform .15s,filter .15s}
+.act{border:0;color:#12161F;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.act2{border:1px solid var(--line2);background:transparent;color:#C3CCDC}
+.act:hover,.act2:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.act:disabled{opacity:.35;cursor:not-allowed;transform:none}
+
+.nav{display:grid;grid-template-columns:150px 1fr 150px;align-items:center;gap:16px;
+  padding:12px 26px;border-top:1px solid var(--line)}
+.nav button{height:40px;padding:0 15px;border:1px solid var(--line2);border-radius:9px;
+  background:transparent;color:#AEB8C8;cursor:pointer;font-size:13px;font-weight:600}
+.nav button:disabled{opacity:.28;cursor:not-allowed}
+.nav .where{text-align:center;color:var(--dim);font-size:11.5px;letter-spacing:.06em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- layouts ---------- */
+.cover{width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+.cover h2{margin:0;font-size:clamp(30px,3.6vw,46px);line-height:1.08;letter-spacing:-.035em;font-weight:600}
+.cover .metas{margin-top:24px;display:flex;flex-wrap:wrap;gap:7px}
+.cover .metas span{padding:7px 12px;border:1px solid var(--line2);border-radius:100px;color:#AEB8C8;font-size:11.5px;font-weight:600}
+.shot{border-radius:14px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--panel2)}
+.shot img{width:100%;height:100%;object-fit:cover;opacity:.92}
+
+.grid{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.grid.four{grid-template-columns:repeat(4,1fr)}
+.grid.three{grid-template-columns:repeat(3,1fr)}
+.grid .callout{grid-column:1/-1;margin-top:4px}
+.tile{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);
+  transition:border-color .2s,transform .2s}
+.tile:hover{border-color:var(--line2);transform:translateY(-2px)}
+.tile .n{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.12em}
+.tile .tag{display:block;margin-top:9px;color:var(--dim);font-size:10px;font-weight:700;letter-spacing:.13em}
+.tile h3{margin:10px 0 0;font-size:16.5px;font-weight:600;letter-spacing:-.012em;line-height:1.25}
+.tile p{margin:7px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
+.warn .tile .n{color:var(--no)}
+
+.state{width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+.big{font-size:clamp(24px,2.9vw,36px);line-height:1.24;letter-spacing:-.028em;font-weight:600}
+.big em{font-style:normal;color:var(--gold)}
+
+.duo{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.duo .tile{padding:26px;min-height:210px;display:flex;flex-direction:column}
+.duo .key{display:inline-flex;align-self:flex-start;padding:6px 12px;border-radius:7px;
+  background:var(--goldsoft);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em}
+.duo h3{margin:16px 0 0;font-size:20px}
+.duo p{margin-top:10px;font-size:14px}
+
+.cmp{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.cmp .tile{padding:26px;min-height:190px}
+.cmp .tag{margin-top:0;color:var(--gold)}
+.cmp h3{margin:14px 0 0;font-size:19px}
+.cmp p{margin-top:10px;font-size:14px}
+.cmp .callout{grid-column:1/-1}
+
+.flow{width:100%;display:grid;gap:13px}
+.flow.withpic{grid-template-columns:minmax(0,1fr) 250px;align-items:stretch}
+.flow-list{display:grid;gap:10px;align-content:start;min-width:0}
+.flow .tile{display:grid;grid-template-columns:30px minmax(0,1fr);
+  column-gap:14px;row-gap:3px;padding:14px 17px}
+.flow .tile .n{grid-column:1;grid-row:1;padding-top:2px}
+.flow .tile h3{grid-column:2;grid-row:1;margin:0;font-size:16px}
+.flow .tile p{grid-column:2;grid-row:2;margin:0}
+.flow .pic{border-radius:12px;overflow:hidden;border:1px solid var(--line);min-height:0}
+.flow .pic img{width:100%;height:100%;object-fit:cover;opacity:.9}
+.flow .callout{grid-column:1/-1;margin-top:2px}
+
+.feature{width:100%;display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+.kw{font-size:clamp(34px,4.4vw,60px);font-weight:700;letter-spacing:-.045em;line-height:1;
+  background:linear-gradient(120deg,var(--gold),#F4DFA0);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+.chips{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.chips span{padding:9px 14px;border:1px solid var(--line2);border-radius:9px;
+  background:var(--panel2);font-size:13px;font-weight:600}
+
+/* ---------- quiz ---------- */
+.quiz{width:min(880px,100%);margin:auto}
+.scen{margin:0 0 18px;padding:15px 18px;border:1px solid var(--line);border-left:2px solid var(--gold);
+  border-radius:0 10px 10px 0;background:var(--panel2);color:#D6DDEA;font-size:15px;line-height:1.6}
+.opts{display:grid;gap:9px}
+.opt{width:100%;padding:15px 17px;display:grid;grid-template-columns:32px 1fr auto;gap:14px;align-items:center;
+  border:1px solid var(--line);border-radius:11px;background:var(--panel2);cursor:pointer;text-align:left;
+  transition:border-color .18s,background .18s,transform .18s}
+.opt:hover:not(:disabled){border-color:var(--gold);transform:translateY(-1px)}
+.opt:disabled{cursor:default}
+.opt .k{width:28px;height:28px;display:grid;place-items:center;border-radius:7px;
+  background:rgba(255,255,255,.06);color:#AEB8C8;font-size:12.5px;font-weight:700}
+.opt .t{font-size:15px;line-height:1.4}
+.opt .mk{font-size:16px;font-weight:700;opacity:0}
+.opt.right{border-color:var(--ok);background:var(--oksoft)}
+.opt.right .k{background:var(--ok);color:#08130D}
+.opt.right .mk{opacity:1;color:var(--ok)}
+.opt.wrong{border-color:var(--no);background:var(--nosoft)}
+.opt.wrong .k{background:var(--no);color:#1A0C0B}
+.opt.wrong .mk{opacity:1;color:var(--no)}
+.opt.dim{opacity:.42}
+.why{margin-top:11px;padding:14px 17px;border-radius:10px;font-size:14px;line-height:1.6;
+  border:1px solid var(--line);background:var(--panel2);color:#D6DDEA}
+.why b{display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.12em}
+.why.right{border-color:rgba(61,214,140,.4);background:var(--oksoft)}
+.why.right b{color:var(--ok)}
+.why.wrong{border-color:rgba(242,114,107,.4);background:var(--nosoft)}
+.why.wrong b{color:var(--no)}
+
+/* ---------- video / complete ---------- */
+.vid{width:min(900px,100%);margin:auto;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line);background:#05080F}
+.vid video{width:100%;display:block;aspect-ratio:16/9;background:#05080F}
+
+.done{width:100%;display:grid;gap:22px}
+.done-top{display:grid;grid-template-columns:70px 1fr;gap:20px;align-items:center}
+.tick{width:70px;height:70px;display:grid;place-items:center;border-radius:50%;
+  border:1.5px solid var(--gold);color:var(--gold);background:var(--goldsoft);font-size:30px}
+
+/* ---------- captions ---------- */
+.cc{position:absolute;left:42px;right:42px;bottom:82px;z-index:9;padding:13px 16px;
+  display:grid;grid-template-columns:30px 1fr;gap:13px;align-items:start;border-radius:11px;
+  border:1px solid var(--line2);background:rgba(6,9,16,.96);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.cc span{display:grid;place-items:center;height:20px;border:1px solid var(--line2);
+  border-radius:4px;font-size:9px;font-weight:700}
+.cc p{margin:0;font-size:13px;line-height:1.55;color:#D6DDEA}
+
+/* ---------- setup warning ---------- */
+#warn{position:fixed;inset:0 0 auto 0;z-index:999;padding:14px 22px;
+  background:#F0C24B;color:#2B1F00;font-size:13.5px;line-height:1.55}
+#warn strong{display:block;margin-bottom:3px;font-size:14.5px}
+#warn b{background:rgba(255,255,255,.55);padding:1px 5px;border-radius:4px}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .gate-card{grid-template-columns:1fr}
+  .gate-brand{padding:34px 28px;gap:24px}
+  .gate-form{padding:34px 28px}
+  .bar{grid-template-columns:auto auto;gap:12px;padding:11px 16px}
+  .prog{order:3;grid-column:1/-1;max-width:none}
+  .tool small{display:none}
+  .tool{min-width:38px;height:38px}
+  .stage{padding:14px}
+  .card{padding:24px 20px 20px;min-height:calc(100dvh - 190px);gap:16px}
+  .cover,.state,.feature,.flow.withpic{grid-template-columns:1fr}
+  .flow .pic{display:none}
+  .grid,.grid.four,.grid.three,.duo,.cmp{grid-template-columns:1fr}
+  .head{flex-direction:column;gap:8px}
+  .num{display:none}
+  .body{align-items:flex-start}
+  .cc{left:20px;right:20px;bottom:78px}
+  .nav{grid-template-columns:auto 1fr auto;padding:10px 14px}
+  .nav .where{display:none}
+  .acts{flex-wrap:wrap}
+  .act,.act2{flex:1;min-width:130px;justify-content:center;display:flex;align-items:center}
 }
-.access-screen::before { content: ""; position: absolute; inset: 0; opacity: .14; background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px); background-size: 44px 44px; }
-.access-glow { position: absolute; width: 320px; height: 320px; border-radius: 50%; filter: blur(2px); opacity: .3; }
-.access-glow-one { left: -190px; bottom: -120px; background: var(--gold); }
-.access-glow-two { right: -210px; top: -120px; background: #1677ff; }
-.access-card { position: relative; z-index: 1; width: min(1080px, 100%); min-height: 650px; display: grid; grid-template-columns: 1.08fr .92fr; overflow: hidden; border: 1px solid rgba(244,199,47,.32); border-radius: 30px; background: #fff; box-shadow: 0 34px 95px rgba(0,0,0,.5); }
-.access-brand-panel { position: relative; padding: 48px 52px; display: flex; flex-direction: column; justify-content: space-between; color: white; background: linear-gradient(145deg, #070809, #15171c); }
-.access-brand-panel::after { content: ""; position: absolute; right: -90px; bottom: -110px; width: 310px; height: 310px; border: 1px solid rgba(244,199,47,.18); border-radius: 50%; box-shadow: 0 0 0 48px rgba(244,199,47,.04), 0 0 0 96px rgba(244,199,47,.025); }
-.access-logo { position: relative; z-index: 1; width: 225px; max-width: 70%; height: auto; display: block; object-fit: contain; }
-.access-kicker { margin: 28px 0 13px; color: var(--gold); font-size: 12px; font-weight: 900; letter-spacing: .16em; }
-.access-brand-panel h1 { margin: 0; max-width: 590px; font-size: clamp(42px, 5vw, 66px); line-height: .98; letter-spacing: -.052em; }
-.access-brand-panel > div > p:last-child { margin: 20px 0 0; max-width: 520px; color: #b9bec9; font-size: 18px; line-height: 1.52; }
-.access-features { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; }
-.access-features span { padding: 9px 11px; border: 1px solid rgba(244,199,47,.22); border-radius: 999px; color: #e4e6eb; background: rgba(255,255,255,.055); font-size: 11px; font-weight: 700; }
-.access-form-panel { padding: 52px 46px; display: flex; flex-direction: column; justify-content: center; }
-.access-form-panel h2 { margin: 0; font-size: clamp(34px, 4vw, 47px); letter-spacing: -.045em; }
-.access-help { margin: 12px 0 28px; color: var(--muted); font-size: 15px; line-height: 1.5; }
-.access-form-panel form { display: grid; gap: 12px; }
-.access-form-panel label { color: #39465a; font-size: 12px; font-weight: 800; }
-.access-form-panel input { width: 100%; min-height: 54px; padding: 0 16px; border: 1px solid #cfd7e2; border-radius: 13px; color: var(--ink); background: #fbfcfe; font-size: 16px; }
-.access-form-panel input::placeholder { color: #8c96a5; }
-.access-enter-button, .request-access-button { width: 100%; min-height: 52px; border-radius: 13px; cursor: pointer; font-size: 15px; font-weight: 850; }
-.access-enter-button { margin-top: 4px; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid #111318; color: #111318; background: linear-gradient(135deg, #f8d34c, #e5ae12); box-shadow: 0 12px 25px rgba(181,132,0,.2); }
-.access-enter-button span { font-size: 12px; }
-.request-access-button { border: 1px solid #ccd5e0; color: #34445a; background: white; }
-.access-enter-button:hover, .request-access-button:hover { transform: translateY(-1px); }
-.access-feedback { min-height: 36px; margin: 16px 0 0; color: #7b8797; font-size: 12px; line-height: 1.45; }
-.access-feedback.visible { color: #a25a16; font-weight: 700; }
-.access-sound-note { margin: 13px 0 0; padding-top: 13px; border-top: 1px solid #e1e6ed; color: #697588; font-size: 11px; line-height: 1.5; }
-
-.launch-screen {
-  position: relative;
-  min-height: 100svh;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  padding: 34px;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(55, 138, 255, .32), transparent 28%),
-    radial-gradient(circle at 85% 90%, rgba(28, 205, 182, .22), transparent 31%),
-    linear-gradient(135deg, #07101e 0%, #101e33 55%, #0a1424 100%);
+@media (max-width:640px){
+  .gate{padding:0}
+  .gate-card{border:0;border-radius:0;min-height:100dvh}
+  .cover h2{font-size:27px}
+  .card{border-radius:12px}
 }
-
-.launch-screen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: .17;
-  background-image: linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
-  background-size: 42px 42px;
-  mask-image: linear-gradient(to bottom, black, transparent 88%);
-}
-
-.ambient { position: absolute; width: 340px; height: 340px; border-radius: 50%; opacity: .4; }
-.orb-one { left: -190px; bottom: 12%; background: linear-gradient(145deg, #1a80ff, transparent 70%); }
-.orb-two { right: -160px; top: 5%; background: linear-gradient(145deg, #22ccb7, transparent 70%); }
-
-.launch-card {
-  position: relative;
-  z-index: 1;
-  width: min(1180px, 100%);
-  min-height: min(650px, calc(100svh - 68px));
-  display: grid;
-  grid-template-columns: 1.08fr .92fr;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 32px;
-  background: rgba(255,255,255,.98);
-  box-shadow: 0 32px 90px rgba(0,0,0,.38);
-}
-
-.launch-copy { padding: 48px 58px; display: flex; flex-direction: column; justify-content: center; }
-.brand-lockup { display: flex; align-items: center; gap: 12px; color: #184270; letter-spacing: .12em; font-size: 14px; }
-.brand-mark { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 14px; color: white; background: linear-gradient(145deg, #2085ff, #0b5fc6); box-shadow: 0 8px 20px rgba(22,119,255,.27); font-size: 15px; letter-spacing: 0; }
-.brand-mark.small { width: 36px; height: 36px; border-radius: 11px; font-size: 12px; }
-.eyebrow { margin: 0 0 13px; color: var(--blue-dark); font-size: 12px; line-height: 1; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
-.launch-eyebrow { margin-top: 48px; }
-.launch-copy h1 { margin: 0; max-width: 640px; font-size: clamp(46px, 5.1vw, 70px); line-height: .98; letter-spacing: -.055em; }
-.launch-lead { margin: 24px 0 0; max-width: 590px; color: var(--muted); font-size: 20px; line-height: 1.52; }
-.launch-meta { margin-top: 25px; display: flex; flex-wrap: wrap; gap: 9px; }
-.launch-meta span { padding: 9px 12px; border-radius: 999px; color: #435166; background: #f0f4f8; font-size: 12px; font-weight: 700; }
-.start-button { margin-top: 33px; width: fit-content; min-width: 240px; padding: 15px 26px; display: flex; align-items: center; justify-content: center; gap: 13px; border: 0; border-radius: 16px; color: white; background: linear-gradient(135deg, #1677ff, #0758c0); box-shadow: 0 14px 30px rgba(13,105,231,.3); cursor: pointer; font-size: 19px; font-weight: 800; transition: transform .2s ease, box-shadow .2s ease; }
-.start-button:hover { transform: translateY(-2px); box-shadow: 0 18px 36px rgba(13,105,231,.36); }
-.play-dot { width: 30px; height: 30px; display: grid; place-items: center; padding-left: 2px; border-radius: 50%; background: rgba(255,255,255,.2); font-size: 12px; }
-.launch-hint { margin: 12px 0 0; color: #7a8595; font-size: 12px; }
-.launch-art { position: relative; min-height: 620px; overflow: hidden; background: linear-gradient(150deg, #dff2ff 0%, #eafcff 47%, #dbe9ff 100%); }
-.launch-art::before { content: ""; position: absolute; inset: 28px; z-index: 1; border: 1px solid rgba(21,95,172,.12); border-radius: 26px; }
-.launch-art > img { position: absolute; inset: 2% -6% -4% -8%; width: 114%; height: 102%; object-fit: cover; object-position: center; filter: saturate(.96) contrast(1.03); }
-.art-halo { position: absolute; z-index: 1; width: 360px; height: 360px; left: 50%; top: 47%; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(22,119,255,.23); box-shadow: 0 0 0 44px rgba(255,255,255,.15), 0 0 0 88px rgba(22,119,255,.06); }
-.mini-card { position: absolute; z-index: 3; min-width: 160px; padding: 14px 16px; display: flex; align-items: center; gap: 11px; border: 1px solid rgba(255,255,255,.7); border-radius: 16px; color: #17385e; background: rgba(255,255,255,.88); backdrop-filter: blur(10px); box-shadow: 0 14px 30px rgba(33,77,123,.16); }
-.mini-card b { color: var(--blue); font-size: 22px; }
-.mini-card span { font-size: 12px; font-weight: 700; }
-.mini-card-top { right: 26px; top: 80px; }
-.mini-card-bottom { left: 28px; bottom: 74px; }
-.launch-footer { position: absolute; z-index: 1; bottom: 11px; color: rgba(255,255,255,.62); font-size: 12px; letter-spacing: .04em; }
-
-.course-shell { min-height: 100svh; min-height: 100dvh; display: grid; grid-template-rows: 76px minmax(0, 1fr) 70px; background: #e9eef5; }
-.course-bar { position: relative; z-index: 10; display: grid; grid-template-columns: minmax(220px, 1fr) minmax(220px, 440px) minmax(360px, 1fr); align-items: center; gap: 24px; padding: 0 28px; color: white; background: linear-gradient(90deg, #0a1424, #10203a); box-shadow: 0 4px 18px rgba(15,26,43,.22); }
-.brand-button { padding: 0; display: flex; align-items: center; gap: 11px; border: 0; color: white; background: transparent; cursor: pointer; text-align: left; }
-.course-brand-logo { width: 102px; height: 58px; display: block; flex: 0 0 auto; object-fit: contain; border-radius: 7px; }
-.course-brand-copy { min-width: 0; }
-.brand-button strong, .brand-button small { display: block; }
-.brand-button strong { font-size: 13px; letter-spacing: .12em; }
-.brand-button small { margin-top: 3px; color: #9fb0c7; font-size: 11px; }
-.course-progress-meta { text-align: center; }
-.course-progress-meta > span { display: block; margin-bottom: 9px; color: #b9c7d8; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
-.progress-track { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.15); }
-.progress-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #47a4ff, #4de2cb); transition: width .35s ease; }
-.player-tools { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
-.tool-button { min-width: 48px; height: 50px; padding: 5px 8px; display: grid; place-items: center; border: 0; border-radius: 10px; color: #c5d2e3; background: transparent; cursor: pointer; font-weight: 800; }
-.tool-button span { display: block; font-size: 9px; font-weight: 600; }
-.tool-button:hover, .tool-button.active { color: white; background: rgba(255,255,255,.1); }
-.tool-button:disabled { opacity: .35; cursor: not-allowed; }
-
-.slide-stage { min-height: 0; display: grid; place-items: center; padding: 22px 32px; background: radial-gradient(circle at 50% 12%, rgba(255,255,255,.92), transparent 52%), #e9eef5; }
-.slide-card { position: relative; width: min(1180px, 100%); height: min(calc(100svh - 190px), 674px); min-height: 510px; padding: 30px 42px 27px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; border: 1px solid rgba(159,174,193,.42); border-radius: 24px; background: white; box-shadow: 0 20px 55px rgba(29,46,67,.14); }
-.slide-card::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: var(--tone, var(--blue)); }
-.tone-blue { --tone: #1677ff; --tone-soft: #eaf4ff; }
-.tone-cyan { --tone: #00a9c7; --tone-soft: #e6f9fc; }
-.tone-yellow { --tone: #d99b0b; --tone-soft: #fff6d8; }
-.tone-green { --tone: #189765; --tone-soft: #e9f8f1; }
-.tone-red { --tone: #d64b4b; --tone-soft: #fdeeee; }
-.slide-heading { position: relative; z-index: 2; display: flex; justify-content: space-between; gap: 30px; }
-.slide-heading h1 { max-width: 960px; margin: 0; font-size: clamp(29px, 3vw, 45px); line-height: 1.04; letter-spacing: -.045em; }
-.slide-subtitle { margin: 9px 0 0; color: var(--muted); font-size: 17px; line-height: 1.4; }
-.screen-number { color: var(--tone); font-size: 36px; font-weight: 800; letter-spacing: -.05em; opacity: .16; }
-.slide-content { position: relative; z-index: 2; min-height: 0; padding: 20px 0 12px; display: flex; align-items: center; overflow: auto; scrollbar-width: thin; }
-
-.cover-layout { width: 100%; display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 42px; }
-.cover-copy h2 { margin: 14px 0 0; max-width: 650px; font-size: clamp(40px, 4.7vw, 62px); line-height: .98; letter-spacing: -.055em; }
-.level-pill, .success-pill { display: inline-flex; width: fit-content; padding: 8px 12px; border-radius: 999px; color: var(--blue-dark); background: var(--blue-soft); font-size: 12px; font-weight: 800; }
-.lead { margin: 16px 0 0; color: var(--muted); font-size: clamp(18px, 1.8vw, 24px); line-height: 1.43; }
-.support-copy { margin: 14px 0 0; max-width: 610px; color: #657287; font-size: 15px; line-height: 1.52; }
-.hero-frame { position: relative; height: 330px; overflow: hidden; border-radius: 24px; background: linear-gradient(145deg, #e3f4ff, #e9fbff); }
-.hero-frame > img { width: 100%; height: 100%; object-fit: cover; }
-.float-chip { position: absolute; padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-radius: 12px; color: #28415f; background: rgba(255,255,255,.92); box-shadow: 0 10px 25px rgba(28,74,123,.14); font-size: 11px; font-weight: 800; }
-.float-chip b { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 8px; color: white; background: var(--tone); }
-.chip-one { left: 16px; top: 20px; }
-.chip-two { right: 16px; bottom: 18px; }
-
-.cards-layout { position: relative; width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-.cards-layout.count-3 { grid-template-columns: repeat(3, 1fr); }
-.cards-layout .course-callout { grid-column: 1 / -1; }
-.item-card { min-height: 132px; padding: 18px; border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(145deg, white, #f9fbfd); }
-.item-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.item-icon { width: 39px; height: 39px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 12px; color: white; background: var(--tone); font-size: 12px; font-weight: 800; }
-.item-label { color: var(--tone); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .12em; text-align: right; }
-.item-card h3 { margin: 15px 0 0; font-size: 20px; line-height: 1.12; letter-spacing: -.025em; }
-.item-card p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.42; }
-.corner-illustration { position: absolute; right: -12px; bottom: -12px; width: 170px; height: 120px; object-fit: cover; border: 8px solid white; border-radius: 24px; box-shadow: 0 10px 28px rgba(41,65,93,.15); }
-.course-callout { padding: 11px 15px; border-left: 4px solid var(--tone); border-radius: 0 12px 12px 0; color: #445167; background: var(--tone-soft); font-size: 14px; font-weight: 700; }
-
-.question-layout { width: min(930px, 100%); margin: auto; }
-.question-layout .success-pill { margin-bottom: 10px; color: #14724f; background: #e9f8f1; }
-.question-context { margin: 0 0 15px; padding: 13px 17px; border-left: 4px solid var(--tone); border-radius: 0 12px 12px 0; color: #445167; background: var(--tone-soft); font-size: 16px; line-height: 1.43; }
-.option-list { display: grid; gap: 9px; }
-.answer-option { width: 100%; min-height: 58px; padding: 8px 15px 8px 9px; display: grid; grid-template-columns: 42px 1fr 26px; align-items: center; gap: 13px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: white; cursor: pointer; text-align: left; transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease; }
-.answer-option > span { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 11px; color: var(--blue-dark); background: var(--blue-soft); font-weight: 800; }
-.answer-option strong { font-size: 16px; }
-.answer-option i { color: var(--tone); font-style: normal; font-size: 21px; }
-.answer-option:hover { border-color: var(--tone); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(37,68,102,.1); }
-
-.feedback-layout { width: min(920px, 100%); margin: auto; display: grid; grid-template-columns: 220px 1fr; align-items: center; gap: 52px; }
-.feedback-mark, .complete-mark { width: 210px; height: 210px; display: grid; place-items: center; border: 2px solid var(--tone); border-radius: 50%; color: var(--tone); background: var(--tone-soft); font-size: 96px; font-weight: 800; }
-.feedback-label { margin: 0 0 9px; color: var(--tone); font-size: 12px; font-weight: 900; letter-spacing: .15em; }
-.feedback-layout h2 { margin: 0; font-size: clamp(36px, 4vw, 54px); letter-spacing: -.045em; }
-
-.split-layout { width: 100%; display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 40px; }
-.big-callout { color: var(--tone); font-size: clamp(44px, 5.8vw, 76px); font-weight: 900; letter-spacing: -.055em; line-height: .95; }
-.big-callout.compact { font-size: clamp(36px, 4.2vw, 56px); }
-.feature-image { width: 100%; height: 278px; object-fit: cover; border-radius: 22px; background: var(--tone-soft); }
-
-.concept-layout { width: 100%; display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 34px; }
-.concept-copy { padding-right: 12px; }
-.concept-label { margin: 7px 0 0; color: #33445a; font-size: 17px; font-weight: 800; }
-.mini-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.mini-grid .item-card { min-height: 108px; }
-.mini-grid .item-card h3 { margin-top: 12px; font-size: 17px; }
-.mini-grid.three { grid-template-columns: repeat(3, 1fr); }
-
-.compare-grid { width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
-.compare-grid .item-card { min-height: 230px; padding: 25px; }
-.compare-grid .item-icon { width: 50px; height: 50px; font-size: 16px; }
-.compare-grid .item-card h3 { margin-top: 25px; font-size: 26px; }
-.compare-grid .item-card p { margin-top: 12px; font-size: 15px; }
-
-.process-layout { width: 100%; display: grid; gap: 12px; }
-.process-layout.with-image { grid-template-columns: 1fr 250px; align-items: stretch; }
-.process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.process-layout.with-image .process-grid { grid-template-columns: 1fr; gap: 9px; }
-.process-layout.with-image .item-card { min-height: 86px; padding: 13px; display: grid; grid-template-columns: 44px 1fr; column-gap: 12px; align-items: center; }
-.process-layout.with-image .item-top { grid-row: 1 / 3; }
-.process-layout.with-image .item-card h3 { margin: 0; font-size: 17px; }
-.process-layout.with-image .item-card p { margin-top: 3px; }
-.process-image { width: 100%; height: 100%; min-height: 280px; object-fit: cover; border-radius: 20px; background: var(--tone-soft); }
-.process-layout.with-image .course-callout { grid-column: 1 / -1; }
-
-.video-wrap { width: min(920px, 100%); height: 100%; min-height: 300px; margin: auto; display: grid; place-items: center; overflow: hidden; border-radius: 19px; background: #08111e; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); }
-.video-wrap video { width: 100%; height: 100%; object-fit: contain; }
-
-.final-intro-layout { width: min(900px, 100%); margin: auto; display: grid; grid-template-columns: 250px 1fr; align-items: center; gap: 50px; }
-.final-orb { width: 230px; height: 230px; display: grid; place-items: center; align-content: center; border-radius: 50%; color: white; background: linear-gradient(145deg, var(--tone), #0b4f9d); box-shadow: 0 20px 50px rgba(22,119,255,.25); }
-.final-orb span { font-size: 90px; line-height: .9; font-weight: 900; }
-.final-orb small { margin-top: 8px; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-
-.complete-layout { width: 100%; display: grid; gap: 20px; }
-.completion-top { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 26px; }
-.complete-mark { width: 110px; height: 110px; font-size: 50px; }
-.completion-top .lead { margin-top: 5px; font-size: 19px; }
-.complete-layout .mini-grid .item-card { min-height: 115px; }
-
-.slide-actions { position: relative; z-index: 5; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
-.primary-action, .secondary-action { min-height: 45px; padding: 0 19px; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 800; }
-.primary-action { min-width: 158px; display: flex; justify-content: center; align-items: center; gap: 18px; border: 1px solid var(--tone); color: white; background: var(--tone); }
-.secondary-action { border: 1px solid var(--line); color: #34445a; background: white; }
-.caption-panel { position: absolute; z-index: 8; left: 42px; right: 42px; bottom: 79px; padding: 12px 15px; display: grid; grid-template-columns: 35px 1fr; gap: 12px; align-items: start; border-radius: 13px; color: white; background: rgba(10,20,36,.95); box-shadow: 0 12px 30px rgba(0,0,0,.25); }
-.caption-panel span { display: grid; place-items: center; width: 33px; height: 25px; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; font-size: 10px; font-weight: 800; }
-.caption-panel p { margin: 1px 0 0; font-size: 13px; line-height: 1.43; }
-
-.course-nav { display: grid; grid-template-columns: 190px 1fr 190px; align-items: center; gap: 20px; padding: 0 30px; border-top: 1px solid #d7dee7; background: #f8fafc; }
-.course-nav > button { height: 43px; padding: 0 17px; border: 1px solid #ccd5e0; border-radius: 12px; color: #324259; background: white; cursor: pointer; font-size: 13px; font-weight: 800; }
-.course-nav > button:disabled { opacity: .43; cursor: not-allowed; }
-.course-nav > .next-button { color: white; border-color: var(--blue); background: var(--blue); }
-.nav-center { min-width: 0; text-align: center; }
-.nav-center span, .nav-center b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nav-center span { color: #7d8998; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
-.nav-center b { margin-top: 3px; color: #34445a; font-size: 12px; }
-
-@media (max-height: 730px) and (min-width: 981px) {
-  .slide-card { padding-top: 24px; min-height: 485px; }
-  .slide-heading h1 { font-size: 35px; }
-  .slide-content { padding-top: 14px; }
-  .item-card { min-height: 112px; padding: 14px; }
-  .item-card h3 { margin-top: 10px; font-size: 18px; }
-  .compare-grid .item-card { min-height: 195px; }
-  .hero-frame { height: 270px; }
-  .feedback-mark { width: 180px; height: 180px; font-size: 82px; }
-  .feedback-layout { grid-template-columns: 190px 1fr; }
-}
-
-@media (max-width: 980px) {
-  .access-screen { padding: 20px; }
-  .access-card { grid-template-columns: 1fr; min-height: 0; }
-  .access-brand-panel { min-height: 390px; padding: 38px 34px; }
-  .access-logo { width: 185px; }
-  .access-form-panel { padding: 40px 34px; }
-  .launch-screen { padding: 20px; }
-  .launch-card { grid-template-columns: 1fr; min-height: 0; }
-  .launch-copy { padding: 38px 32px; }
-  .launch-eyebrow { margin-top: 38px; }
-  .launch-art { min-height: 330px; }
-  .course-shell { grid-template-rows: auto minmax(0, 1fr) 68px; }
-  .course-bar { grid-template-columns: 1fr auto; gap: 14px; padding: 12px 18px; }
-  .course-progress-meta { order: 3; grid-column: 1 / -1; }
-  .player-tools { gap: 1px; }
-  .tool-button span { display: none; }
-  .slide-stage { padding: 16px; }
-  .slide-card { height: auto; min-height: calc(100svh - 210px); padding: 27px 25px 24px; }
-  .cover-layout, .split-layout, .concept-layout { grid-template-columns: 1fr; }
-  .hero-frame, .feature-image { height: 235px; }
-  .cards-layout.count-3 { grid-template-columns: 1fr; }
-  .process-layout.with-image { grid-template-columns: 1fr; }
-  .process-image { display: none; }
-  .slide-content { align-items: flex-start; }
-  .caption-panel { left: 25px; right: 25px; bottom: 76px; }
-}
-
-@media (max-width: 640px) {
-  .access-screen { padding: 0; align-items: stretch; }
-  .access-card { min-height: 100dvh; border: 0; border-radius: 0; }
-  .access-brand-panel { min-height: 310px; padding: max(28px, env(safe-area-inset-top)) 24px 28px; }
-  .access-logo { width: 150px; }
-  .access-kicker { margin-top: 22px; }
-  .access-brand-panel h1 { font-size: 39px; }
-  .access-brand-panel > div > p:last-child { margin-top: 14px; font-size: 15px; }
-  .access-features span:nth-child(2) { display: none; }
-  .access-form-panel { padding: 32px 24px max(32px, env(safe-area-inset-bottom)); }
-  .access-form-panel h2 { font-size: 34px; }
-  .access-help { margin-bottom: 22px; }
-  .launch-screen { padding: 0; align-items: stretch; }
-  .launch-card { border-radius: 0; }
-  .launch-copy { padding: 32px 24px; }
-  .launch-copy h1 { font-size: 46px; }
-  .launch-art, .launch-footer { display: none; }
-  .course-bar { grid-template-columns: auto minmax(0, 1fr); gap: 9px 14px; padding: max(9px, env(safe-area-inset-top)) 13px 9px; }
-  .brand-button { display: flex; }
-  .course-brand-logo { width: 78px; height: 42px; border-radius: 5px; }
-  .course-brand-copy { display: none; }
-  .player-tools { justify-content: center; }
-  .player-tools { grid-column: 1 / -1; }
-  .course-progress-meta { order: initial; grid-column: 2; text-align: left; }
-  .course-progress-meta > span { margin-bottom: 7px; }
-  .slide-stage { padding: 9px; }
-  .slide-card { min-height: calc(100svh - 203px); border-radius: 17px; padding: 21px 17px 19px; }
-  .slide-heading h1 { font-size: 29px; }
-  .screen-number { display: none; }
-  .cards-layout, .mini-grid, .mini-grid.three, .compare-grid, .process-grid { grid-template-columns: 1fr; }
-  .item-card { min-height: 105px; padding: 15px; }
-  .compare-grid .item-card { min-height: 170px; }
-  .answer-option { grid-template-columns: 40px 1fr; }
-  .answer-option i { display: none; }
-  .feedback-layout { grid-template-columns: 1fr; gap: 18px; text-align: center; }
-  .feedback-mark { width: 118px; height: 118px; margin: auto; font-size: 54px; }
-  .final-intro-layout { grid-template-columns: 1fr; gap: 20px; text-align: center; }
-  .final-orb { width: 140px; height: 140px; margin: auto; }
-  .final-orb span { font-size: 58px; }
-  .completion-top { grid-template-columns: 80px 1fr; gap: 15px; }
-  .complete-mark { width: 74px; height: 74px; font-size: 34px; }
-  .slide-actions { justify-content: stretch; }
-  .slide-actions button { flex: 1; }
-  .course-nav { grid-template-columns: 1fr 1fr; padding: 0 11px max(0px, env(safe-area-inset-bottom)); }
-  .nav-center { display: none; }
-  .caption-panel { left: 17px; right: 17px; bottom: 73px; max-height: 132px; overflow-y: auto; }
-  .video-wrap { min-height: 250px; }
-}
-
-    [hidden] { display: none !important; }
-    #setup-warning { position: fixed; z-index: 999; left: 0; right: 0; top: 0; padding: 16px 22px; color: #3d2600; background: #ffd977; border-bottom: 2px solid #c98a00; font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.55; box-shadow: 0 6px 22px rgba(0,0,0,.28); }
-#setup-warning strong { display: block; margin-bottom: 4px; font-size: 16px; }
-#setup-warning b { background: rgba(255,255,255,.65); padding: 1px 5px; border-radius: 4px; }
-.offline-status { margin-top: 13px; display: inline-flex; align-items: center; gap: 7px; color: #617083; font-size: 12px; font-weight: 700; }
-    .offline-status::before { content: "✓"; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; color: #14724f; background: #e9f8f1; }
-    .media-message { margin: 10px 0 0; color: #f0b74b; font-size: 12px; }
-    noscript { display: block; max-width: 760px; margin: 40px auto; padding: 24px; border-radius: 16px; background: white; font: 16px/1.5 Arial, sans-serif; }
-  </style>
+</style>
 </head>
 <body>
-  <div id="app"></div>
-  <audio id="narration" preload="auto"></audio>
-  <noscript>Please enable JavaScript in your browser to run this interactive training.</noscript>
-  <script>
-    const course = {"slides":[{"id":"welcome","section":"AI FOR ALL · MODULE 1","title":"Introduction to Artificial Intelligence","subtitle":"A narrated, interactive beginner module","kind":"cover","tone":"blue","image":"/course/images/ai-hero.webp","body":"Learn what AI means, how it learns, where you may already use it, and how to use it safely.","primaryAction":{"label":"Begin module","target":"how-to"},"narration":"Welcome to AI for All. This beginner module introduces Artificial Intelligence in simple English. You do not need any computer knowledge. Select Begin module when you are ready.","audioFemale":"course/audio/01-welcome.mp3","audioMale":"course/audio/male/01-welcome.mp3"},{"id":"how-to","section":"BEFORE YOU BEGIN","title":"Use sound, clicks, and feedback to learn","subtitle":"Move through the course at your own pace.","kind":"cards","tone":"blue","items":[{"icon":"01","title":"Watch","body":"Play the short lesson video with sound. Captions are included."},{"icon":"02","title":"Learn","body":"Move through the simple examples one screen at a time."},{"icon":"03","title":"Answer","body":"Choose an answer and use the feedback to continue."}],"callout":"Keep your speakers on.","primaryAction":{"label":"I’m ready","target":"goals"},"secondaryAction":{"label":"Back","target":"welcome"},"narration":"This course uses sound, clickable buttons, and instant feedback. Watch the short lesson, move through the examples, and answer the questions. Keep your speakers on, then select I’m ready.","audioFemale":"course/audio/02-how-to.mp3","audioMale":"course/audio/male/02-how-to.mp3"},{"id":"goals","section":"YOUR LEARNING GOALS","title":"By the end, you can explain AI in simple words","kind":"cards","tone":"cyan","items":[{"icon":"01","title":"Explain what AI means"},{"icon":"02","title":"Describe how AI learns from examples"},{"icon":"03","title":"Recognize everyday and generative AI"},{"icon":"04","title":"Use AI with three safe habits"}],"primaryAction":{"label":"Continue","target":"warm-up"},"secondaryAction":{"label":"Back","target":"how-to"},"narration":"By the end of this module, you will be able to explain what AI means, describe how it learns from examples, recognize everyday and generative AI, and use AI with three safe habits.","audioFemale":"course/audio/03-goals.mp3","audioMale":"course/audio/male/03-goals.mp3"},{"id":"warm-up","section":"WARM-UP","title":"You may already use AI every day","subtitle":"Which of these may use AI?","kind":"question","tone":"yellow","options":[{"label":"A","text":"A phone camera","target":"warm-answer"},{"label":"B","text":"A map that suggests the fastest route","target":"warm-answer"},{"label":"C","text":"An app that suggests a movie","target":"warm-answer"},{"label":"D","text":"All of these","target":"warm-answer"}],"secondaryAction":{"label":"Back","target":"goals"},"narration":"Warm-up. Which of these may use AI? A phone camera, a map that suggests the fastest route, an app that suggests a movie, or all of these? Select your answer.","audioFemale":"course/audio/04-warm-up.mp3","audioMale":"course/audio/male/04-warm-up.mp3"},{"id":"warm-answer","section":"WARM-UP ANSWER","title":"AI often works quietly in the background","kind":"insight","tone":"green","callout":"ALL OF THEM","body":"A camera may recognize a face. A map may compare routes. An app may predict what you could like. The important idea is the job the AI is doing.","image":"/course/images/ai-everyday.webp","primaryAction":{"label":"Watch the lesson","target":"video-lesson"},"secondaryAction":{"label":"Try again","target":"warm-up"},"narration":"The answer is all of them. A camera may recognize a face. A map may compare routes. An app may predict what you could like. The important idea is the job the AI is doing.","audioFemale":"course/audio/05-warm-answer.mp3","audioMale":"course/audio/male/05-warm-answer.mp3"},{"id":"video-lesson","section":"NARRATED LESSON","title":"Watch: What is Artificial Intelligence?","subtitle":"Press play. The video includes sound and full captions.","kind":"video","tone":"blue","video":"/course/media/ai-introduction-lesson.mp4","audioMode":"video","primaryAction":{"label":"Continue after video","target":"simple-meaning"},"secondaryAction":{"label":"Back","target":"warm-answer"},"narration":"This screen contains the narrated lesson video. Press play to watch it with sound and captions."},{"id":"simple-meaning","section":"THE SIMPLE MEANING","title":"AI helps computers do tasks that seem smart","kind":"concept","tone":"blue","callout":"AI","subtitle":"Artificial Intelligence","body":"AI is technology that helps computers perform tasks that usually need human intelligence.","items":[{"icon":"Aa","title":"Understand words"},{"icon":"◉","title":"Recognize pictures"},{"icon":"→","title":"Make suggestions"},{"icon":"+","title":"Create content"}],"primaryAction":{"label":"Continue","target":"software"},"secondaryAction":{"label":"Back","target":"video-lesson"},"narration":"AI means Artificial Intelligence. AI is technology that helps computers perform tasks that usually need human intelligence. Examples include understanding words, recognizing pictures, making suggestions, and creating content.","audioFemale":"course/audio/07-simple-meaning.mp3","audioMale":"course/audio/male/07-simple-meaning.mp3"},{"id":"software","section":"A COMMON MISUNDERSTANDING","title":"AI is usually software, not a walking robot","kind":"concept","tone":"cyan","callout":"SOFTWARE","body":"Software means instructions that work inside a computer. AI software can work inside a phone, app, website, car, camera, or machine.","items":[{"icon":"▣","title":"Phone"},{"icon":"◎","title":"App"},{"icon":"⌁","title":"Website"},{"icon":"◇","title":"Machine"}],"primaryAction":{"label":"Continue","target":"rules-vs-patterns"},"secondaryAction":{"label":"Back","target":"simple-meaning"},"narration":"AI is usually software, not a walking robot. Software means instructions that work inside a computer. AI software can work inside a phone, an app, a website, a car, a camera, or a machine.","audioFemale":"course/audio/08-software.mp3","audioMale":"course/audio/male/08-software.mp3"},{"id":"rules-vs-patterns","section":"TWO WAYS TO SOLVE A TASK","title":"Normal programs follow rules; AI can learn patterns","kind":"compare","tone":"blue","items":[{"icon":"1","label":"NORMAL PROGRAM","title":"A person writes exact rules","body":"Example: a calculator follows fixed rules for addition."},{"icon":"2","label":"AI SYSTEM","title":"The system learns patterns from examples","body":"Example: face recognition learns from many pictures."}],"primaryAction":{"label":"Continue","target":"learning-steps"},"secondaryAction":{"label":"Back","target":"software"},"narration":"There are two ways to solve a task. A normal program follows exact rules written by a person. An AI system can learn patterns from examples. A calculator follows fixed rules. Face recognition learns from many pictures.","audioFemale":"course/audio/09-rules-vs-patterns.mp3","audioMale":"course/audio/male/09-rules-vs-patterns.mp3"},{"id":"learning-steps","section":"HOW AI LEARNS","title":"AI learning has three simple steps","kind":"process","tone":"blue","items":[{"icon":"1","title":"See examples","body":"Pictures, words, sounds, or numbers"},{"icon":"2","title":"Find patterns","body":"Notice what repeats or goes together"},{"icon":"3","title":"Use the pattern","body":"Answer something new"}],"image":"/course/images/ai-learning.webp","primaryAction":{"label":"Continue","target":"data-model"},"secondaryAction":{"label":"Back","target":"rules-vs-patterns"},"narration":"AI learning has three simple steps. First, see examples such as pictures, words, sounds, or numbers. Second, find patterns. Third, use the pattern to answer something new.","audioFemale":"course/audio/10-learning-steps.mp3","audioMale":"course/audio/male/10-learning-steps.mp3"},{"id":"data-model","section":"TWO USEFUL WORDS","title":"Data and model are simpler than they sound","kind":"compare","tone":"cyan","items":[{"icon":"D","label":"DATA","title":"The examples or information given to the AI","body":"Pictures, words, sounds, or numbers can all be data."},{"icon":"M","label":"MODEL","title":"The pattern the AI learned","body":"The model uses that pattern to make an answer or prediction."}],"primaryAction":{"label":"Continue","target":"fruit-example"},"secondaryAction":{"label":"Back","target":"learning-steps"},"narration":"Two useful words are data and model. Data means the examples or information given to the AI. A model is the pattern the AI learned from those examples. The model uses the pattern to make an answer or prediction.","audioFemale":"course/audio/11-data-model.mp3","audioMale":"course/audio/male/11-data-model.mp3"},{"id":"fruit-example","section":"A CHILD-FRIENDLY EXAMPLE","title":"Teach AI with apples and bananas","kind":"process","tone":"yellow","items":[{"icon":"1","title":"Show many labelled pictures","body":"These pictures are the examples."},{"icon":"2","title":"Let the AI find differences","body":"It notices colours, shapes, and patterns."},{"icon":"3","title":"Ask it to label a new picture","body":"It uses the learned pattern for a new answer."}],"callout":"Poor examples can lead to a poor answer.","primaryAction":{"label":"Quick check","target":"pattern-question"},"secondaryAction":{"label":"Back","target":"data-model"},"narration":"Imagine teaching AI with apples and bananas. First, show many labelled pictures. Next, let the AI find differences. Then ask it to label a new picture. Remember, poor examples can lead to a poor answer.","audioFemale":"course/audio/12-fruit-example.mp3","audioMale":"course/audio/male/12-fruit-example.mp3"},{"id":"pattern-question","section":"KNOWLEDGE CHECK","title":"Quick check: what is the AI doing?","subtitle":"Choose the best answer.","kind":"question","tone":"yellow","body":"A photo app studies thousands of cat and dog pictures. Then it labels a new photo.","options":[{"label":"A","text":"Feeling emotions like a person","target":"pattern-wrong"},{"label":"B","text":"Finding patterns in examples","target":"pattern-correct"},{"label":"C","text":"Using magic to know the answer","target":"pattern-wrong"}],"secondaryAction":{"label":"Back","target":"fruit-example"},"narration":"Quick check. A photo app studies thousands of cat and dog pictures. Then it labels a new photo. Is the AI feeling emotions, finding patterns in examples, or using magic? Select the best answer.","audioFemale":"course/audio/13-pattern-question.mp3","audioMale":"course/audio/male/13-pattern-question.mp3"},{"id":"pattern-correct","section":"KNOWLEDGE CHECK","title":"The AI is finding patterns","kind":"feedback","tone":"green","mark":"✓","label":"THAT’S RIGHT","body":"It learned from many examples, then used the pattern to label a new picture.","primaryAction":{"label":"Continue","target":"everyday-ai"},"narration":"That is right. The AI is finding patterns. It learned from many examples, then used the pattern to label a new picture. Select Continue.","audioFemale":"course/audio/14-pattern-correct.mp3","audioMale":"course/audio/male/14-pattern-correct.mp3"},{"id":"pattern-wrong","section":"KNOWLEDGE CHECK","title":"Remember: examples, patterns, answer","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"AI does not use feelings or magic. It uses patterns learned from examples.","primaryAction":{"label":"Try again","target":"pattern-question"},"narration":"Try again. AI does not use feelings or magic. It uses patterns learned from examples. Select Try again.","audioFemale":"course/audio/15-pattern-wrong.mp3","audioMale":"course/audio/male/15-pattern-wrong.mp3"},{"id":"everyday-ai","section":"AI AROUND YOU","title":"Look for the job AI is doing","kind":"cards","tone":"blue","image":"/course/images/ai-everyday.webp","items":[{"icon":"◉","title":"Camera","body":"Recognizes a face or subject"},{"icon":"⌖","title":"Maps","body":"Compares routes and predicts time"},{"icon":"☆","title":"Suggestions","body":"Recommend what you may like"},{"icon":"▤","title":"Banking","body":"Spots unusual payment activity"}],"primaryAction":{"label":"Continue","target":"generative-ai"},"secondaryAction":{"label":"Back","target":"pattern-correct"},"narration":"AI may work around you every day. A camera may recognize a face. Maps may compare routes and predict time. An app may recommend something you like. A bank may spot unusual payment activity. Look for the job the AI is doing.","audioFemale":"course/audio/16-everyday-ai.mp3","audioMale":"course/audio/male/16-everyday-ai.mp3"},{"id":"generative-ai","section":"A POPULAR TYPE OF AI","title":"Generative AI creates new content from learned patterns","kind":"concept","tone":"cyan","callout":"GENERATIVE","body":"Generative means able to create. A person gives an instruction. The AI uses learned patterns to create a new result.","items":[{"icon":"Aa","title":"Text"},{"icon":"▧","title":"Pictures"},{"icon":"♪","title":"Audio"},{"icon":"{ }","title":"Code and ideas"}],"primaryAction":{"label":"Continue","target":"ai-jobs"},"secondaryAction":{"label":"Back","target":"everyday-ai"},"narration":"Generative AI creates new content from learned patterns. Generative means able to create. A person gives an instruction, and the AI creates a new result such as text, pictures, audio, code, or ideas.","audioFemale":"course/audio/17-generative-ai.mp3","audioMale":"course/audio/male/17-generative-ai.mp3"},{"id":"ai-jobs","section":"WHAT AI CAN DO","title":"AI is a tool for specific jobs","kind":"cards","tone":"blue","items":[{"icon":"Aa","label":"UNDERSTAND","title":"Words and speech","body":"Work with questions, language, or speech."},{"icon":"◉","label":"RECOGNIZE","title":"Objects and patterns","body":"Notice faces, sounds, objects, or patterns."},{"icon":"→","label":"RECOMMEND","title":"Useful next steps","body":"Suggest a route, product, movie, or action."},{"icon":"+","label":"CREATE","title":"New content","body":"Draft text, pictures, audio, code, or ideas."}],"callout":"One AI system may be good at one job and poor at another.","primaryAction":{"label":"Continue","target":"limits"},"secondaryAction":{"label":"Back","target":"generative-ai"},"narration":"AI is a tool for specific jobs. It can understand words or speech, recognize objects or patterns, recommend useful next steps, and create new content. One AI system may be good at one job and poor at another.","audioFemale":"course/audio/18-ai-jobs.mp3","audioMale":"course/audio/male/18-ai-jobs.mp3"},{"id":"limits","section":"WHAT AI CANNOT DO","title":"Useful does not mean always correct","kind":"cards","tone":"red","items":[{"icon":"!","title":"AI can be wrong","body":"A confident answer can still contain a mistake."},{"icon":"?","title":"AI may miss context","body":"It may not understand the full situation."},{"icon":"≠","title":"AI can repeat unfair patterns","body":"Poor or one-sided data can affect the result."},{"icon":"人","title":"People stay responsible","body":"A person remains responsible for important decisions."}],"primaryAction":{"label":"Practice","target":"safety-question"},"secondaryAction":{"label":"Back","target":"ai-jobs"},"narration":"Useful does not mean always correct. AI can be wrong, may miss context, and can repeat unfair patterns from poor data. AI has no human responsibility. A person remains responsible for important decisions.","audioFemale":"course/audio/19-limits.mp3","audioMale":"course/audio/male/19-limits.mp3"},{"id":"safety-question","section":"PRACTICE SCENARIO","title":"What should you do next?","subtitle":"Choose the safest next step.","kind":"question","tone":"yellow","body":"An AI drafts a work email. It includes a fact you are not sure about.","options":[{"label":"A","text":"Send it immediately because the AI sounds confident","target":"safety-wrong"},{"label":"B","text":"Check the fact with a trusted source","target":"safety-correct"},{"label":"C","text":"Add private customer data to make the answer better","target":"safety-wrong"}],"secondaryAction":{"label":"Back","target":"limits"},"narration":"Practice scenario. An AI drafts a work email, but it includes a fact you are not sure about. Should you send it immediately, check the fact with a trusted source, or add private customer data? Select the safest answer.","audioFemale":"course/audio/20-safety-question.mp3","audioMale":"course/audio/male/20-safety-question.mp3"},{"id":"safety-correct","section":"PRACTICE SCENARIO","title":"Check before you trust","kind":"feedback","tone":"green","mark":"✓","label":"THAT’S RIGHT","body":"A confident tone is not proof. Verify important information before you use it.","primaryAction":{"label":"Continue","target":"safe-habits"},"narration":"That is right. Check before you trust. A confident tone is not proof. Verify important information before you use it.","audioFemale":"course/audio/21-safety-correct.mp3","audioMale":"course/audio/male/21-safety-correct.mp3"},{"id":"safety-wrong","section":"PRACTICE SCENARIO","title":"Confidence is not proof","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"Check important facts and keep private information protected.","primaryAction":{"label":"Try again","target":"safety-question"},"narration":"Try again. Confidence is not proof. Check important facts and keep private information protected.","audioFemale":"course/audio/22-safety-wrong.mp3","audioMale":"course/audio/male/22-safety-wrong.mp3"},{"id":"safe-habits","section":"USE AI WISELY","title":"Use AI with three simple habits","kind":"process","tone":"green","image":"/course/images/ai-verify.webp","items":[{"icon":"1","title":"Ask clearly","body":"Explain what you need and give useful context."},{"icon":"2","title":"Check important answers","body":"Compare the result with a trusted source or person."},{"icon":"3","title":"Protect private information","body":"Do not share passwords, customer data, or confidential files."}],"primaryAction":{"label":"Final check","target":"final-intro"},"secondaryAction":{"label":"Back","target":"safety-correct"},"narration":"Use AI with three simple habits. First, ask clearly. Second, check important answers with a trusted source or person. Third, protect private information. Do not share passwords, customer data, or confidential files.","audioFemale":"course/audio/23-safe-habits.mp3","audioMale":"course/audio/male/23-safe-habits.mp3"},{"id":"final-intro","section":"FINAL KNOWLEDGE CHECK","title":"Three questions will confirm your AI foundation","kind":"finalIntro","tone":"blue","callout":"FINAL CHECK","body":"Choose the best answer. A correct answer unlocks the next question. If you miss one, use the feedback and try again.","primaryAction":{"label":"Start final check","target":"final-q1"},"secondaryAction":{"label":"Back","target":"safe-habits"},"narration":"The final knowledge check has three questions. Choose the best answer. A correct answer unlocks the next question. If you miss one, use the feedback and try again.","audioFemale":"course/audio/24-final-intro.mp3","audioMale":"course/audio/male/24-final-intro.mp3"},{"id":"final-q1","section":"FINAL CHECK · QUESTION 1 OF 3","title":"Which sentence best explains AI?","kind":"question","tone":"yellow","options":[{"label":"A","text":"A human mind living inside a computer","target":"final-q1-wrong"},{"label":"B","text":"Technology that helps computers perform smart tasks","target":"final-q2"},{"label":"C","text":"Magic that always knows the correct answer","target":"final-q1-wrong"}],"secondaryAction":{"label":"Back","target":"final-intro"},"narration":"Final check, question one of three. Which sentence best explains AI? A human mind living inside a computer, technology that helps computers perform smart tasks, or magic that always knows the correct answer?","audioFemale":"course/audio/25-final-q1.mp3","audioMale":"course/audio/male/25-final-q1.mp3"},{"id":"final-q1-wrong","section":"FINAL CHECK · QUESTION 1","title":"AI is technology, not magic","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"It helps computers with tasks. It is not a human mind and it is not always correct.","primaryAction":{"label":"Try question 1","target":"final-q1"},"narration":"Try again. AI is technology, not magic. It helps computers with tasks. It is not a human mind and it is not always correct.","audioFemale":"course/audio/26-final-q1-wrong.mp3","audioMale":"course/audio/male/26-final-q1-wrong.mp3"},{"id":"final-q2","section":"FINAL CHECK · QUESTION 2 OF 3","title":"What is the simple AI learning pattern?","kind":"question","tone":"yellow","callout":"Question 1 correct","options":[{"label":"A","text":"Examples → patterns → a new answer","target":"final-q3"},{"label":"B","text":"Feelings → magic → a perfect answer","target":"final-q2-wrong"},{"label":"C","text":"A robot body → a human mind","target":"final-q2-wrong"}],"secondaryAction":{"label":"Back","target":"final-q1"},"narration":"Question one is correct. Question two of three. What is the simple AI learning pattern? Examples, patterns, and a new answer; feelings, magic, and a perfect answer; or a robot body and a human mind?","audioFemale":"course/audio/27-final-q2.mp3","audioMale":"course/audio/male/27-final-q2.mp3"},{"id":"final-q2-wrong","section":"FINAL CHECK · QUESTION 2","title":"Remember the three steps","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"AI sees examples, finds patterns, and uses the pattern to answer something new.","primaryAction":{"label":"Try question 2","target":"final-q2"},"narration":"Try again. Remember the three steps. AI sees examples, finds patterns, and uses the pattern to answer something new.","audioFemale":"course/audio/28-final-q2-wrong.mp3","audioMale":"course/audio/male/28-final-q2-wrong.mp3"},{"id":"final-q3","section":"FINAL CHECK · QUESTION 3 OF 3","title":"Before using an important AI answer at work, what should you do?","kind":"question","tone":"yellow","callout":"Questions 1 and 2 correct","options":[{"label":"A","text":"Trust it immediately","target":"final-q3-wrong"},{"label":"B","text":"Check it with a trusted source","target":"complete"},{"label":"C","text":"Share private data with the AI","target":"final-q3-wrong"}],"secondaryAction":{"label":"Back","target":"final-q2"},"narration":"Questions one and two are correct. Final question. Before using an important AI answer at work, should you trust it immediately, check it with a trusted source, or share private data with the AI?","audioFemale":"course/audio/29-final-q3.mp3","audioMale":"course/audio/male/29-final-q3.mp3"},{"id":"final-q3-wrong","section":"FINAL CHECK · QUESTION 3","title":"Use the safe habits","kind":"feedback","tone":"red","mark":"×","label":"TRY AGAIN","body":"Check important results and keep private information protected.","primaryAction":{"label":"Try question 3","target":"final-q3"},"narration":"Try again. Use the safe habits. Check important results and keep private information protected.","audioFemale":"course/audio/30-final-q3-wrong.mp3","audioMale":"course/audio/male/30-final-q3-wrong.mp3"},{"id":"complete","section":"MODULE 1 COMPLETE","title":"You can now explain what AI really is","kind":"complete","tone":"green","mark":"✓","body":"AI is technology that learns or uses patterns to help with tasks. It is useful, not perfect, and people stay responsible.","items":[{"icon":"1","title":"Meaning","body":"AI helps computers perform smart tasks."},{"icon":"2","title":"Learning","body":"Examples → patterns → a new answer."},{"icon":"3","title":"Safe use","body":"Ask clearly, check answers, protect data."}],"primaryAction":{"label":"Restart module","target":"welcome"},"secondaryAction":{"label":"Replay video","target":"video-lesson"},"narration":"Congratulations. Module one is complete. You can now explain that AI is technology that learns or uses patterns to help with tasks. It is useful, not perfect, and people stay responsible.","audioFemale":"course/audio/31-complete.mp3","audioMale":"course/audio/male/31-complete.mp3"}]};
-    const slides = course.slides;
-    const app = document.getElementById("app");
-    const narration = document.getElementById("narration");
-    const idToIndex = new Map(slides.map((slide, index) => [slide.id, index]));
-    /* =========================================================================
-       APPROVED LEARNER EMAILS  --  edit this list to give someone access.
-       Add a new line inside the brackets, in quotes, with a comma after it:
-           "newperson@example.com",
-       Use lowercase only. Save the file, then reload the page.
-       ========================================================================= */
-    const approvedEmails = new Set([
-      "anirudhuniyal14@gmail.com",
-      "ankii0210@gmail.com"
-    ]);
+<div id="app"></div>
+<audio id="narration" preload="none"></audio>
+<noscript>Please enable JavaScript to run this training.</noscript>
 
-    // Where "Request Access" emails are sent.
-    const accessRequestRecipient = "anirudhuniyal14@gmail.com";
+<script src="course/content.js"></script>
+<script>
+/* ===========================================================================
+   SETTINGS - the two things you are likely to change
+   =========================================================================== */
 
-    /* =========================================================================
-       NARRATION VOICE
-         "male"   - plays course/audio/male/*.mp3
-                    Those files are created by running MAKE_MALE_VOICES.bat.
-                    Until they exist, the course reads each screen aloud with
-                    your computer's own male voice, so nothing is ever silent.
-         "female" - plays the original clips already in course/audio/
-       ========================================================================= */
-    const VOICE = "male";
-    const state = { started: false, slideIndex: 0, captions: false, playing: false, muted: false, audioReady: true, mediaKey: "", usingSpeech: false, speechKey: "" };
+/* APPROVED LEARNER EMAILS. Add a line inside the brackets, in quotes, with a
+   comma after the line above. Lowercase only. Save, then reload the page.   */
+const approvedEmails = new Set([
+  "anirudhuniyal14@gmail.com",
+  "ankii0210@gmail.com"
+]);
 
-    const escapeHtml = (value = "") => String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+/* Where "Request access" messages are sent. */
+const accessRequestRecipient = "anirudhuniyal14@gmail.com";
 
-    const assetPath = (value = "") => value.replace(/^\//, "");
-    const currentSlide = () => slides[state.slideIndex];
-    // Every screen has its own clip - no more single sample repeating throughout.
-    const narrationPath = () => {
-      const slide = currentSlide();
-      return assetPath((VOICE === "female" ? slide.audioFemale : slide.audioMale) ?? "");
-    };
-    const isVideoSlide = () => currentSlide().audioMode === "video";
-    const lessonVideo = () => document.getElementById("lesson-video");
-    // On the video screen the player controls the video; everywhere else, the narration.
-    const activeMedia = () => (isVideoSlide() ? lessonVideo() : narration);
+/* Narration files live in course/audio/male/ and are named after each screen,
+   for example 01-welcome.mp3. They are made by MAKE_MY_VOICE_FREE.bat.
+   While they do not exist the course stays silent, which is what you want
+   when presenting. Set this to true to have the browser read screens aloud. */
+const SPEAK_WHEN_NO_FILE = false;
 
-    /* ---------------------------------------------------------------------
-       Built-in voice fallback. Used only when the male mp3 files are not in
-       the folder yet, so the training always speaks the right words.
-       --------------------------------------------------------------------- */
-    const speech = window.speechSynthesis ?? null;
-    let speechKeepAlive = null;
+/* =========================================================================== */
 
-    function maleVoice() {
-      const voices = speech?.getVoices?.() ?? [];
-      if (!voices.length) return null;
-      const english = voices.filter((v) => /^en/i.test(v.lang));
-      const pool = english.length ? english : voices;
-      // Known male voices, best first.
-      for (const name of [/christopher/i, /\bguy\b/i, /prabhat/i, /\bryan\b/i, /\bdavid\b/i, /\bmark\b/i, /\bravi\b/i, /\balex\b/i, /\bdaniel\b/i, /\bgeorge\b/i, /\bjames\b/i]) {
-        const hit = pool.find((v) => name.test(v.name));
-        if (hit) return hit;
-      }
-      const female = /zira|hazel|susan|heera|samantha|victoria|karen|moira|tessa|fiona|catherine|linda|\beva\b|aria|jenny|michelle|\bana\b|neerja|serena|allison/i;
-      return pool.find((v) => !female.test(v.name)) ?? pool[0];
-    }
+const slides = window.COURSE.slides;
+const app = document.getElementById("app");
+const narration = document.getElementById("narration");
+const idx = new Map(slides.map((s, i) => [s.id, i]));
+const state = { started:false, i:0, cc:false, playing:false, muted:false,
+                mediaKey:"", answered:{}, speaking:false };
 
-    function stopSpeech() {
-      clearInterval(speechKeepAlive);
-      speechKeepAlive = null;
-      speech?.cancel();
-      state.usingSpeech = false;
-      state.speechKey = "";
-    }
+const esc = (v = "") => String(v)
+  .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;").replaceAll("'","&#039;");
 
-    function speakSlide() {
-      const slide = currentSlide();
-      if (!speech || state.muted || !slide.narration) return false;
-      speech.cancel();
-      const utterance = new SpeechSynthesisUtterance(slide.narration);
-      const voice = maleVoice();
-      if (voice) { utterance.voice = voice; utterance.lang = voice.lang; }
-      utterance.rate = 0.94;
-      utterance.pitch = 0.9;
-      utterance.onend = () => { stopSpeech(); updatePlayerTools(); };
-      utterance.onerror = () => { stopSpeech(); updatePlayerTools(); };
-      speech.speak(utterance);
-      state.usingSpeech = true;
-      state.speechKey = slide.id;
-      // Chrome silently cuts utterances after ~15s unless nudged.
-      clearInterval(speechKeepAlive);
-      speechKeepAlive = setInterval(() => {
-        if (!speech.speaking) { clearInterval(speechKeepAlive); return; }
-        speech.pause(); speech.resume();
-      }, 9000);
-      return true;
-    }
+const cur = () => slides[state.i];
+const isVideo = () => cur().audioMode === "video";
+const vid = () => document.getElementById("lesson-video");
+const media = () => (isVideo() ? vid() : narration);
+const pad = n => String(n + 1).padStart(2, "0");
 
-    function fallbackToSpeech() {
-      if (isVideoSlide()) return;
-      if (state.speechKey === currentSlide().id && speech?.speaking) return;
-      state.playing = speakSlide();
-      updatePlayerTools();
-    }
+/* Each screen's clip is named from its position and id. */
+function audioFor(i) {
+  const s = slides[i];
+  return s.audioMode === "video" ? "" : `course/audio/male/${pad(i)}-${s.id}.mp3`;
+}
 
-    const speechIsPlaying = () => Boolean(state.usingSpeech && speech?.speaking && !speech.paused);
-    // Chrome populates the voice list asynchronously.
-    if (speech) speech.addEventListener?.("voiceschanged", () => {});
-    const lockedKinds = new Set(["question", "feedback", "finalIntro", "complete"]);
+/* A screen with an unanswered question should not let you skip ahead. */
+const locked = s => s.kind === "quiz" && !state.answered[s.id];
 
-    function itemCard(item, index) {
-      return `<article class="item-card">
-        <div class="item-top">
-          <span class="item-icon" aria-hidden="true">${escapeHtml(item.icon ?? String(index + 1).padStart(2, "0"))}</span>
-          ${item.label ? `<span class="item-label">${escapeHtml(item.label)}</span>` : ""}
-        </div>
-        <h3>${escapeHtml(item.title)}</h3>
-        ${item.body ? `<p>${escapeHtml(item.body)}</p>` : ""}
-      </article>`;
-    }
+/* ------------------------------- pieces ---------------------------------- */
 
-    function renderBody(slide) {
-      const items = slide.items ?? [];
-      if (slide.kind === "cover") {
-        return `<div class="cover-layout">
-          <div class="cover-copy">
-            <span class="level-pill">Beginner · About 15 minutes</span>
-            <h2>${escapeHtml(slide.title)}</h2>
-            <p class="lead">${escapeHtml(slide.subtitle)}</p>
-            <p class="support-copy">${escapeHtml(slide.body)}</p>
+function tile(it) {
+  return `<article class="tile">
+    ${it.n ? `<div class="n">${esc(it.n)}</div>` : ""}
+    ${it.tag ? `<span class="tag">${esc(it.tag)}</span>` : ""}
+    <h3>${esc(it.title)}</h3>
+    ${it.body ? `<p>${esc(it.body)}</p>` : ""}
+  </article>`;
+}
+const callout = s => s.callout ? `<div class="callout">${esc(s.callout)}</div>` : "";
+const pic = (src, alt) => `<div class="shot"><img src="${esc(src)}" alt="${esc(alt)}"></div>`;
+
+function bodyFor(s) {
+  const items = s.items ?? [];
+
+  if (s.kind === "cover") return `<div class="cover">
+    <div>
+      <h2>${esc(s.title)}</h2>
+      <p class="lead">${esc(s.lead)}</p>
+      <p class="lead" style="font-size:14.5px;color:var(--dim)">${esc(s.body)}</p>
+      <div class="metas">${(s.meta ?? []).map(m => `<span>${esc(m)}</span>`).join("")}</div>
+    </div>
+    ${s.image ? pic(s.image, "Introduction to artificial intelligence") : ""}
+  </div>`;
+
+  if (s.kind === "statement") return `<div class="state">
+    <div>
+      <div class="big">${esc(s.headline)}</div>
+      <p class="lead">${esc(s.body)}</p>
+      ${callout(s)}
+    </div>
+    ${pic("course/images/ai-learning.webp", "How an AI system learns")}
+  </div>`;
+
+  if (s.kind === "compare") return `<div class="cmp">
+    ${items.map(it => `<article class="tile">
+      <span class="tag">${esc(it.tag)}</span>
+      <h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></article>`).join("")}
+    ${callout(s)}
+  </div>`;
+
+  if (s.kind === "duo") return `<div class="duo">
+    ${items.map(it => `<article class="tile">
+      <span class="key">${esc(it.key)}</span>
+      <h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></article>`).join("")}
+    ${s.callout ? `<div class="callout" style="grid-column:1/-1">${esc(s.callout)}</div>` : ""}
+  </div>`;
+
+  if (s.kind === "steps") return `<div class="flow ${s.image ? "withpic" : ""}">
+    <div class="flow-list">${items.map(tile).join("")}</div>
+    ${s.image ? `<div class="pic"><img src="${esc(s.image)}" alt="Illustration"></div>` : ""}
+    ${callout(s)}
+  </div>`;
+
+  if (s.kind === "feature") return `<div class="feature">
+    <div><div class="kw">${esc(s.keyword)}</div></div>
+    <div>
+      <div class="big" style="font-size:22px">${esc(s.title)}</div>
+      <p class="lead">${esc(s.body)}</p>
+      <div class="chips">${(s.chips ?? []).map(c => `<span>${esc(c)}</span>`).join("")}</div>
+      ${callout(s)}
+    </div>
+  </div>`;
+
+  if (s.kind === "video") return `<div class="vid">
+    <video id="lesson-video" controls playsinline preload="metadata"
+      poster="${esc(s.poster)}" src="${esc(s.video)}"></video></div>`;
+
+  if (s.kind === "quiz") {
+    const picked = state.answered[s.id];
+    return `<div class="quiz">
+      <p class="scen">${esc(s.scenario)}</p>
+      <div class="opts">${s.options.map((o, i) => {
+        let cls = "opt";
+        if (picked !== undefined) {
+          cls += o.correct ? " right" : (picked === i ? " wrong" : " dim");
+        }
+        return `<button class="${cls}" data-pick="${i}" ${picked !== undefined ? "disabled" : ""}>
+          <span class="k">${esc(o.label)}</span>
+          <span class="t">${esc(o.text)}</span>
+          <span class="mk">${o.correct ? "✓" : "✕"}</span></button>`;
+      }).join("")}</div>
+      ${picked !== undefined ? `<div class="why ${s.options[picked].correct ? "right" : "wrong"}">
+        <b>${s.options[picked].correct ? "THAT IS RIGHT" : "NOT QUITE"}</b>
+        ${esc(s.options[picked].why)}</div>` : ""}
+    </div>`;
+  }
+
+  if (s.kind === "roadmap") return `<div style="width:100%">
+    <p class="lead" style="margin:0 0 18px;max-width:70ch">${esc(s.body)}</p>
+    <div class="grid three">${items.map(tile).join("")}</div>
+  </div>`;
+
+  if (s.kind === "complete") return `<div class="done">
+    <div class="done-top">
+      <div class="tick">✓</div>
+      <div><p class="eyebrow">MODULE COMPLETE</p>
+        <p class="lead" style="margin-top:6px;color:#D6DDEA">${esc(s.body)}</p></div>
+    </div>
+    <div class="grid three">${items.map(tile).join("")}</div>
+  </div>`;
+
+  /* default: cards */
+  const n = items.length === 4 ? "four" : items.length === 3 ? "three" : "";
+  return `<div class="grid ${n}">${items.map(tile).join("")}${callout(s)}</div>`;
+}
+
+/* ------------------------------- screens --------------------------------- */
+
+function renderGate() {
+  app.innerHTML = `<main class="gate"><section class="gate-card">
+    <div class="gate-brand">
+      <img class="gate-logo" src="course/brand/gold-technology-logo.jpg" alt="Gold Technology">
+      <div>
+        <p class="eyebrow">AI FOR ALL · MODULE 01</p>
+        <h1>Introduction to Artificial Intelligence</h1>
+        <p>A practical foundation module for working professionals. Plain English, real examples, no technical background required.</p>
+      </div>
+      <div class="pills"><span>17 screens</span><span>About 20 minutes</span><span>Desktop &amp; mobile</span></div>
+    </div>
+    <div class="gate-form">
+      <p class="eyebrow">PRIVATE TRAINING ACCESS</p>
+      <h2>Enter your email</h2>
+      <p>Approved learners go straight into the module.</p>
+      <form id="gate-form" novalidate>
+        <label for="em">Work or approved email</label>
+        <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="name@company.com">
+        <button class="btn-gold" type="submit">Enter training</button>
+        <button class="btn-ghost" type="button" id="req">Request access</button>
+      </form>
+      <p class="note" id="note" aria-live="polite">Access is limited to approved email addresses.</p>
+      <p class="gate-foot">Gold Technology · Internal training preview</p>
+    </div>
+  </section></main>`;
+  document.getElementById("gate-form").addEventListener("submit", e => { e.preventDefault(); tryEnter(); });
+  document.getElementById("req").addEventListener("click", requestAccess);
+}
+
+const typed = () => document.getElementById("em")?.value.trim().toLowerCase() ?? "";
+function say(msg, bad = true) {
+  const n = document.getElementById("note");
+  if (n) { n.textContent = msg; n.classList.toggle("bad", bad); }
+}
+function tryEnter() {
+  const e = typed();
+  if (!/^\S+@\S+\.\S+$/.test(e)) return say("Please enter a valid email address.");
+  if (!approvedEmails.has(e)) return say("This address does not have access yet. Use Request access below.");
+  start();
+}
+function requestAccess() {
+  const e = typed();
+  if (!/^\S+@\S+\.\S+$/.test(e)) return say("Enter your email first, then select Request access.");
+  if (approvedEmails.has(e)) return start();
+  location.href = "mailto:" + accessRequestRecipient
+    + "?subject=" + encodeURIComponent("Access request - AI For All training")
+    + "&body=" + encodeURIComponent("Please grant AI training access to: " + e);
+  say("Your email app will open with a ready-made request.", false);
+}
+
+function actBtn(a, cls, off) {
+  if (!a) return "";
+  return `<button class="${cls}" data-go="${esc(a.target)}" ${off ? "disabled" : ""}>${esc(a.label)}</button>`;
+}
+
+function renderCourse() {
+  const s = cur();
+  const pct = ((state.i + 1) / slides.length) * 100;
+  app.innerHTML = `<main class="shell">
+    <header class="bar">
+      <button class="bar-brand" data-go="welcome" aria-label="Back to start">
+        <img src="course/brand/gold-technology-logo.jpg" alt="Gold Technology">
+        <span><b>AI FOR ALL</b><small>Module 01 · Foundation</small></span>
+      </button>
+      <div class="prog">
+        <div class="prog-top"><span>SCREEN ${state.i + 1} OF ${slides.length}</span><span>${Math.round(pct)}%</span></div>
+        <div class="prog-bar"><i style="width:${pct}%"></i></div>
+      </div>
+      <div class="tools">
+        <button class="tool" id="t-play" aria-label="Play or pause">▶<small>Play</small></button>
+        <button class="tool" id="t-again" aria-label="Replay">↻<small>Replay</small></button>
+        <button class="tool ${state.cc ? "on" : ""}" id="t-cc" aria-label="Captions">CC<small>Text</small></button>
+        <button class="tool" id="t-mute" aria-label="Mute">${state.muted ? "✕" : "◍"}<small>${state.muted ? "Muted" : "Sound"}</small></button>
+        <button class="tool" id="t-full" aria-label="Full screen">⛶<small>Full</small></button>
+      </div>
+    </header>
+
+    <section class="stage">
+      <article class="card ${s.tone === "warn" ? "warn" : ""}">
+        <header class="head">
+          <div>
+            <p class="eyebrow">${esc(s.section)}</p>
+            <h1>${esc(s.title)}</h1>
+            ${s.lead && s.kind !== "cover" ? `<p class="lead">${esc(s.lead)}</p>` : ""}
           </div>
-          <div class="hero-frame">
-            <img src="${assetPath(slide.image)}" alt="A friendly learner exploring artificial intelligence">
-            <div class="float-chip chip-one"><b>01</b> Simple English</div>
-            <div class="float-chip chip-two"><b>✓</b> Practice included</div>
-          </div>
-        </div>`;
-      }
-
-      if (slide.kind === "video") {
-        return `<div class="video-wrap">
-          <video id="lesson-video" controls playsinline preload="metadata" poster="course/images/ai-learning.webp" src="${assetPath(slide.video)}"></video>
-        </div>`;
-      }
-
-      if (slide.kind === "question") {
-        return `<div class="question-layout">
-          ${slide.callout ? `<div class="success-pill">✓ ${escapeHtml(slide.callout)}</div>` : ""}
-          ${slide.body ? `<p class="question-context">${escapeHtml(slide.body)}</p>` : ""}
-          <div class="option-list" role="group" aria-label="Answer choices">
-            ${(slide.options ?? []).map((option) => `<button class="answer-option" data-target="${escapeHtml(option.target)}"><span>${escapeHtml(option.label)}</span><strong>${escapeHtml(option.text)}</strong><i aria-hidden="true">→</i></button>`).join("")}
-          </div>
-        </div>`;
-      }
-
-      if (slide.kind === "feedback") {
-        return `<div class="feedback-layout">
-          <div class="feedback-mark" aria-hidden="true">${escapeHtml(slide.mark)}</div>
-          <div><p class="feedback-label">${escapeHtml(slide.label)}</p><h2>${escapeHtml(slide.title)}</h2><p class="lead">${escapeHtml(slide.body)}</p></div>
-        </div>`;
-      }
-
-      if (slide.kind === "insight") {
-        return `<div class="split-layout">
-          <div><div class="big-callout">${escapeHtml(slide.callout)}</div><p class="lead">${escapeHtml(slide.body)}</p></div>
-          ${slide.image ? `<img class="feature-image" src="${assetPath(slide.image)}" alt="Everyday examples of artificial intelligence">` : ""}
-        </div>`;
-      }
-
-      if (slide.kind === "concept") {
-        return `<div class="concept-layout">
-          <div class="concept-copy"><div class="big-callout compact">${escapeHtml(slide.callout)}</div>${slide.subtitle ? `<p class="concept-label">${escapeHtml(slide.subtitle)}</p>` : ""}<p class="lead">${escapeHtml(slide.body)}</p></div>
-          <div class="mini-grid">${items.map(itemCard).join("")}</div>
-        </div>`;
-      }
-
-      if (slide.kind === "compare") {
-        return `<div class="compare-grid">${items.map(itemCard).join("")}</div>`;
-      }
-
-      if (slide.kind === "process") {
-        return `<div class="process-layout ${slide.image ? "with-image" : ""}">
-          <div class="process-grid">${items.map(itemCard).join("")}</div>
-          ${slide.image ? `<img class="process-image" src="${assetPath(slide.image)}" alt="A simple diagram showing how AI learns">` : ""}
-          ${slide.callout ? `<div class="course-callout">${escapeHtml(slide.callout)}</div>` : ""}
-        </div>`;
-      }
-
-      if (slide.kind === "finalIntro") {
-        return `<div class="final-intro-layout"><div class="final-orb"><span>3</span><small>questions</small></div><div><div class="big-callout compact">${escapeHtml(slide.callout)}</div><p class="lead">${escapeHtml(slide.body)}</p></div></div>`;
-      }
-
-      if (slide.kind === "complete") {
-        return `<div class="complete-layout">
-          <div class="completion-top"><div class="complete-mark">${escapeHtml(slide.mark)}</div><div><p class="feedback-label">MODULE COMPLETE</p><p class="lead">${escapeHtml(slide.body)}</p></div></div>
-          <div class="mini-grid three">${items.map(itemCard).join("")}</div>
-        </div>`;
-      }
-
-      return `<div class="cards-layout count-${items.length}">
-        ${items.map(itemCard).join("")}
-        ${slide.image ? `<img class="corner-illustration" src="${assetPath(slide.image)}" alt="Artificial intelligence examples">` : ""}
-        ${slide.callout ? `<div class="course-callout">${escapeHtml(slide.callout)}</div>` : ""}
-      </div>`;
-    }
-
-    function renderAccess() {
-      app.innerHTML = `<main class="access-screen">
-        <div class="access-glow access-glow-one"></div><div class="access-glow access-glow-two"></div>
-        <section class="access-card" aria-labelledby="access-title">
-          <div class="access-brand-panel">
-            <img class="access-logo" src="course/brand/gold-technology-logo.jpg" alt="Gold Technology">
-            <div>
-              <p class="access-kicker">AI FOR ALL · MODULE 1</p>
-              <h1 id="access-title">Introduction to Artificial Intelligence</h1>
-              <p>A narrated, interactive course made for complete beginners.</p>
-            </div>
-            <div class="access-features"><span>31 guided screens</span><span>Audio on every lesson</span><span>iPhone &amp; desktop ready</span></div>
-          </div>
-          <div class="access-form-panel">
-            <p class="eyebrow">PRIVATE TRAINING ACCESS</p>
-            <h2>Enter your email</h2>
-            <p class="access-help">Approved learners will enter the training immediately.</p>
-            <form id="access-form">
-              <label for="training-email">Work or approved email</label>
-              <input id="training-email" type="email" inputmode="email" autocomplete="email" placeholder="name@example.com" required>
-              <button class="access-enter-button" type="submit"><span>▶</span> Enter Training</button>
-              <button id="request-access" class="request-access-button" type="button">Request Access</button>
-            </form>
-            <p id="access-feedback" class="access-feedback" aria-live="polite">Access is limited to approved email addresses.</p>
-            <p class="access-sound-note">Keep sound on. Your supplied voice sample plays automatically on every training screen.</p>
-            <div class="offline-status">Ready to run offline</div>
-          </div>
-        </section>
-      </main>`;
-      document.getElementById("access-form").addEventListener("submit", (event) => {
-        event.preventDefault();
-        validateAndStart();
-      });
-      document.getElementById("request-access").addEventListener("click", requestAccess);
-    }
-
-    function enteredEmail() {
-      return document.getElementById("training-email")?.value.trim().toLowerCase() ?? "";
-    }
-
-    function showAccessFeedback(message) {
-      const feedback = document.getElementById("access-feedback");
-      if (!feedback) return;
-      feedback.textContent = message;
-      feedback.classList.add("visible");
-    }
-
-    function validateAndStart() {
-      const email = enteredEmail();
-      if (!/^\S+@\S+\.\S+$/.test(email)) {
-        showAccessFeedback("Please enter a valid email address.");
-        return;
-      }
-      if (!approvedEmails.has(email)) {
-        showAccessFeedback("This email does not have access yet. Select Request Access below.");
-        return;
-      }
-      startTraining();
-    }
-
-    function requestAccess() {
-      const email = enteredEmail();
-      if (!/^\S+@\S+\.\S+$/.test(email)) {
-        showAccessFeedback("Enter your email first, then select Request Access.");
-        return;
-      }
-      if (approvedEmails.has(email)) {
-        startTraining();
-        return;
-      }
-      const subject = encodeURIComponent("Access request — AI For All training");
-      const body = encodeURIComponent("Please grant AI training access to: " + email);
-      window.location.href = "mailto:" + accessRequestRecipient + "?subject=" + subject + "&body=" + body;
-      showAccessFeedback("Your email app will open with a ready-to-send access request.");
-    }
-
-    function actionButton(action, className) {
-      if (!action) return "";
-      return `<button class="${className}" data-target="${escapeHtml(action.target)}">${escapeHtml(action.label)}${className === "primary-action" ? "<span>→</span>" : ""}</button>`;
-    }
-
-    function renderCourse() {
-      const slide = currentSlide();
-      const progress = ((state.slideIndex + 1) / slides.length) * 100;
-      const lockedNext = lockedKinds.has(slide.kind);
-      const isVideo = slide.audioMode === "video";
-      app.innerHTML = `<main class="course-shell">
-        <header class="course-bar">
-          <button class="brand-button" data-target="welcome" aria-label="Go to course start"><img class="course-brand-logo" src="course/brand/gold-technology-logo.jpg" alt="Gold Technology"><span class="course-brand-copy"><strong>AI FOR ALL</strong><small>Introduction to AI</small></span></button>
-          <div class="course-progress-meta"><span>Screen ${state.slideIndex + 1} of ${slides.length}</span><div class="progress-track" aria-label="${Math.round(progress)} percent complete"><i style="width:${progress}%"></i></div></div>
-          <div class="player-tools">
-            <button id="toggle-play" class="tool-button" aria-label="Play or pause narration">▶<span>Play</span></button>
-            <button id="replay-media" class="tool-button" aria-label="Replay narration">↻<span>Replay</span></button>
-            <button id="toggle-captions" class="tool-button ${state.captions ? "active" : ""}" aria-label="Toggle captions">CC<span>Captions</span></button>
-            <button id="toggle-mute" class="tool-button" aria-label="${state.muted ? "Unmute" : "Mute"}">${state.muted ? "×" : "◖"}<span>${state.muted ? "Muted" : "Sound"}</span></button>
-            <button id="full-screen" class="tool-button" aria-label="Enter full screen">⛶<span>Full screen</span></button>
-          </div>
+          <div class="num">${pad(state.i)} / ${slides.length}</div>
         </header>
-        <section class="slide-stage tone-${escapeHtml(slide.tone ?? "blue")}" aria-live="polite">
-          <article class="slide-card">
-            <header class="slide-heading"><div><p class="eyebrow">${escapeHtml(slide.section)}</p><h1>${escapeHtml(slide.title)}</h1>${slide.subtitle && slide.kind !== "cover" ? `<p class="slide-subtitle">${escapeHtml(slide.subtitle)}</p>` : ""}</div><div class="screen-number" aria-hidden="true">${String(state.slideIndex + 1).padStart(2, "0")}</div></header>
-            <div class="slide-content">${renderBody(slide)}</div>
-            ${state.captions ? `<div class="caption-panel" role="status"><span>CC</span><p>${escapeHtml(slide.narration)}</p></div>` : ""}
-            ${slide.primaryAction || slide.secondaryAction ? `<footer class="slide-actions">${actionButton(slide.secondaryAction, "secondary-action")}${actionButton(slide.primaryAction, "primary-action")}</footer>` : ""}
-          </article>
-        </section>
-        <nav class="course-nav" aria-label="Course navigation">
-          <button id="previous-slide" ${state.slideIndex === 0 ? "disabled" : ""}>← Previous</button>
-          <div class="nav-center"><span>${escapeHtml(slide.section)}</span><b>${Math.round(progress)}% complete</b></div>
-          ${lockedNext ? `<button disabled>${slide.kind === "question" ? "Choose an answer" : "Use the button above"}</button>` : `<button id="next-slide" class="next-button">Next →</button>`}
-        </nav>
-      </main>`;
+        <div class="body">${bodyFor(s)}</div>
+        ${state.cc ? `<div class="cc"><span>CC</span><p>${esc(s.narration)}</p></div>` : ""}
+        <footer class="acts">
+          ${actBtn(s.secondary, "act2", false)}
+          ${actBtn(s.primary, "act", locked(s))}
+        </footer>
+      </article>
+    </section>
 
-      document.querySelectorAll("[data-target]").forEach((button) => button.addEventListener("click", () => goTo(button.dataset.target)));
-      document.getElementById("previous-slide")?.addEventListener("click", () => goRelative(-1));
-      document.getElementById("next-slide")?.addEventListener("click", () => goRelative(1));
-      document.getElementById("toggle-play")?.addEventListener("click", togglePlay);
-      document.getElementById("replay-media")?.addEventListener("click", replayMedia);
-      document.getElementById("toggle-captions")?.addEventListener("click", toggleCaptions);
-      document.getElementById("toggle-mute")?.addEventListener("click", toggleMute);
-      document.getElementById("full-screen")?.addEventListener("click", toggleFullScreen);
-      if (isVideo) attachVideoEvents();
-      updatePlayerTools();
-    }
+    <nav class="nav">
+      <button id="prev" ${state.i === 0 ? "disabled" : ""}>← Previous</button>
+      <div class="where">${esc(s.section)}</div>
+      <button id="next" ${state.i === slides.length - 1 || locked(s) ? "disabled" : ""}>Next →</button>
+    </nav>
+  </main>`;
 
-    function pauseCurrentMedia() {
-      narration.pause();
-      lessonVideo()?.pause();
-      stopSpeech();
-      state.playing = false;
-    }
+  app.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
+  app.querySelectorAll("[data-pick]").forEach(b =>
+    b.addEventListener("click", () => answer(s, Number(b.dataset.pick))));
+  document.getElementById("prev")?.addEventListener("click", () => step(-1));
+  document.getElementById("next")?.addEventListener("click", () => step(1));
+  document.getElementById("t-play")?.addEventListener("click", togglePlay);
+  document.getElementById("t-again")?.addEventListener("click", replay);
+  document.getElementById("t-cc")?.addEventListener("click", toggleCC);
+  document.getElementById("t-mute")?.addEventListener("click", toggleMute);
+  document.getElementById("t-full")?.addEventListener("click", toggleFull);
+  if (isVideo()) bindVideo();
+  refreshTools();
+}
 
-    function startTraining() {
-      state.started = true;
-      state.slideIndex = 0;
-      renderCourse();
-      playCurrentMedia(true);
-    }
+function answer(s, i) {
+  state.answered[s.id] = i;
+  renderCourse();
+  const first = app.querySelector(".why");
+  if (first) first.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
 
-    function goTo(target) {
-      const next = idToIndex.get(target);
-      if (next === undefined) return;
-      pauseCurrentMedia();
-      state.slideIndex = next;
-      renderCourse();
-      playCurrentMedia(true);
-    }
+/* ------------------------------- movement -------------------------------- */
 
-    function goRelative(delta) {
-      const next = Math.min(slides.length - 1, Math.max(0, state.slideIndex + delta));
-      if (next === state.slideIndex) return;
-      pauseCurrentMedia();
-      state.slideIndex = next;
-      renderCourse();
-      playCurrentMedia(true);
-    }
+function start() { state.started = true; state.i = 0; renderCourse(); play(true); }
 
-    async function playCurrentMedia(restart = false) {
-      // The video screen has its own soundtrack - never talk over it.
-      if (isVideoSlide()) {
-        narration.pause();
-        state.playing = false;
-        updatePlayerTools();
-        return;
-      }
-      stopSpeech();
-      const nextPath = narrationPath();
-      if (!nextPath) {
-        narration.pause();
-        fallbackToSpeech();
-        return;
-      }
-      // Some voice tools hand back .wav instead of .mp3 - accept either.
-      for (const candidate of [nextPath, nextPath.replace(/\.mp3$/i, ".wav")]) {
-        if (state.mediaKey !== candidate) {
-          narration.src = candidate;
-          narration.load();
-          state.mediaKey = candidate;
-        } else if (restart) {
-          narration.currentTime = 0;
-        }
-        narration.muted = state.muted;
-        try {
-          await narration.play();
-          state.playing = true;
-          state.audioReady = true;
-          state.usingSpeech = false;
-          updatePlayerTools();
-          return;
-        } catch {
-          state.mediaKey = "";
-        }
-      }
-      // No file in the folder yet - read the screen with the built-in voice.
-      state.audioReady = false;
-      fallbackToSpeech();
-      return;
-      updatePlayerTools();
-    }
+function go(target) {
+  const n = idx.get(target);
+  if (n === undefined) return;
+  stopAll(); state.i = n; renderCourse(); play(true);
+}
+function step(d) {
+  const n = Math.min(slides.length - 1, Math.max(0, state.i + d));
+  if (n === state.i) return;
+  stopAll(); state.i = n; renderCourse(); play(true);
+}
 
-    function togglePlay() {
-      if (isVideoSlide()) {
-        const video = lessonVideo();
-        if (!video) return;
-        if (video.paused) video.play().catch(() => {}); else video.pause();
-        updatePlayerTools();
-        return;
-      }
-      if (state.usingSpeech) {
-        if (speech?.paused) speech.resume();
-        else if (speech?.speaking) speech.pause();
-        else fallbackToSpeech();
-        updatePlayerTools();
-        return;
-      }
-      if (narration.paused) playCurrentMedia(false); else narration.pause();
-    }
+/* ------------------------------- audio ----------------------------------- */
 
-    function replayMedia() {
-      if (isVideoSlide()) {
-        const video = lessonVideo();
-        if (!video) return;
-        video.currentTime = 0;
-        video.play().catch(() => {});
-        updatePlayerTools();
-        return;
-      }
-      playCurrentMedia(true);
-    }
+const speech = window.speechSynthesis ?? null;
+let keepAlive = null;
 
-    // Captions are toggled in place so the video keeps playing from where it was.
-    function toggleCaptions() {
-      state.captions = !state.captions;
-      const card = document.querySelector(".slide-card");
-      if (!card) return;
-      const existing = card.querySelector(".caption-panel");
-      if (state.captions && !existing) {
-        const panel = document.createElement("div");
-        panel.className = "caption-panel";
-        panel.setAttribute("role", "status");
-        panel.innerHTML = `<span>CC</span><p>${escapeHtml(currentSlide().narration)}</p>`;
-        card.insertBefore(panel, card.querySelector(".slide-actions"));
-      } else if (!state.captions && existing) {
-        existing.remove();
-      }
-      document.getElementById("toggle-captions")?.classList.toggle("active", state.captions);
-    }
+function maleVoice() {
+  const all = speech?.getVoices?.() ?? [];
+  if (!all.length) return null;
+  const en = all.filter(v => /^en/i.test(v.lang));
+  const pool = en.length ? en : all;
+  for (const re of [/christopher/i, /\bguy\b/i, /prabhat/i, /\bryan\b/i, /\bdavid\b/i,
+                    /\bmark\b/i, /\bravi\b/i, /\balex\b/i, /\bdaniel\b/i]) {
+    const hit = pool.find(v => re.test(v.name));
+    if (hit) return hit;
+  }
+  const female = /zira|hazel|susan|heera|samantha|victoria|karen|moira|tessa|fiona|aria|jenny|neerja|nicky/i;
+  return pool.find(v => !female.test(v.name)) ?? pool[0];
+}
 
-    function toggleFullScreen() {
-      if (document.fullscreenElement) document.exitFullscreen?.();
-      else document.documentElement.requestFullscreen?.();
-    }
+function stopSpeech() {
+  clearInterval(keepAlive); keepAlive = null;
+  speech?.cancel(); state.speaking = false;
+}
+function stopAll() { narration.pause(); vid()?.pause(); stopSpeech(); state.playing = false; }
 
-    function toggleMute() {
-      state.muted = !state.muted;
-      narration.muted = state.muted;
-      if (state.muted) stopSpeech();
-      else if (!state.audioReady) fallbackToSpeech();
-      const video = document.getElementById("lesson-video");
-      if (video) video.muted = state.muted;
-      updatePlayerTools();
-    }
+function speak() {
+  if (!SPEAK_WHEN_NO_FILE || !speech || state.muted) return false;
+  speech.cancel();
+  const u = new SpeechSynthesisUtterance(cur().narration);
+  const v = maleVoice();
+  if (v) { u.voice = v; u.lang = v.lang; }
+  u.rate = .94; u.pitch = .9;
+  u.onend = u.onerror = () => { stopSpeech(); refreshTools(); };
+  speech.speak(u);
+  state.speaking = true;
+  clearInterval(keepAlive);
+  keepAlive = setInterval(() => {
+    if (!speech.speaking) return clearInterval(keepAlive);
+    speech.pause(); speech.resume();
+  }, 9000);
+  return true;
+}
 
-    function attachVideoEvents() {
-      const video = document.getElementById("lesson-video");
-      if (!video || video.dataset.bound === "true") return;
-      video.dataset.bound = "true";
-      video.muted = state.muted;
-      video.addEventListener("play", () => { narration.pause(); state.playing = true; updatePlayerTools(); });
-      video.addEventListener("pause", () => { state.playing = false; updatePlayerTools(); });
-      video.addEventListener("ended", () => { state.playing = false; updatePlayerTools(); });
-    }
+async function play(restart = false) {
+  stopSpeech();
+  if (isVideo()) { narration.pause(); state.playing = false; return refreshTools(); }
+  const base = audioFor(state.i);
+  for (const src of [base, base.replace(/\.mp3$/i, ".wav")]) {
+    if (!src) break;
+    if (state.mediaKey !== src) { narration.src = src; narration.load(); state.mediaKey = src; }
+    else if (restart) narration.currentTime = 0;
+    narration.muted = state.muted;
+    try { await narration.play(); state.playing = true; return refreshTools(); }
+    catch { state.mediaKey = ""; }
+  }
+  state.playing = speak();
+  refreshTools();
+}
 
-    function updatePlayerTools() {
-      const media = activeMedia();
-      state.playing = speechIsPlaying() || Boolean(media && !media.paused && !media.ended);
-      const playButton = document.getElementById("toggle-play");
-      if (playButton) {
-        playButton.classList.toggle("active", state.playing);
-        playButton.innerHTML = `${state.playing ? "Ⅱ" : "▶"}<span>${state.playing ? "Pause" : "Play"}</span>`;
-        playButton.setAttribute("aria-label", state.playing ? "Pause narration" : "Play narration");
-      }
-      const muteButton = document.getElementById("toggle-mute");
-      if (muteButton) {
-        muteButton.innerHTML = `${state.muted ? "×" : "◖"}<span>${state.muted ? "Muted" : "Sound"}</span>`;
-        muteButton.setAttribute("aria-label", state.muted ? "Unmute" : "Mute");
-      }
-      const fullScreenButton = document.getElementById("full-screen");
-      if (fullScreenButton) {
-        const on = Boolean(document.fullscreenElement);
-        fullScreenButton.innerHTML = `⛶<span>${on ? "Exit" : "Full screen"}</span>`;
-        fullScreenButton.setAttribute("aria-label", on ? "Exit full screen" : "Enter full screen");
-        fullScreenButton.classList.toggle("active", on);
-      }
-    }
+function togglePlay() {
+  if (isVideo()) {
+    const v = vid(); if (!v) return;
+    v.paused ? v.play().catch(() => {}) : v.pause();
+    return refreshTools();
+  }
+  if (state.speaking) {
+    speech.paused ? speech.resume() : speech.pause();
+    return refreshTools();
+  }
+  narration.paused ? play(false) : narration.pause();
+}
+function replay() {
+  if (isVideo()) { const v = vid(); if (v) { v.currentTime = 0; v.play().catch(() => {}); } return refreshTools(); }
+  play(true);
+}
+function toggleMute() {
+  state.muted = !state.muted;
+  narration.muted = state.muted;
+  const v = vid(); if (v) v.muted = state.muted;
+  if (state.muted) stopSpeech();
+  refreshTools();
+}
+function toggleCC() {
+  state.cc = !state.cc;
+  const card = app.querySelector(".card"); if (!card) return;
+  const had = card.querySelector(".cc");
+  if (state.cc && !had) {
+    const d = document.createElement("div");
+    d.className = "cc";
+    d.innerHTML = `<span>CC</span><p>${esc(cur().narration)}</p>`;
+    card.insertBefore(d, card.querySelector(".acts"));
+  } else if (!state.cc && had) had.remove();
+  document.getElementById("t-cc")?.classList.toggle("on", state.cc);
+}
+function toggleFull() {
+  document.fullscreenElement ? document.exitFullscreen?.() : document.documentElement.requestFullscreen?.();
+}
+function bindVideo() {
+  const v = vid();
+  if (!v || v.dataset.on) return;
+  v.dataset.on = "1"; v.muted = state.muted;
+  v.addEventListener("play", () => { narration.pause(); stopSpeech(); refreshTools(); });
+  v.addEventListener("pause", refreshTools);
+  v.addEventListener("ended", refreshTools);
+}
+function refreshTools() {
+  const m = media();
+  state.playing = (state.speaking && speech?.speaking && !speech.paused)
+                  || Boolean(m && !m.paused && !m.ended);
+  const p = document.getElementById("t-play");
+  if (p) { p.innerHTML = `${state.playing ? "❚❚" : "▶"}<small>${state.playing ? "Pause" : "Play"}</small>`;
+           p.classList.toggle("on", state.playing); }
+  const mu = document.getElementById("t-mute");
+  if (mu) mu.innerHTML = `${state.muted ? "✕" : "◍"}<small>${state.muted ? "Muted" : "Sound"}</small>`;
+  const f = document.getElementById("t-full");
+  if (f) { const on = Boolean(document.fullscreenElement);
+           f.innerHTML = `⛶<small>${on ? "Exit" : "Full"}</small>`; f.classList.toggle("on", on); }
+}
 
-    document.addEventListener("fullscreenchange", updatePlayerTools);
-    narration.addEventListener("play", () => { state.playing = true; updatePlayerTools(); });
-    narration.addEventListener("pause", () => { state.playing = false; updatePlayerTools(); });
-    narration.addEventListener("ended", () => { state.playing = false; updatePlayerTools(); });
-    narration.addEventListener("error", () => {
-      state.audioReady = false;
-      fallbackToSpeech();
-    });
+narration.addEventListener("play", refreshTools);
+narration.addEventListener("pause", refreshTools);
+narration.addEventListener("ended", refreshTools);
+document.addEventListener("fullscreenchange", refreshTools);
 
-    window.addEventListener("keydown", (event) => {
-      if (!state.started) return;
-      const slide = currentSlide();
-      if (event.key === "ArrowLeft") goRelative(-1);
-      if (event.key === "ArrowRight" && !lockedKinds.has(slide.kind)) goRelative(1);
-      if (event.key === " ") {
-        // Let Space activate whatever the learner has focused (answer buttons, video).
-        const tag = document.activeElement?.tagName;
-        if (tag === "BUTTON" || tag === "INPUT" || tag === "TEXTAREA" || tag === "VIDEO") return;
-        event.preventDefault();
-        togglePlay();
-      }
-    });
+window.addEventListener("keydown", e => {
+  if (!state.started) return;
+  const tag = document.activeElement?.tagName;
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight" && !locked(cur())) step(1);
+  if (e.key === " " && !["BUTTON","INPUT","TEXTAREA","VIDEO"].includes(tag)) { e.preventDefault(); togglePlay(); }
+});
 
-    /* ---------------------------------------------------------------------
-       If the folder was not fully extracted (most often the page was opened
-       from inside the ZIP), every image, sound and video is missing. Say so
-       plainly instead of showing a half-broken page.
-       --------------------------------------------------------------------- */
-    function showSetupWarning() {
-      if (document.getElementById("setup-warning")) return;
-      const bar = document.createElement("div");
-      bar.id = "setup-warning";
-      const onWeb = location.protocol.startsWith("http");
-      bar.innerHTML = "<strong>Some course files could not be found.</strong>" + (onWeb
-        ? "The <b>course</b> folder is missing from the website. Upload it "
-          + "alongside index.html, keeping its images, brand, audio and media "
-          + "folders inside it."
-        : "This usually means the page was opened from inside the ZIP file. "
-          + "Please unzip the whole <b>AI_For_All_Offline_Training</b> folder first - "
-          + "right-click the ZIP and choose <b>Extract All</b> - then open "
-          + "<b>START_TRAINING.html</b> from the extracted folder.");
-      document.body.prepend(bar);
-    }
+/* Missing files usually mean a half-copied folder. Say so plainly. */
+function showWarn() {
+  if (document.getElementById("warn")) return;
+  const web = location.protocol.startsWith("http");
+  const d = document.createElement("div");
+  d.id = "warn";
+  d.innerHTML = "<strong>Some course files could not be found.</strong>" + (web
+    ? "The <b>course</b> folder is missing from the website. Upload it next to index.html, keeping its images, brand, audio and media folders inside."
+    : "This usually means the page was opened from inside the ZIP. Unzip the whole folder first, then open <b>START_TRAINING.html</b> from the unzipped copy.");
+  document.body.prepend(d);
+}
+const probe = new Image();
+probe.addEventListener("error", showWarn);
+probe.src = "course/brand/gold-technology-logo.jpg";
 
-    const assetProbe = new Image();
-    assetProbe.addEventListener("error", showSetupWarning);
-    assetProbe.src = "course/brand/gold-technology-logo.jpg";
-
-    renderAccess();
-  </script>
+renderGate();
+</script>
 </body>
 </html>
