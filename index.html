@@ -264,7 +264,295 @@ input::placeholder{color:#596274}
 <audio id="narration" preload="none"></audio>
 <noscript>Please enable JavaScript to run this training.</noscript>
 
-<script src="course/content.js"></script>
+<script>
+window.COURSE = { slides: [
+
+{
+  id: "welcome",
+  kind: "cover",
+  section: "MODULE 01 · FOUNDATION",
+  title: "Introduction to Artificial Intelligence",
+  lead: "A practical starting point for people who work with information every day.",
+  body: "By the end of this module you will be able to explain what AI is, spot where it already sits in your work, and judge when an AI answer can be trusted.",
+  image: "course/images/ai-hero.webp",
+  meta: ["17 screens", "About 20 minutes", "No technical background needed"],
+  primary: { label: "Begin module", target: "outcomes" },
+  narration: "Welcome to Module One of AI for All. This module is a practical introduction to artificial intelligence for people who work with information every day. No technical background is needed. Select Begin module when you are ready."
+},
+
+{
+  id: "outcomes",
+  kind: "cards",
+  section: "WHAT YOU WILL TAKE AWAY",
+  title: "Four things you will be able to do",
+  items: [
+    { n: "01", title: "Explain AI in plain language", body: "To a colleague, a client, or your own team, without using jargon." },
+    { n: "02", title: "Spot AI already in your work", body: "In the tools you open every morning without thinking about it." },
+    { n: "03", title: "Judge when to trust an answer", body: "And know which answers must be checked before they leave your desk." },
+    { n: "04", title: "Use it without creating risk", body: "Three habits that protect you, your client, and your organisation." }
+  ],
+  primary: { label: "Continue", target: "what-is-ai" },
+  secondary: { label: "Back", target: "welcome" },
+  narration: "Four things by the end of this module. Explain AI in plain language. Spot where it already sits in your work. Judge when an answer can be trusted. And use it without creating risk."
+},
+
+{
+  id: "what-is-ai",
+  kind: "statement",
+  section: "THE CORE IDEA",
+  title: "One sentence to remember",
+  headline: "AI is software that learns from examples instead of following fixed rules.",
+  body: "Ordinary software does exactly what someone wrote down. An AI system studies a large number of examples, works out the pattern inside them, and then applies that pattern to something it has never seen before.",
+  callout: "That single difference explains almost everything else about AI.",
+  primary: { label: "Continue", target: "rules-vs-patterns" },
+  secondary: { label: "Back", target: "outcomes" },
+  narration: "Here is one sentence worth remembering. AI is software that learns from examples instead of following fixed rules. Ordinary software does exactly what someone wrote down. An AI system studies many examples, works out the pattern inside them, and applies that pattern to something new. That single difference explains almost everything else about AI."
+},
+
+{
+  id: "rules-vs-patterns",
+  kind: "compare",
+  section: "TWO KINDS OF SOFTWARE",
+  title: "Written rules, or learned patterns",
+  items: [
+    {
+      tag: "TRADITIONAL SOFTWARE",
+      title: "A person writes every rule",
+      body: "Your payroll system applies tax rules exactly as they were programmed. It is predictable and repeatable, but it can only ever do what someone thought to tell it."
+    },
+    {
+      tag: "AI SYSTEM",
+      title: "The rule is learned from examples",
+      body: "A tool reads ten thousand past invoices and works out where the total sits on a page it has never seen. Flexible and fast, but never guaranteed to be right."
+    }
+  ],
+  callout: "Predictable but rigid, or flexible but fallible. Neither is better everywhere.",
+  primary: { label: "Continue", target: "how-it-learns" },
+  secondary: { label: "Back", target: "what-is-ai" },
+  narration: "There are two kinds of software. In traditional software, a person writes every rule. Your payroll system applies tax rules exactly as programmed. It is predictable, but it can only do what someone thought to tell it. In an AI system, the rule is learned from examples. A tool reads ten thousand past invoices and works out where the total sits on a page it has never seen. Flexible and fast, but never guaranteed to be right."
+},
+
+{
+  id: "how-it-learns",
+  kind: "steps",
+  section: "HOW IT ACTUALLY WORKS",
+  title: "Three steps, every single time",
+  image: "course/images/ai-learning.webp",
+  items: [
+    { n: "01", title: "It sees examples", body: "Past invoices, old support tickets, years of emails, historical sales figures." },
+    { n: "02", title: "It finds the pattern", body: "Which things tend to appear together, and what usually follows what." },
+    { n: "03", title: "It applies the pattern", body: "To a document, a question, or a customer it has never encountered before." }
+  ],
+  callout: "The quality of the examples decides the quality of the answer. There is no way around this.",
+  primary: { label: "Watch the lesson", target: "video-lesson" },
+  secondary: { label: "Back", target: "rules-vs-patterns" },
+  narration: "However complicated an AI system looks, it follows the same three steps. First it sees examples, such as past invoices, old support tickets, or years of sales figures. Then it finds the pattern, working out which things tend to appear together. Finally it applies that pattern to something it has never encountered before. The quality of the examples decides the quality of the answer, and there is no way around that."
+},
+
+{
+  id: "video-lesson",
+  kind: "video",
+  section: "NARRATED LESSON",
+  title: "Watch: what artificial intelligence really is",
+  lead: "Around five minutes. Use the player controls to pause or replay.",
+  video: "course/media/ai-introduction-lesson.mp4",
+  poster: "course/images/ai-learning.webp",
+  audioMode: "video",
+  primary: { label: "Continue", target: "check-one" },
+  secondary: { label: "Back", target: "how-it-learns" },
+  narration: "This screen holds the narrated video lesson. Press play to watch it, then select Continue."
+},
+
+{
+  id: "check-one",
+  kind: "quiz",
+  section: "QUICK CHECK · 1 OF 3",
+  title: "What is this system doing?",
+  scenario: "A tool reads thousands of past support tickets. A new ticket arrives and it sends it straight to the right team.",
+  options: [
+    { label: "A", text: "Following routing rules somebody wrote", correct: false,
+      why: "That would be traditional software. Here nobody wrote the rules - the system worked them out from the old tickets." },
+    { label: "B", text: "Finding patterns in past examples", correct: true,
+      why: "Exactly. It studied thousands of examples, learned which words point to which team, and applied that to a new ticket." },
+    { label: "C", text: "Understanding how the customer feels", correct: false,
+      why: "It can detect words that usually signal frustration, but that is still pattern matching. There is no understanding behind it." }
+  ],
+  primary: { label: "Continue", target: "data-and-model" },
+  secondary: { label: "Back", target: "video-lesson" },
+  narration: "Quick check, one of three. A tool reads thousands of past support tickets. A new ticket arrives and it sends it straight to the right team. What is the system doing? Select your answer."
+},
+
+{
+  id: "data-and-model",
+  kind: "duo",
+  section: "TWO WORDS YOU WILL HEAR",
+  title: "Data and model, without the mystique",
+  items: [
+    { key: "DATA", title: "The examples you give it", body: "Your invoices, your emails, your call notes, your spreadsheets. If it has never seen something, it cannot have learned it." },
+    { key: "MODEL", title: "The pattern it learned", body: "The finished result of all that reading. This is the part that produces an answer when you ask a question." }
+  ],
+  callout: "Poor data gives a poor model, and a poor model gives a poor answer. In that order, every time.",
+  primary: { label: "Continue", target: "what-its-good-at" },
+  secondary: { label: "Back", target: "check-one" },
+  narration: "Two words come up in every AI conversation. Data means the examples you give it, such as your invoices and emails. Model means the pattern it learned from them. Poor data gives a poor model, and a poor model gives a poor answer."
+},
+
+{
+  id: "what-its-good-at",
+  kind: "cards",
+  section: "WHAT IT IS ACTUALLY FOR",
+  title: "Four jobs AI does well",
+  items: [
+    { n: "01", tag: "UNDERSTAND", title: "Read and summarise", body: "Work through a long contract or report and answer questions about what is inside it." },
+    { n: "02", tag: "RECOGNISE", title: "Spot the exception", body: "Find the unusual transaction, the defect on the line, the duplicate record." },
+    { n: "03", tag: "PREDICT", title: "Estimate what comes next", body: "Likely demand, delivery date, credit risk, or which customer is about to leave." },
+    { n: "04", tag: "GENERATE", title: "Produce a first draft", body: "Text, slides, code, or a starting analysis you then correct and improve." }
+  ],
+  callout: "Most tools are strong at one of these and weak at the others. Ask which job a product is really doing.",
+  primary: { label: "Continue", target: "generative" },
+  secondary: { label: "Back", target: "data-and-model" },
+  narration: "AI is a tool for specific jobs, and there are four worth knowing. It can understand, reading long documents and answering questions about them. It can recognise, spotting an unusual transaction or a duplicate record. It can predict, estimating demand, delivery dates or risk. And it can generate, producing a first draft you then correct. Most tools are strong at one of these and weak at the others."
+},
+
+{
+  id: "generative",
+  kind: "feature",
+  section: "THE PART EVERYONE TALKS ABOUT",
+  keyword: "GENERATIVE",
+  title: "It writes the first draft, not the final one",
+  body: "You describe what you need in ordinary words, and it produces something new: a paragraph, a summary, a slide outline, a formula. This is what changed in the last few years, and it is why AI suddenly appeared in everyone's working day.",
+  chips: ["Text", "Images", "Code", "Analysis"],
+  callout: "Think of it as a fast, willing colleague on their first week. Useful, quick, and in need of checking.",
+  primary: { label: "Continue", target: "ai-at-work" },
+  secondary: { label: "Back", target: "what-its-good-at" },
+  narration: "Generative AI is the part everyone talks about. You describe what you need in ordinary words and it produces something new: a paragraph, a summary, a slide outline, a formula. This is what changed in the last few years and why AI suddenly appeared in everyone's working day. Think of it as a fast, willing colleague in their first week. Useful, quick, and in need of checking."
+},
+
+{
+  id: "ai-at-work",
+  kind: "cards",
+  section: "WHERE YOU ALREADY MEET IT",
+  title: "It is probably in four tools you opened today",
+  image: "course/images/ai-everyday.webp",
+  items: [
+    { n: "01", tag: "INBOX", title: "Sorting and drafting", body: "Deciding what reaches you first and suggesting how to reply." },
+    { n: "02", tag: "MEETINGS", title: "Notes and actions", body: "Transcribing the call, summarising it, listing who agreed to what." },
+    { n: "03", tag: "REPORTING", title: "The first version", body: "Pulling figures together and writing the commentary around them." },
+    { n: "04", tag: "HIRING", title: "Screening and scheduling", body: "Ranking applications, arranging interviews, drafting the questions." }
+  ],
+  callout: "Ignore the branding on the product. Ask what job the AI inside it is doing.",
+  primary: { label: "Continue", target: "check-two" },
+  secondary: { label: "Back", target: "generative" },
+  narration: "You have probably already used AI today without noticing. It sorts your inbox and suggests replies. It transcribes your meetings and lists the actions. It pulls figures together for a report and writes the commentary. It ranks job applications and schedules interviews. Ignore the branding on the product and ask what job the AI inside it is doing."
+},
+
+{
+  id: "check-two",
+  kind: "quiz",
+  section: "QUICK CHECK · 2 OF 3",
+  title: "Which one is generative AI?",
+  scenario: "All three of these exist in ordinary business software. Only one of them creates something new.",
+  options: [
+    { label: "A", text: "A dashboard showing last quarter's sales", correct: false,
+      why: "This displays numbers that already exist. Useful, but nothing new is being produced." },
+    { label: "B", text: "A tool that writes the first draft of your quarterly summary", correct: true,
+      why: "Correct. It produces new text that did not exist before, based on patterns it learned from a great deal of writing." },
+    { label: "C", text: "A filter moving suspicious email to junk", correct: false,
+      why: "That is AI, but the recognising kind. It sorts what already exists rather than creating anything." }
+  ],
+  primary: { label: "Continue", target: "limits" },
+  secondary: { label: "Back", target: "ai-at-work" },
+  narration: "Quick check, two of three. All three of these exist in ordinary business software, but only one of them creates something new. Which one is generative AI?"
+},
+
+{
+  id: "limits",
+  kind: "cards",
+  tone: "warn",
+  section: "WHERE IT FALLS DOWN",
+  title: "Four failures worth planning for",
+  items: [
+    { n: "01", title: "It can be confidently wrong", body: "Fluent, well-organised writing is not evidence. The tone stays the same whether it is right or not." },
+    { n: "02", title: "It does not know your context", body: "It has never met your client, read your contract, or seen last week's decision." },
+    { n: "03", title: "It repeats what is in the data", body: "Past examples carry past bias. The pattern it learned includes the unfairness in it." },
+    { n: "04", title: "It cannot be accountable", body: "Your name goes on the work. The tool does not attend the review meeting." }
+  ],
+  callout: "None of these make AI unusable. They decide what you check before the work leaves your desk.",
+  primary: { label: "Continue", target: "scenario" },
+  secondary: { label: "Back", target: "check-two" },
+  narration: "Useful does not mean correct. AI can be confidently wrong, because fluent writing is not evidence. It does not know your context. It repeats bias from its data. And it cannot be accountable, because your name goes on the work."
+},
+
+{
+  id: "scenario",
+  kind: "quiz",
+  section: "QUICK CHECK · 3 OF 3",
+  title: "What would you do here?",
+  scenario: "An AI tool drafts a client email for you. It reads well, but it states a delivery date you have not seen anywhere else.",
+  options: [
+    { label: "A", text: "Send it. The tool is usually accurate.", correct: false,
+      why: "Usually accurate is not the same as accurate this time, and a wrong date in writing to a client becomes your problem." },
+    { label: "B", text: "Confirm the date with your delivery team, then send", correct: true,
+      why: "Right. Anything a client, a regulator or your manager will see is worth thirty seconds of checking." },
+    { label: "C", text: "Paste the signed contract in and ask it to verify", correct: false,
+      why: "This adds a second problem. You have now put confidential client terms into an outside tool to check a single date." }
+  ],
+  primary: { label: "Continue", target: "habits" },
+  secondary: { label: "Back", target: "limits" },
+  narration: "Quick check, three of three. An AI tool drafts a client email for you. It reads well, but it states a delivery date you have not seen anywhere else. What would you do?"
+},
+
+{
+  id: "habits",
+  kind: "steps",
+  section: "HOW TO USE IT WELL",
+  title: "Three habits that cover almost everything",
+  image: "course/images/ai-verify.webp",
+  items: [
+    { n: "01", title: "Ask precisely", body: "Say who it is for, what it is for, and what a good answer looks like. Vague questions get vague answers." },
+    { n: "02", title: "Verify what matters", body: "Anything a client, a regulator or your manager will read. Skip the check on a rough internal note." },
+    { n: "03", title: "Protect what is private", body: "No client data, no personal records, no passwords, no unreleased numbers. Assume anything you paste may be stored." }
+  ],
+  callout: "Ask well, check what counts, share nothing you should not. That is the whole discipline.",
+  primary: { label: "Continue", target: "roadmap" },
+  secondary: { label: "Back", target: "scenario" },
+  narration: "Three habits cover almost everything. Ask precisely: say who it is for and what a good answer looks like. Verify what matters: anything a client or your manager will read. And protect what is private."
+},
+
+{
+  id: "roadmap",
+  kind: "roadmap",
+  section: "WHAT COMES NEXT",
+  title: "This was the foundation",
+  body: "Module 01 gives everyone the same vocabulary and the same instincts. The modules that follow turn that into daily practice.",
+  items: [
+    { n: "02", title: "Writing prompts that work", body: "Getting usable output on the first attempt instead of the fifth." },
+    { n: "03", title: "AI for analysis and reporting", body: "Working with your own documents, numbers and templates." },
+    { n: "04", title: "Safe and compliant use", body: "What your organisation's policy should say, and why." }
+  ],
+  primary: { label: "Finish module", target: "complete" },
+  secondary: { label: "Back", target: "habits" },
+  narration: "This was the foundation. Module one gives everyone the same vocabulary and the same instincts. The modules that follow turn that into daily practice: writing prompts that work, using AI for analysis and reporting, and safe and compliant use at work."
+},
+
+{
+  id: "complete",
+  kind: "complete",
+  section: "MODULE 01 COMPLETE",
+  title: "You can now explain AI to anyone in the room",
+  body: "You have the vocabulary, you know the failure modes, and you have three habits that keep the work safe.",
+  items: [
+    { n: "01", title: "What it is", body: "Software that learns patterns from examples rather than following written rules." },
+    { n: "02", title: "What it does", body: "Understands, recognises, predicts, generates. Rarely all four at once." },
+    { n: "03", title: "How to use it", body: "Ask precisely, verify what matters, protect what is private." }
+  ],
+  primary: { label: "Restart module", target: "welcome" },
+  secondary: { label: "Replay the video", target: "video-lesson" },
+  narration: "Congratulations. Module one is complete. You can now explain that AI is software which learns patterns from examples rather than following written rules. You know it understands, recognises, predicts and generates, and rarely all four at once. And you have three habits: ask precisely, verify what matters, and protect what is private."
+}
+
+]};
+</script>
 <script>
 /* ===========================================================================
    SETTINGS - the two things you are likely to change
@@ -287,6 +575,18 @@ const accessRequestRecipient = "anirudhuniyal14@gmail.com";
 const SPEAK_WHEN_NO_FILE = false;
 
 /* =========================================================================== */
+
+/* Never show a blank page. If the text of the course did not load, say so. */
+if (!window.COURSE || !Array.isArray(window.COURSE.slides)) {
+  const b = document.createElement("div");
+  b.id = "warn";
+  b.innerHTML = "<strong>The course text did not load.</strong>"
+    + "The file <b>course/content.js</b> is missing. If this is a website, "
+    + "upload that file into the <b>course</b> folder next to index.html. "
+    + "If this is on your computer, make sure the whole folder was unzipped.";
+  document.body.prepend(b);
+  throw new Error("course/content.js did not load");
+}
 
 const slides = window.COURSE.slides;
 const app = document.getElementById("app");
