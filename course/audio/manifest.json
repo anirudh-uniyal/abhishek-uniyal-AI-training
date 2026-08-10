@@ -1,0 +1,218 @@
+[
+  {
+    "slide": 1,
+    "id": "welcome",
+    "mode": "narration",
+    "file": "course/audio/01-welcome.mp3",
+    "duration": 10.667
+  },
+  {
+    "slide": 2,
+    "id": "how-to",
+    "mode": "narration",
+    "file": "course/audio/02-how-to.mp3",
+    "duration": 10.237
+  },
+  {
+    "slide": 3,
+    "id": "goals",
+    "mode": "narration",
+    "file": "course/audio/03-goals.mp3",
+    "duration": 9.945
+  },
+  {
+    "slide": 4,
+    "id": "warm-up",
+    "mode": "narration",
+    "file": "course/audio/04-warm-up.mp3",
+    "duration": 9.44
+  },
+  {
+    "slide": 5,
+    "id": "warm-answer",
+    "mode": "narration",
+    "file": "course/audio/05-warm-answer.mp3",
+    "duration": 10.697
+  },
+  {
+    "slide": 6,
+    "id": "video-lesson",
+    "mode": "video",
+    "file": "course/media/ai-introduction-lesson.mp4"
+  },
+  {
+    "slide": 7,
+    "id": "simple-meaning",
+    "mode": "narration",
+    "file": "course/audio/07-simple-meaning.mp3",
+    "duration": 13.85
+  },
+  {
+    "slide": 8,
+    "id": "software",
+    "mode": "narration",
+    "file": "course/audio/08-software.mp3",
+    "duration": 11.502
+  },
+  {
+    "slide": 9,
+    "id": "rules-vs-patterns",
+    "mode": "narration",
+    "file": "course/audio/09-rules-vs-patterns.mp3",
+    "duration": 13.569
+  },
+  {
+    "slide": 10,
+    "id": "learning-steps",
+    "mode": "narration",
+    "file": "course/audio/10-learning-steps.mp3",
+    "duration": 10.563
+  },
+  {
+    "slide": 11,
+    "id": "data-model",
+    "mode": "narration",
+    "file": "course/audio/11-data-model.mp3",
+    "duration": 13.4
+  },
+  {
+    "slide": 12,
+    "id": "fruit-example",
+    "mode": "narration",
+    "file": "course/audio/12-fruit-example.mp3",
+    "duration": 12.67
+  },
+  {
+    "slide": 13,
+    "id": "pattern-question",
+    "mode": "narration",
+    "file": "course/audio/13-pattern-question.mp3",
+    "duration": 12.426
+  },
+  {
+    "slide": 14,
+    "id": "pattern-correct",
+    "mode": "narration",
+    "file": "course/audio/14-pattern-correct.mp3",
+    "duration": 8.224
+  },
+  {
+    "slide": 15,
+    "id": "pattern-wrong",
+    "mode": "narration",
+    "file": "course/audio/15-pattern-wrong.mp3",
+    "duration": 7.325
+  },
+  {
+    "slide": 16,
+    "id": "everyday-ai",
+    "mode": "narration",
+    "file": "course/audio/16-everyday-ai.mp3",
+    "duration": 14.231
+  },
+  {
+    "slide": 17,
+    "id": "generative-ai",
+    "mode": "narration",
+    "file": "course/audio/17-generative-ai.mp3",
+    "duration": 12.18
+  },
+  {
+    "slide": 18,
+    "id": "ai-jobs",
+    "mode": "narration",
+    "file": "course/audio/18-ai-jobs.mp3",
+    "duration": 12.914
+  },
+  {
+    "slide": 19,
+    "id": "limits",
+    "mode": "narration",
+    "file": "course/audio/19-limits.mp3",
+    "duration": 12.58
+  },
+  {
+    "slide": 20,
+    "id": "safety-question",
+    "mode": "narration",
+    "file": "course/audio/20-safety-question.mp3",
+    "duration": 12.526
+  },
+  {
+    "slide": 21,
+    "id": "safety-correct",
+    "mode": "narration",
+    "file": "course/audio/21-safety-correct.mp3",
+    "duration": 7.365
+  },
+  {
+    "slide": 22,
+    "id": "safety-wrong",
+    "mode": "narration",
+    "file": "course/audio/22-safety-wrong.mp3",
+    "duration": 6.231
+  },
+  {
+    "slide": 23,
+    "id": "safe-habits",
+    "mode": "narration",
+    "file": "course/audio/23-safe-habits.mp3",
+    "duration": 14.001
+  },
+  {
+    "slide": 24,
+    "id": "final-intro",
+    "mode": "narration",
+    "file": "course/audio/24-final-intro.mp3",
+    "duration": 9.79
+  },
+  {
+    "slide": 25,
+    "id": "final-q1",
+    "mode": "narration",
+    "file": "course/audio/25-final-q1.mp3",
+    "duration": 12.428
+  },
+  {
+    "slide": 26,
+    "id": "final-q1-wrong",
+    "mode": "narration",
+    "file": "course/audio/26-final-q1-wrong.mp3",
+    "duration": 8.466
+  },
+  {
+    "slide": 27,
+    "id": "final-q2",
+    "mode": "narration",
+    "file": "course/audio/27-final-q2.mp3",
+    "duration": 12.055
+  },
+  {
+    "slide": 28,
+    "id": "final-q2-wrong",
+    "mode": "narration",
+    "file": "course/audio/28-final-q2-wrong.mp3",
+    "duration": 7.033
+  },
+  {
+    "slide": 29,
+    "id": "final-q3",
+    "mode": "narration",
+    "file": "course/audio/29-final-q3.mp3",
+    "duration": 10.731
+  },
+  {
+    "slide": 30,
+    "id": "final-q3-wrong",
+    "mode": "narration",
+    "file": "course/audio/30-final-q3-wrong.mp3",
+    "duration": 5.996
+  },
+  {
+    "slide": 31,
+    "id": "complete",
+    "mode": "narration",
+    "file": "course/audio/31-complete.mp3",
+    "duration": 11.92
+  }
+]
