@@ -278,4 +278,87 @@
 
     build();
   }
+
+  /* ---------------- screen router (one topic per screen) --------------------- */
+  var screens = Array.prototype.slice.call(document.querySelectorAll(".screen"));
+  if (screens.length) {
+    var steps    = Array.prototype.slice.call(document.querySelectorAll(".step"));
+    var prevBtn  = document.getElementById("nav-prev");
+    var nextBtn  = document.getElementById("nav-next");
+    var midLabel = document.getElementById("nav-mid");
+    var total    = screens.length;
+    var seen     = read(MODULE_ID + ":seen", []);
+    var current  = -1;
+
+    function markSeen(i) {
+      if (seen.indexOf(i) === -1) { seen.push(i); write(MODULE_ID + ":seen", seen); }
+      steps.forEach(function (s, k) { s.classList.toggle("seen", seen.indexOf(k) !== -1); });
+    }
+
+    function show(i, push) {
+      i = Math.max(0, Math.min(total - 1, i));
+      if (i === current) return;
+      current = i;
+
+      screens.forEach(function (s, k) { s.classList.toggle("on", k === i); });
+      steps.forEach(function (s, k) { s.classList.toggle("on", k === i); });
+
+      prevBtn.disabled = i === 0;
+      nextBtn.disabled = i === total - 1;
+      nextBtn.textContent = "";
+      nextBtn.appendChild(document.createTextNode(i === total - 1 ? "Finish" : "Next"));
+      var arrow = document.createElement("span");
+      arrow.className = "word";
+      arrow.textContent = i === total - 1 ? " ✓" : " →";
+      nextBtn.appendChild(arrow);
+
+      midLabel.innerHTML = "";
+      var b = document.createElement("b");
+      b.textContent = (i + 1) + " / " + total;
+      midLabel.appendChild(b);
+      midLabel.appendChild(document.createTextNode(" · " + (screens[i].dataset.title || "")));
+
+      markSeen(i);
+      write(MODULE_ID + ":screen", i);
+
+      var pct = ((i + 1) / total) * 100;
+      if (bar) bar.style.width = pct.toFixed(1) + "%";
+      if (pctFill) pctFill.style.width = pct.toFixed(1) + "%";
+      if (pctText) pctText.textContent = Math.round(pct) + "%";
+
+      // keep the active step visible in the rail
+      var chip = steps[i];
+      if (chip && chip.scrollIntoView) chip.scrollIntoView({ block: "nearest", inline: "center" });
+
+      if (push) history.replaceState(null, "", "#s" + (i + 1));
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    prevBtn.addEventListener("click", function () { show(current - 1, true); });
+    nextBtn.addEventListener("click", function () { show(current + 1, true); });
+    steps.forEach(function (s, k) { s.addEventListener("click", function () { show(k, true); }); });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.target.matches("input, textarea")) return;
+      if (e.key === "ArrowLeft")  show(current - 1, true);
+      if (e.key === "ArrowRight") show(current + 1, true);
+    });
+
+    function screenFromHash() {
+      var m = location.hash.match(/^#s(\d+)$/);
+      if (!m) return null;
+      var n = parseInt(m[1], 10);
+      return isNaN(n) ? null : n - 1;
+    }
+
+    // a hash change on an already-open page must still move the learner
+    window.addEventListener("hashchange", function () {
+      var target = screenFromHash();
+      if (target !== null) show(target, false);
+    });
+
+    // deep link wins, otherwise resume where the learner stopped
+    var linked = screenFromHash();
+    show(linked !== null ? linked : (read(MODULE_ID + ":screen", 0) || 0), false);
+  }
 })();

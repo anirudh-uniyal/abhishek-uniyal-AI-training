@@ -397,7 +397,11 @@ a.mod:hover span{color:var(--ink)}
 .builder-empty{color:var(--dim);font-style:italic}
 
 /* ---------- module navigation ---------- */
-.mnav{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:56px;padding-top:36px;border-top:1px solid var(--line)}
+.mnav{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:56px;padding-top:20px;border-top:1px solid var(--line)}
+.mnav-label{
+  grid-column:1/-1;margin:0 0 4px;font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim)
+}
 .mnav a{
   border:1px solid var(--line);border-radius:var(--r);background:var(--panel);
   padding:17px 20px;text-decoration:none;transition:.16s;display:block
@@ -412,10 +416,120 @@ a.mod:hover span{color:var(--ink)}
 
 /* ---------- next-module placeholder (module not published yet) ---------- */
 .mnav .soon-card{
-  border:1px dashed var(--line2);border-radius:var(--r);background:transparent;
-  padding:17px 20px;text-align:right;opacity:.6
+  border:1px solid var(--line2);border-radius:var(--r);background:var(--panel);
+  padding:17px 20px;text-align:right
 }
-.mnav .soon-card small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:5px}
-.mnav .soon-card b{display:block;font-size:15px;font-weight:650;color:var(--muted);line-height:1.45}
-.mnav .soon-card span{display:block;margin-top:4px;font-size:12px;color:var(--dim)}
+.mnav .soon-card small{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.mnav .soon-card b{display:block;font-size:15px;font-weight:650;color:var(--ink);line-height:1.45}
+.mnav .soon-card span{
+  display:inline-block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--dim);border:1px solid var(--line2);
+  border-radius:999px;padding:3px 10px
+}
 @media (max-width:680px){ .mnav .soon-card{text-align:left} }
+
+/* =====================================================================
+   SCREEN MODE — one topic per screen, with persistent prev/next
+   ===================================================================== */
+
+body.screens{padding-bottom:96px}
+
+/* ---------- step rail ---------- */
+.rail{
+  position:sticky;top:57px;z-index:45;
+  background:rgba(8,11,18,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)
+}
+.rail-in{
+  max-width:var(--maxw);margin:0 auto;padding:10px 24px;
+  display:flex;gap:7px;overflow-x:auto;scrollbar-width:none
+}
+.rail-in::-webkit-scrollbar{display:none}
+.step{
+  flex:none;border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  border-radius:9px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;
+  cursor:pointer;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:7px
+}
+.step:hover{border-color:var(--line2);color:var(--ink)}
+.step .n{
+  width:19px;height:19px;border-radius:5px;background:var(--raise);color:var(--muted);
+  display:grid;place-items:center;font-size:10.5px;font-weight:800;flex:none
+}
+.step.seen .n{background:rgba(79,209,139,.2);color:var(--ok)}
+.step.on{border-color:var(--gold);background:var(--goldsoft);color:var(--gold)}
+.step.on .n{background:var(--gold);color:#14100A}
+.step .lbl{display:none}
+.step.on .lbl{display:inline}
+@media (min-width:900px){ .step .lbl{display:inline} }
+
+/* ---------- screens ---------- */
+.stage-wrap{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.screen{display:none}
+.screen.on{display:block;animation:screenIn .22s ease}
+@keyframes screenIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){ .screen.on{animation:none} }
+
+.screen-head{padding:44px 0 22px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.screen-kicker{
+  display:inline-flex;align-items:center;gap:9px;margin:0 0 13px;
+  font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)
+}
+.screen-kicker::before{content:"";width:22px;height:1px;background:var(--gold);opacity:.6}
+.screen-head h2{
+  font-family:var(--serif);font-weight:400;color:var(--ink);
+  font-size:clamp(27px,4.4vw,40px);line-height:1.16;letter-spacing:-.012em;margin:0 0 14px
+}
+.screen-head .sub{margin:0;font-size:clamp(15px,1.8vw,17.5px);color:var(--muted);line-height:1.62;max-width:60ch}
+.screen-body{padding-bottom:40px}
+
+/* takeaway strip that closes each screen */
+.takeaway{
+  display:flex;gap:14px;align-items:flex-start;margin:34px 0 0;padding:19px 22px;
+  border:1px solid var(--goldline);border-radius:var(--r);background:var(--goldsoft)
+}
+.takeaway .ico{
+  flex:none;width:26px;height:26px;border-radius:7px;background:var(--gold);color:#14100A;
+  display:grid;place-items:center;font-size:14px;font-weight:800
+}
+.takeaway p{margin:0;color:#E7ECF4;font-size:15.5px;line-height:1.62}
+.takeaway b{color:var(--gold)}
+
+/* ---------- fixed prev / next bar ---------- */
+.stepnav{
+  position:fixed;left:0;right:0;bottom:0;z-index:55;
+  background:rgba(8,11,18,.94);backdrop-filter:blur(16px);
+  border-top:1px solid var(--line2);
+  padding-bottom:env(safe-area-inset-bottom,0)
+}
+.stepnav-in{
+  max-width:var(--maxw);margin:0 auto;padding:11px 24px;
+  display:flex;align-items:center;gap:12px
+}
+.navbtn{
+  flex:none;display:inline-flex;align-items:center;gap:9px;
+  border:1px solid var(--line2);background:var(--panel);color:var(--ink);
+  border-radius:11px;padding:11px 18px;font:inherit;font-size:14.5px;font-weight:700;
+  cursor:pointer;transition:.15s
+}
+.navbtn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.navbtn:disabled{opacity:.34;cursor:not-allowed}
+.navbtn.primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));border-color:transparent;color:#14100A
+}
+.navbtn.primary:hover:not(:disabled){filter:brightness(1.07);color:#14100A}
+.stepnav .mid{
+  flex:1;text-align:center;font-size:12.5px;font-weight:700;color:var(--muted);min-width:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.stepnav .mid b{color:var(--gold)}
+.stepnav .done-note{color:var(--ok)}
+
+@media (max-width:680px){
+  body.screens{padding-bottom:88px}
+  .rail{top:53px}
+  .rail-in,.stage-wrap,.stepnav-in{padding-left:16px;padding-right:16px}
+  .navbtn{padding:11px 15px;font-size:14px}
+  .navbtn .word{display:none}
+  .stepnav .mid{font-size:12px}
+  .screen-head{padding-top:30px}
+}
