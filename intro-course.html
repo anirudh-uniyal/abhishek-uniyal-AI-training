@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>AI For All — Introduction to Artificial Intelligence</title>
+<style>
+:root{
+  --bg:#0A0E18; --panel:#111726; --panel2:#171F31; --raise:#1D2639;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --ink:#F4F6FA; --muted:#8C97AC; --dim:#616C80;
+  --gold:#E0B84C; --gold2:#C99B2E; --goldsoft:rgba(224,184,76,.12);
+  --ok:#3DD68C; --oksoft:rgba(61,214,140,.12);
+  --no:#F2726B; --nosoft:rgba(242,114,107,.12);
+  --r:14px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+img{display:block;max-width:100%}
+
+/* ---------- shared bits ---------- */
+.eyebrow{margin:0;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.18em}
+.callout{margin-top:18px;padding:13px 16px;border-left:2px solid var(--gold);
+  border-radius:0 8px 8px 0;background:var(--goldsoft);color:#DCE3EF;font-size:14px;line-height:1.55}
+.lead{color:var(--muted);font-size:17px;line-height:1.6;margin:14px 0 0}
+
+/* ---------- access ---------- */
+.gate{min-height:100dvh;display:grid;place-items:center;padding:24px;
+  background:radial-gradient(900px 500px at 15% 0%,rgba(224,184,76,.10),transparent 60%),
+             radial-gradient(800px 500px at 100% 100%,rgba(58,110,200,.12),transparent 60%),var(--bg)}
+.gate-card{width:min(1020px,100%);display:grid;grid-template-columns:1.05fr .95fr;
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel);
+  box-shadow:0 40px 90px rgba(0,0,0,.55)}
+.gate-brand{padding:46px 44px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;
+  background:linear-gradient(160deg,#0E1421,#141C2D);border-right:1px solid var(--line)}
+.gate-logo{width:172px;height:auto}
+.gate-brand h1{margin:14px 0 0;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-.03em;font-weight:600}
+.gate-brand p{margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.6;max-width:42ch}
+.pills{display:flex;flex-wrap:wrap;gap:7px}
+.pills span{padding:7px 11px;border:1px solid var(--line2);border-radius:100px;
+  color:#C3CCDC;font-size:11px;font-weight:600}
+.gate-form{padding:46px 44px;display:flex;flex-direction:column;justify-content:center}
+.gate-form h2{margin:12px 0 0;font-size:28px;font-weight:600;letter-spacing:-.02em}
+.gate-form>p{margin:10px 0 26px;color:var(--muted);font-size:14px}
+label{display:block;margin-bottom:8px;color:#AEB8C8;font-size:12px;font-weight:600;letter-spacing:.04em}
+input{width:100%;min-height:52px;padding:0 15px;border:1px solid var(--line2);border-radius:10px;
+  background:#0C1220;color:var(--ink);font-size:16px}
+input::placeholder{color:#596274}
+.btn-gold,.btn-ghost{width:100%;min-height:50px;border-radius:10px;cursor:pointer;
+  font-size:15px;font-weight:600;transition:transform .15s,filter .15s}
+.btn-gold{margin-top:14px;border:0;color:#12161F;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.btn-ghost{margin-top:9px;border:1px solid var(--line2);background:transparent;color:#C3CCDC}
+.btn-gold:hover,.btn-ghost:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.note{min-height:22px;margin:14px 0 0;color:var(--dim);font-size:12.5px;line-height:1.5}
+.note.bad{color:#F0A9A4}
+.gate-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px}
+
+/* ---------- shell ---------- */
+.shell{min-height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:26px;
+  padding:14px 26px;border-bottom:1px solid var(--line);background:rgba(10,14,24,.92);
+  position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+.bar-brand{display:flex;align-items:center;gap:11px;border:0;background:none;cursor:pointer;padding:0}
+.bar-brand img{width:auto;height:36px;object-fit:contain}
+.bar-brand b{display:block;font-size:12px;letter-spacing:.14em;font-weight:700}
+.bar-brand small{display:block;margin-top:2px;color:var(--dim);font-size:11px}
+.prog{max-width:420px;margin:0 auto;width:100%}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:7px;
+  color:var(--dim);font-size:10.5px;font-weight:600;letter-spacing:.1em}
+.prog-bar{height:4px;border-radius:100px;background:rgba(255,255,255,.09);overflow:hidden}
+.prog-bar i{display:block;height:100%;border-radius:inherit;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .4s ease}
+.tools{display:flex;gap:3px}
+.tool{min-width:42px;height:42px;display:grid;place-items:center;gap:2px;padding:4px;
+  border:0;border-radius:9px;background:transparent;color:var(--dim);cursor:pointer;font-size:13px}
+.tool small{font-size:8.5px;letter-spacing:.04em}
+.tool:hover,.tool.on{background:rgba(255,255,255,.07);color:var(--ink)}
+.tool:disabled{opacity:.3;cursor:not-allowed}
+
+.stage{min-height:0;display:grid;place-items:center;padding:22px 26px}
+.card{position:relative;width:min(1120px,100%);
+  min-height:min(560px,100%);max-height:100%;
+  padding:30px 40px 22px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;
+  border:1px solid var(--line);border-radius:18px;background:var(--panel);
+  box-shadow:0 26px 70px rgba(0,0,0,.42)}
+.card::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;
+  border-radius:18px 18px 0 0;background:linear-gradient(90deg,var(--gold),transparent 65%)}
+.card.warn::before{background:linear-gradient(90deg,var(--no),transparent 65%)}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:26px}
+.head h1{margin:11px 0 0;font-size:clamp(24px,2.7vw,36px);line-height:1.14;letter-spacing:-.028em;font-weight:600;max-width:22ch}
+.head .lead{max-width:60ch}
+.num{color:var(--line2);font-size:13px;font-weight:700;letter-spacing:.1em;white-space:nowrap;padding-top:2px}
+.body{min-height:0;display:flex;align-items:center;overflow:auto;scrollbar-width:thin}
+.body>*{min-width:0}
+.body::-webkit-scrollbar{width:6px}
+.body::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+.acts{display:flex;justify-content:flex-end;gap:10px;align-items:center}
+.act,.act2{min-height:44px;padding:0 22px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;
+  transition:transform .15s,filter .15s}
+.act{border:0;color:#12161F;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.act2{border:1px solid var(--line2);background:transparent;color:#C3CCDC}
+.act:hover,.act2:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.act:disabled{opacity:.35;cursor:not-allowed;transform:none}
+
+.nav{display:grid;grid-template-columns:150px 1fr 150px;align-items:center;gap:16px;
+  padding:12px 26px;border-top:1px solid var(--line)}
+.nav button{height:40px;padding:0 15px;border:1px solid var(--line2);border-radius:9px;
+  background:transparent;color:#AEB8C8;cursor:pointer;font-size:13px;font-weight:600}
+.nav button:disabled{opacity:.28;cursor:not-allowed}
+.nav .where{text-align:center;color:var(--dim);font-size:11.5px;letter-spacing:.06em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- layouts ---------- */
+.cover{width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+.cover h2{margin:0;font-size:clamp(30px,3.6vw,46px);line-height:1.08;letter-spacing:-.035em;font-weight:600}
+.cover .metas{margin-top:24px;display:flex;flex-wrap:wrap;gap:7px}
+.cover .metas span{padding:7px 12px;border:1px solid var(--line2);border-radius:100px;color:#AEB8C8;font-size:11.5px;font-weight:600}
+/* brand artwork, built from the logo's triangle */
+.artbox{display:grid;place-items:center;padding:18px;border-radius:14px;
+  border:1px solid var(--line);background:
+    radial-gradient(70% 70% at 50% 30%,rgba(234,198,75,.07),transparent 70%),var(--panel2)}
+.art{width:100%;max-width:270px;height:auto;display:block}
+.mark{position:absolute;right:-30px;bottom:-34px;width:210px;opacity:.05;pointer-events:none;z-index:0}
+.card>*{position:relative;z-index:1}
+
+.grid{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.grid.four{grid-template-columns:repeat(4,1fr)}
+.grid.three{grid-template-columns:repeat(3,1fr)}
+.grid .callout{grid-column:1/-1;margin-top:4px}
+.tile{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);
+  transition:border-color .2s,transform .2s}
+.tile:hover{border-color:var(--line2);transform:translateY(-2px)}
+.tile .n{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.12em}
+.tile .tag{display:block;margin-top:9px;color:var(--dim);font-size:10px;font-weight:700;letter-spacing:.13em}
+.tile h3{margin:10px 0 0;font-size:16.5px;font-weight:600;letter-spacing:-.012em;line-height:1.25}
+.tile p{margin:7px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
+.warn .tile .n{color:var(--no)}
+
+.state{width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+.big{font-size:clamp(24px,2.9vw,36px);line-height:1.24;letter-spacing:-.028em;font-weight:600}
+.big em{font-style:normal;color:var(--gold)}
+
+.duo{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.duo .tile{padding:26px;min-height:210px;display:flex;flex-direction:column}
+.duo .key{display:inline-flex;align-self:flex-start;padding:6px 12px;border-radius:7px;
+  background:var(--goldsoft);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em}
+.duo h3{margin:16px 0 0;font-size:20px}
+.duo p{margin-top:10px;font-size:14px}
+
+.cmp{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.cmp .tile{padding:26px;min-height:190px}
+.cmp .tag{margin-top:0;color:var(--gold)}
+.cmp h3{margin:14px 0 0;font-size:19px}
+.cmp p{margin-top:10px;font-size:14px}
+.cmp .callout{grid-column:1/-1}
+
+.flow{width:100%;display:grid;gap:13px}
+.flow.withpic{grid-template-columns:minmax(0,1fr) 250px;align-items:stretch}
+.flow-list{display:grid;gap:10px;align-content:start;min-width:0}
+.flow .tile{display:grid;grid-template-columns:30px minmax(0,1fr);
+  column-gap:14px;row-gap:3px;padding:14px 17px}
+.flow .tile .n{grid-column:1;grid-row:1;padding-top:2px}
+.flow .tile h3{grid-column:2;grid-row:1;margin:0;font-size:16px}
+.flow .tile p{grid-column:2;grid-row:2;margin:0}
+.flow .pic{border-radius:12px;border:1px solid var(--line);min-height:0;display:grid;place-items:center;
+  padding:16px;background:radial-gradient(70% 70% at 50% 40%,rgba(234,198,75,.07),transparent 70%),var(--panel2)}
+.flow .callout{grid-column:1/-1;margin-top:2px}
+
+.feature{width:100%;display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+.kw{font-size:clamp(34px,4.4vw,60px);font-weight:700;letter-spacing:-.045em;line-height:1;
+  background:linear-gradient(120deg,var(--gold),#F4DFA0);-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+.chips{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
+.chips span{padding:9px 14px;border:1px solid var(--line2);border-radius:9px;
+  background:var(--panel2);font-size:13px;font-weight:600}
+
+/* ---------- quiz ---------- */
+.quiz{width:min(880px,100%);margin:auto}
+.scen{margin:0 0 18px;padding:15px 18px;border:1px solid var(--line);border-left:2px solid var(--gold);
+  border-radius:0 10px 10px 0;background:var(--panel2);color:#D6DDEA;font-size:15px;line-height:1.6}
+.opts{display:grid;gap:9px}
+.opt{width:100%;padding:15px 17px;display:grid;grid-template-columns:32px 1fr auto;gap:14px;align-items:center;
+  border:1px solid var(--line);border-radius:11px;background:var(--panel2);cursor:pointer;text-align:left;
+  transition:border-color .18s,background .18s,transform .18s}
+.opt:hover:not(:disabled){border-color:var(--gold);transform:translateY(-1px)}
+.opt:disabled{cursor:default}
+.opt .k{width:28px;height:28px;display:grid;place-items:center;border-radius:7px;
+  background:rgba(255,255,255,.06);color:#AEB8C8;font-size:12.5px;font-weight:700}
+.opt .t{font-size:15px;line-height:1.4}
+.opt .mk{font-size:16px;font-weight:700;opacity:0}
+.opt.right{border-color:var(--ok);background:var(--oksoft)}
+.opt.right .k{background:var(--ok);color:#08130D}
+.opt.right .mk{opacity:1;color:var(--ok)}
+.opt.wrong{border-color:var(--no);background:var(--nosoft)}
+.opt.wrong .k{background:var(--no);color:#1A0C0B}
+.opt.wrong .mk{opacity:1;color:var(--no)}
+.opt.dim{opacity:.42}
+.why{margin-top:11px;padding:14px 17px;border-radius:10px;font-size:14px;line-height:1.6;
+  border:1px solid var(--line);background:var(--panel2);color:#D6DDEA}
+.why b{display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.12em}
+.why.right{border-color:rgba(61,214,140,.4);background:var(--oksoft)}
+.why.right b{color:var(--ok)}
+.why.wrong{border-color:rgba(242,114,107,.4);background:var(--nosoft)}
+.why.wrong b{color:var(--no)}
+
+/* ---------- video / complete ---------- */
+.vid{width:min(900px,100%);margin:auto;border-radius:14px;overflow:hidden;
+  border:1px solid var(--line);background:#05080F}
+.vid video{width:100%;display:block;aspect-ratio:16/9;background:#05080F}
+
+.done{width:100%;display:grid;gap:22px}
+.done-top{display:grid;grid-template-columns:70px 1fr;gap:20px;align-items:center}
+.tick{width:70px;height:70px;display:grid;place-items:center;border-radius:50%;
+  border:1.5px solid var(--gold);color:var(--gold);background:var(--goldsoft);font-size:30px}
+
+/* ---------- certificate ---------- */
+.cert{width:min(760px,100%);margin:auto;padding:34px 40px;border-radius:14px;
+  border:1px solid rgba(234,198,75,.34);background:
+  radial-gradient(120% 80% at 50% 0%,rgba(234,198,75,.09),transparent 62%),#0C1220;
+  text-align:center;position:relative}
+.cert::after{content:"";position:absolute;inset:9px;border:1px solid rgba(234,198,75,.14);
+  border-radius:9px;pointer-events:none}
+.cert img{width:112px;margin:0 auto 16px}
+.cert .kicker{color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:.24em;margin:0}
+.cert .who{margin:20px auto 6px;display:block;width:min(440px,100%);padding:8px 12px;
+  border:0;border-bottom:1px solid rgba(234,198,75,.42);border-radius:0;background:transparent;
+  color:var(--ink);font-size:27px;font-weight:600;text-align:center;letter-spacing:-.02em}
+.cert .who::placeholder{color:#4A5468}
+.cert .said{margin:12px 0 0;color:var(--muted);font-size:13px}
+.cert h3{margin:8px 0 0;font-size:21px;font-weight:600;letter-spacing:-.02em}
+.cert .mod{margin:5px 0 0;color:var(--gold);font-size:11.5px;font-weight:700;letter-spacing:.14em}
+.cert .foot{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.09);
+  display:flex;justify-content:space-between;gap:16px;color:var(--dim);font-size:11px}
+.cert .foot b{display:block;color:#AEB8C8;font-size:12.5px;font-weight:600;margin-top:3px}
+.cert-hint{margin:14px 0 0;text-align:center;color:var(--dim);font-size:12px}
+
+@media print{
+  body{background:#fff}
+  .bar,.nav,.acts,.cc,.head,#warn{display:none !important}
+  .shell,.stage,.card{display:block;min-height:0;max-height:none;border:0;box-shadow:none;padding:0;background:#fff}
+  .cert{border:1px solid #C9A227;background:#fff;color:#111;width:100%}
+  .cert h3,.cert .who{color:#111}
+  .cert .said,.cert .foot{color:#555}
+  .cert .foot b{color:#111}
+  .cert-hint{display:none}
+}
+
+/* ---------- captions ---------- */
+.cc{position:absolute;left:42px;right:42px;bottom:82px;z-index:9;padding:13px 16px;
+  display:grid;grid-template-columns:30px 1fr;gap:13px;align-items:start;border-radius:11px;
+  border:1px solid var(--line2);background:rgba(6,9,16,.96);box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.cc span{display:grid;place-items:center;height:20px;border:1px solid var(--line2);
+  border-radius:4px;font-size:9px;font-weight:700}
+.cc p{margin:0;font-size:13px;line-height:1.55;color:#D6DDEA}
+
+/* ---------- setup warning ---------- */
+#warn{position:fixed;inset:0 0 auto 0;z-index:999;padding:14px 22px;
+  background:#F0C24B;color:#2B1F00;font-size:13.5px;line-height:1.55}
+#warn strong{display:block;margin-bottom:3px;font-size:14.5px}
+#warn b{background:rgba(255,255,255,.55);padding:1px 5px;border-radius:4px}
+
+/* ---------- responsive ---------- */
+@media (max-width:980px){
+  .gate-card{grid-template-columns:1fr}
+  .gate-brand{padding:34px 28px;gap:24px}
+  .gate-form{padding:34px 28px}
+  .bar{grid-template-columns:auto auto;gap:12px;padding:11px 16px}
+  .prog{order:3;grid-column:1/-1;max-width:none}
+  .tool small{display:none}
+  .tool{min-width:38px;height:38px}
+  .stage{padding:14px}
+  .card{padding:24px 20px 20px;min-height:calc(100dvh - 190px);gap:16px}
+  .cover,.state,.feature,.flow.withpic{grid-template-columns:1fr}
+  .flow .pic{display:none}
+  .grid,.grid.four,.grid.three,.duo,.cmp{grid-template-columns:1fr}
+  .head{flex-direction:column;gap:8px}
+  .num{display:none}
+  .body{align-items:flex-start}
+  .cc{left:20px;right:20px;bottom:78px}
+  .nav{grid-template-columns:auto 1fr auto;padding:10px 14px}
+  .nav .where{display:none}
+  .acts{flex-wrap:wrap}
+  .act,.act2{flex:1;min-width:130px;justify-content:center;display:flex;align-items:center}
+}
+@media (max-width:640px){
+  .gate{padding:0}
+  .gate-card{border:0;border-radius:0;min-height:100dvh}
+  .cover h2{font-size:27px}
+  .card{border-radius:12px}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<audio id="narration" preload="none"></audio>
+<noscript>Please enable JavaScript to run this training.</noscript>
+
+<script>
+window.COURSE = { slides: [
+
+{
+  id: "welcome",
+  kind: "cover",
+  section: "MODULE 01 · FOUNDATION",
+  title: "Introduction to Artificial Intelligence",
+  lead: "A practical starting point for people who work with information every day.",
+  body: "By the end of this module you will be able to explain what AI is, spot where it already sits in your work, and judge when an AI answer can be trusted.",
+  art: "hero",
+  meta: ["17 screens", "About 20 minutes", "No technical background needed"],
+  primary: { label: "Begin module", target: "outcomes" },
+  narration: "Welcome to Module One of AI for All. This module is a practical introduction to artificial intelligence for people who work with information every day. No technical background is needed. Select Begin module when you are ready."
+},
+
+{
+  id: "outcomes",
+  kind: "cards",
+  section: "WHAT YOU WILL TAKE AWAY",
+  title: "Four things you will be able to do",
+  items: [
+    { n: "01", title: "Explain AI in plain language", body: "To a colleague, a client, or your own team, without using jargon." },
+    { n: "02", title: "Spot AI already in your work", body: "In the tools you open every morning without thinking about it." },
+    { n: "03", title: "Judge when to trust an answer", body: "And know which answers must be checked before they leave your desk." },
+    { n: "04", title: "Use it without creating risk", body: "Three habits that protect you, your client, and your organisation." }
+  ],
+  primary: { label: "Continue", target: "what-is-ai" },
+  secondary: { label: "Back", target: "welcome" },
+  narration: "Four things by the end of this module. Explain AI in plain language. Spot where it already sits in your work. Judge when an answer can be trusted. And use it without creating risk."
+},
+
+{
+  id: "what-is-ai",
+  kind: "statement",
+  section: "THE CORE IDEA",
+  title: "One sentence to remember",
+  headline: "AI is software that learns from examples instead of following fixed rules.",
+  body: "Ordinary software does exactly what someone wrote down. An AI system studies a large number of examples, works out the pattern inside them, and then applies that pattern to something it has never seen before.",
+  callout: "That single difference explains almost everything else about AI.",
+  primary: { label: "Continue", target: "rules-vs-patterns" },
+  secondary: { label: "Back", target: "outcomes" },
+  narration: "Here is one sentence worth remembering. AI is software that learns from examples instead of following fixed rules. Ordinary software does exactly what someone wrote down. An AI system studies many examples, works out the pattern inside them, and applies that pattern to something new. That single difference explains almost everything else about AI."
+},
+
+{
+  id: "rules-vs-patterns",
+  kind: "compare",
+  section: "TWO KINDS OF SOFTWARE",
+  title: "Written rules, or learned patterns",
+  items: [
+    {
+      tag: "TRADITIONAL SOFTWARE",
+      title: "A person writes every rule",
+      body: "Your payroll system applies tax rules exactly as they were programmed. It is predictable and repeatable, but it can only ever do what someone thought to tell it."
+    },
+    {
+      tag: "AI SYSTEM",
+      title: "The rule is learned from examples",
+      body: "A tool reads ten thousand past invoices and works out where the total sits on a page it has never seen. Flexible and fast, but never guaranteed to be right."
+    }
+  ],
+  callout: "Predictable but rigid, or flexible but fallible. Neither is better everywhere.",
+  primary: { label: "Continue", target: "how-it-learns" },
+  secondary: { label: "Back", target: "what-is-ai" },
+  narration: "There are two kinds of software. In traditional software, a person writes every rule. Your payroll system applies tax rules exactly as programmed. It is predictable, but it can only do what someone thought to tell it. In an AI system, the rule is learned from examples. A tool reads ten thousand past invoices and works out where the total sits on a page it has never seen. Flexible and fast, but never guaranteed to be right."
+},
+
+{
+  id: "how-it-learns",
+  kind: "steps",
+  section: "HOW IT ACTUALLY WORKS",
+  title: "Three steps, every single time",
+  art: "learn",
+  items: [
+    { n: "01", title: "It sees examples", body: "Past invoices, old support tickets, years of emails, historical sales figures." },
+    { n: "02", title: "It finds the pattern", body: "Which things tend to appear together, and what usually follows what." },
+    { n: "03", title: "It applies the pattern", body: "To a document, a question, or a customer it has never encountered before." }
+  ],
+  callout: "The quality of the examples decides the quality of the answer. There is no way around this.",
+  primary: { label: "Watch the lesson", target: "video-lesson" },
+  secondary: { label: "Back", target: "rules-vs-patterns" },
+  narration: "However complicated an AI system looks, it follows the same three steps. First it sees examples, such as past invoices, old support tickets, or years of sales figures. Then it finds the pattern, working out which things tend to appear together. Finally it applies that pattern to something it has never encountered before. The quality of the examples decides the quality of the answer, and there is no way around that."
+},
+
+{
+  id: "video-lesson",
+  kind: "video",
+  section: "NARRATED LESSON",
+  title: "Watch: what artificial intelligence really is",
+  lead: "Around five minutes. Use the player controls to pause or replay.",
+  video: "course/media/ai-introduction-lesson.mp4",
+
+  audioMode: "video",
+  primary: { label: "Continue", target: "check-one" },
+  secondary: { label: "Back", target: "how-it-learns" },
+  narration: "This screen holds the narrated video lesson. Press play to watch it, then select Continue."
+},
+
+{
+  id: "check-one",
+  kind: "quiz",
+  section: "QUICK CHECK · 1 OF 3",
+  title: "What is this system doing?",
+  scenario: "A tool reads thousands of past support tickets. A new ticket arrives and it sends it straight to the right team.",
+  options: [
+    { label: "A", text: "Following routing rules somebody wrote", correct: false,
+      why: "That would be traditional software. Here nobody wrote the rules - the system worked them out from the old tickets." },
+    { label: "B", text: "Finding patterns in past examples", correct: true,
+      why: "Exactly. It studied thousands of examples, learned which words point to which team, and applied that to a new ticket." },
+    { label: "C", text: "Understanding how the customer feels", correct: false,
+      why: "It can detect words that usually signal frustration, but that is still pattern matching. There is no understanding behind it." }
+  ],
+  primary: { label: "Continue", target: "data-and-model" },
+  secondary: { label: "Back", target: "video-lesson" },
+  narration: "Quick check, one of three. A tool reads thousands of past support tickets. A new ticket arrives and it sends it straight to the right team. What is the system doing? Select your answer."
+},
+
+{
+  id: "data-and-model",
+  kind: "duo",
+  section: "TWO WORDS YOU WILL HEAR",
+  title: "Data and model, without the mystique",
+  items: [
+    { key: "DATA", title: "The examples you give it", body: "Your invoices, your emails, your call notes, your spreadsheets. If it has never seen something, it cannot have learned it." },
+    { key: "MODEL", title: "The pattern it learned", body: "The finished result of all that reading. This is the part that produces an answer when you ask a question." }
+  ],
+  callout: "Poor data gives a poor model, and a poor model gives a poor answer. In that order, every time.",
+  primary: { label: "Continue", target: "what-its-good-at" },
+  secondary: { label: "Back", target: "check-one" },
+  narration: "Two words come up in every AI conversation. Data means the examples you give it, such as your invoices and emails. Model means the pattern it learned from them. Poor data gives a poor model, and a poor model gives a poor answer."
+},
+
+{
+  id: "what-its-good-at",
+  kind: "cards",
+  section: "WHAT IT IS ACTUALLY FOR",
+  title: "Four jobs AI does well",
+  items: [
+    { n: "01", tag: "UNDERSTAND", title: "Read and summarise", body: "Work through a long contract or report and answer questions about what is inside it." },
+    { n: "02", tag: "RECOGNISE", title: "Spot the exception", body: "Find the unusual transaction, the defect on the line, the duplicate record." },
+    { n: "03", tag: "PREDICT", title: "Estimate what comes next", body: "Likely demand, delivery date, credit risk, or which customer is about to leave." },
+    { n: "04", tag: "GENERATE", title: "Produce a first draft", body: "Text, slides, code, or a starting analysis you then correct and improve." }
+  ],
+  callout: "Most tools are strong at one of these and weak at the others. Ask which job a product is really doing.",
+  primary: { label: "Continue", target: "generative" },
+  secondary: { label: "Back", target: "data-and-model" },
+  narration: "AI is a tool for specific jobs, and there are four worth knowing. It can understand, reading long documents and answering questions about them. It can recognise, spotting an unusual transaction or a duplicate record. It can predict, estimating demand, delivery dates or risk. And it can generate, producing a first draft you then correct. Most tools are strong at one of these and weak at the others."
+},
+
+{
+  id: "generative",
+  kind: "feature",
+  section: "THE PART EVERYONE TALKS ABOUT",
+  keyword: "GENERATIVE",
+  title: "It writes the first draft, not the final one",
+  body: "You describe what you need in ordinary words, and it produces something new: a paragraph, a summary, a slide outline, a formula. This is what changed in the last few years, and it is why AI suddenly appeared in everyone's working day.",
+  chips: ["Text", "Images", "Code", "Analysis"],
+  callout: "Think of it as a fast, willing colleague on their first week. Useful, quick, and in need of checking.",
+  primary: { label: "Continue", target: "ai-at-work" },
+  secondary: { label: "Back", target: "what-its-good-at" },
+  narration: "Generative AI is the part everyone talks about. You describe what you need in ordinary words and it produces something new: a paragraph, a summary, a slide outline, a formula. This is what changed in the last few years and why AI suddenly appeared in everyone's working day. Think of it as a fast, willing colleague in their first week. Useful, quick, and in need of checking."
+},
+
+{
+  id: "ai-at-work",
+  kind: "cards",
+  section: "WHERE YOU ALREADY MEET IT",
+  title: "It is probably in four tools you opened today",
+  art: "grid",
+  items: [
+    { n: "01", tag: "INBOX", title: "Sorting and drafting", body: "Deciding what reaches you first and suggesting how to reply." },
+    { n: "02", tag: "MEETINGS", title: "Notes and actions", body: "Transcribing the call, summarising it, listing who agreed to what." },
+    { n: "03", tag: "REPORTING", title: "The first version", body: "Pulling figures together and writing the commentary around them." },
+    { n: "04", tag: "HIRING", title: "Screening and scheduling", body: "Ranking applications, arranging interviews, drafting the questions." }
+  ],
+  callout: "Ignore the branding on the product. Ask what job the AI inside it is doing.",
+  primary: { label: "Continue", target: "check-two" },
+  secondary: { label: "Back", target: "generative" },
+  narration: "You have probably already used AI today without noticing. It sorts your inbox and suggests replies. It transcribes your meetings and lists the actions. It pulls figures together for a report and writes the commentary. It ranks job applications and schedules interviews. Ignore the branding on the product and ask what job the AI inside it is doing."
+},
+
+{
+  id: "check-two",
+  kind: "quiz",
+  section: "QUICK CHECK · 2 OF 3",
+  title: "Which one is generative AI?",
+  scenario: "All three of these exist in ordinary business software. Only one of them creates something new.",
+  options: [
+    { label: "A", text: "A dashboard showing last quarter's sales", correct: false,
+      why: "This displays numbers that already exist. Useful, but nothing new is being produced." },
+    { label: "B", text: "A tool that writes the first draft of your quarterly summary", correct: true,
+      why: "Correct. It produces new text that did not exist before, based on patterns it learned from a great deal of writing." },
+    { label: "C", text: "A filter moving suspicious email to junk", correct: false,
+      why: "That is AI, but the recognising kind. It sorts what already exists rather than creating anything." }
+  ],
+  primary: { label: "Continue", target: "limits" },
+  secondary: { label: "Back", target: "ai-at-work" },
+  narration: "Quick check, two of three. All three of these exist in ordinary business software, but only one of them creates something new. Which one is generative AI?"
+},
+
+{
+  id: "limits",
+  kind: "cards",
+  tone: "warn",
+  section: "WHERE IT FALLS DOWN",
+  title: "Four failures worth planning for",
+  items: [
+    { n: "01", title: "It can be confidently wrong", body: "Fluent, well-organised writing is not evidence. The tone stays the same whether it is right or not." },
+    { n: "02", title: "It does not know your context", body: "It has never met your client, read your contract, or seen last week's decision." },
+    { n: "03", title: "It repeats what is in the data", body: "Past examples carry past bias. The pattern it learned includes the unfairness in it." },
+    { n: "04", title: "It cannot be accountable", body: "Your name goes on the work. The tool does not attend the review meeting." }
+  ],
+  callout: "None of these make AI unusable. They decide what you check before the work leaves your desk.",
+  primary: { label: "Continue", target: "scenario" },
+  secondary: { label: "Back", target: "check-two" },
+  narration: "Useful does not mean correct. AI can be confidently wrong, because fluent writing is not evidence. It does not know your context. It repeats bias from its data. And it cannot be accountable, because your name goes on the work."
+},
+
+{
+  id: "scenario",
+  kind: "quiz",
+  section: "QUICK CHECK · 3 OF 3",
+  title: "What would you do here?",
+  scenario: "An AI tool drafts a client email for you. It reads well, but it states a delivery date you have not seen anywhere else.",
+  options: [
+    { label: "A", text: "Send it. The tool is usually accurate.", correct: false,
+      why: "Usually accurate is not the same as accurate this time, and a wrong date in writing to a client becomes your problem." },
+    { label: "B", text: "Confirm the date with your delivery team, then send", correct: true,
+      why: "Right. Anything a client, a regulator or your manager will see is worth thirty seconds of checking." },
+    { label: "C", text: "Paste the signed contract in and ask it to verify", correct: false,
+      why: "This adds a second problem. You have now put confidential client terms into an outside tool to check a single date." }
+  ],
+  primary: { label: "Continue", target: "habits" },
+  secondary: { label: "Back", target: "limits" },
+  narration: "Quick check, three of three. An AI tool drafts a client email for you. It reads well, but it states a delivery date you have not seen anywhere else. What would you do?"
+},
+
+{
+  id: "habits",
+  kind: "steps",
+  section: "HOW TO USE IT WELL",
+  title: "Three habits that cover almost everything",
+  art: "verify",
+  items: [
+    { n: "01", title: "Ask precisely", body: "Say who it is for, what it is for, and what a good answer looks like. Vague questions get vague answers." },
+    { n: "02", title: "Verify what matters", body: "Anything a client, a regulator or your manager will read. Skip the check on a rough internal note." },
+    { n: "03", title: "Protect what is private", body: "No client data, no personal records, no passwords, no unreleased numbers. Assume anything you paste may be stored." }
+  ],
+  callout: "Ask well, check what counts, share nothing you should not. That is the whole discipline.",
+  primary: { label: "Continue", target: "roadmap" },
+  secondary: { label: "Back", target: "scenario" },
+  narration: "Three habits cover almost everything. Ask precisely: say who it is for and what a good answer looks like. Verify what matters: anything a client or your manager will read. And protect what is private."
+},
+
+{
+  id: "roadmap",
+  kind: "roadmap",
+  section: "WHAT COMES NEXT",
+  title: "This was the foundation",
+  body: "Module 01 gives everyone the same vocabulary and the same instincts. The modules that follow turn that into daily practice.",
+  items: [
+    { n: "02", title: "Writing prompts that work", body: "Getting usable output on the first attempt instead of the fifth." },
+    { n: "03", title: "AI for analysis and reporting", body: "Working with your own documents, numbers and templates." },
+    { n: "04", title: "Safe and compliant use", body: "What your organisation's policy should say, and why." }
+  ],
+  primary: { label: "Finish module", target: "complete" },
+  secondary: { label: "Back", target: "habits" },
+  narration: "This was the foundation. Module one gives everyone the same vocabulary and the same instincts. The modules that follow turn that into daily practice: writing prompts that work, using AI for analysis and reporting, and safe and compliant use at work."
+},
+
+{
+  id: "complete",
+  kind: "complete",
+  section: "MODULE 01 COMPLETE",
+  title: "You can now explain AI to anyone in the room",
+  body: "You have the vocabulary, you know the failure modes, and you have three habits that keep the work safe.",
+  items: [
+    { n: "01", title: "What it is", body: "Software that learns patterns from examples rather than following written rules." },
+    { n: "02", title: "What it does", body: "Understands, recognises, predicts, generates. Rarely all four at once." },
+    { n: "03", title: "How to use it", body: "Ask precisely, verify what matters, protect what is private." }
+  ],
+  primary: { label: "Get your certificate", target: "certificate" },
+  secondary: { label: "Replay the video", target: "video-lesson" },
+  narration: "Congratulations. Module one is complete. You can now explain that AI is software which learns patterns from examples rather than following written rules. You know it understands, recognises, predicts and generates, and rarely all four at once. And you have three habits: ask precisely, verify what matters, and protect what is private."
+},
+
+{
+  id: "certificate",
+  kind: "certificate",
+  section: "CERTIFICATE",
+  title: "Your record of completion",
+  lead: "Type your name as you would like it to appear, then print or save it as a PDF.",
+  // Shown in the name box. The learner can still type over it.
+  defaultName: "Abhishek Uniyal",
+  award: "has completed",
+  course: "Introduction to Artificial Intelligence",
+  moduleLine: "Module 01 · Foundation",
+  issuer: "Gold Technology",
+  primary: { label: "Restart module", target: "welcome" },
+  secondary: { label: "Back", target: "complete" },
+  narration: "Here is your record of completion. Type your name as you would like it to appear, then print it or save it as a PDF."
+}
+
+]};
+</script>
+<script>
+/* ===========================================================================
+   SETTINGS - the two things you are likely to change
+   =========================================================================== */
+
+/* APPROVED LEARNER EMAILS. Add a line inside the brackets, in quotes, with a
+   comma after the line above. Lowercase only. Save, then reload the page.   */
+const approvedEmails = new Set([
+  "anirudhuniyal14@gmail.com",
+  "ankii0210@gmail.com"
+]);
+
+/* Where "Request access" messages are sent. */
+const accessRequestRecipient = "anirudhuniyal14@gmail.com";
+
+/* Narration files live in course/audio/male/ and are named after each screen,
+   for example 01-welcome.mp3. They are made by MAKE_MY_VOICE_FREE.bat.
+   While they do not exist the course stays silent, which is what you want
+   when presenting. Set this to true to have the browser read screens aloud. */
+const SPEAK_WHEN_NO_FILE = false;
+
+/* =========================================================================== */
+
+/* Never show a blank page. If the text of the course did not load, say so. */
+if (!window.COURSE || !Array.isArray(window.COURSE.slides)) {
+  const b = document.createElement("div");
+  b.id = "warn";
+  b.innerHTML = "<strong>The course text did not load.</strong>"
+    + "The file <b>course/content.js</b> is missing. If this is a website, "
+    + "upload that file into the <b>course</b> folder next to index.html. "
+    + "If this is on your computer, make sure the whole folder was unzipped.";
+  document.body.prepend(b);
+  throw new Error("course/content.js did not load");
+}
+
+const slides = window.COURSE.slides;
+const app = document.getElementById("app");
+const narration = document.getElementById("narration");
+const idx = new Map(slides.map((s, i) => [s.id, i]));
+const state = { started:false, i:0, cc:false, playing:false, muted:false,
+                mediaKey:"", answered:{}, speaking:false, learner:"" };
+
+const esc = (v = "") => String(v)
+  .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+
+const cur = () => slides[state.i];
+const isVideo = () => cur().audioMode === "video";
+const vid = () => document.getElementById("lesson-video");
+const media = () => (isVideo() ? vid() : narration);
+const pad = n => String(n + 1).padStart(2, "0");
+
+/* Each screen's clip is named from its position and id. */
+function audioFor(i) {
+  const s = slides[i];
+  return s.audioMode === "video" ? "" : `course/audio/male/${pad(i)}-${s.id}.mp3`;
+}
+
+/* A screen with an unanswered question should not let you skip ahead. */
+const locked = s => s.kind === "quiz" && !state.answered[s.id];
+
+/* ---------------------------------------------------------------------------
+   Brand artwork. Every picture in the course is drawn from the same shape as
+   the Gold Technology logo - a triangle built out of smaller triangles - so
+   nothing looks like borrowed stock imagery.
+   --------------------------------------------------------------------------- */
+function triField(rows, side, apexX, top) {
+  const h = side * 0.8660254, out = [];
+  for (let r = 0; r < rows; r++) {
+    const yT = top + r * h, yB = top + (r + 1) * h;
+    const lT = apexX - r * side / 2, lB = apexX - (r + 1) * side / 2;
+    for (let c = 0; c <= r; c++)
+      out.push({ up: true, r, c, p: [[lT + c * side, yT], [lB + c * side, yB], [lB + (c + 1) * side, yB]] });
+    for (let c = 0; c < r; c++)
+      out.push({ up: false, r, c, p: [[lT + c * side, yT], [lT + (c + 1) * side, yT], [lB + (c + 1) * side, yB]] });
+  }
+  return out;
+}
+
+/* Shrink each triangle towards its middle so they sit apart, like the logo. */
+function triPath(p, gap = 0.87) {
+  const mx = (p[0][0] + p[1][0] + p[2][0]) / 3, my = (p[0][1] + p[1][1] + p[2][1]) / 3;
+  return "M" + p.map(([x, y]) =>
+    `${(mx + (x - mx) * gap).toFixed(1)},${(my + (y - my) * gap).toFixed(1)}`).join("L") + "Z";
+}
+
+const ART = {
+  /* the logo itself, opened out */
+  hero:   { rows: 5, of: t => t.up ? { fill: 0.95 - t.r * 0.14 } : { line: 0.10 } },
+  /* fills in row by row - examples, then pattern, then answer */
+  learn:  { rows: 4, of: t => !t.up ? { line: 0.09 }
+              : t.r < 2 ? { fill: 0.92 } : t.r === 2 ? { fill: 0.45 } : { line: 0.34 } },
+  /* a system with a few parts lit up */
+  grid:   { rows: 4, of: t => t.up ? ((t.r + t.c) % 3 === 0 ? { fill: 0.88 } : { line: 0.26 })
+              : { line: 0.09 } },
+  /* the outer edges hold, the middle is checked */
+  verify: { rows: 4, of: t => t.up ? ((t.c === 0 || t.c === t.r) ? { fill: 0.85 } : { line: 0.2 })
+              : { line: 0.09 } }
+};
+
+function brandArt(kind) {
+  const cfg = ART[kind] ?? ART.hero;
+  const W = 300, pad = 16;
+  const side = (W - pad * 2) / cfg.rows;
+  const H = Math.round(cfg.rows * side * 0.8660254 + pad * 2);
+  const shapes = triField(cfg.rows, side, W / 2, pad).map(t => {
+    const s = cfg.of(t), d = triPath(t.p);
+    return s.fill != null
+      ? `<path d="${d}" fill="#EAC64B" opacity="${s.fill}"/>`
+      : `<path d="${d}" fill="none" stroke="#EAC64B" stroke-width="1" opacity="${s.line}"/>`;
+  }).join("");
+  return `<svg class="art" viewBox="0 0 ${W} ${H}" role="img" aria-label="Gold Technology emblem">${shapes}</svg>`;
+}
+
+const artBox = kind => `<div class="artbox">${brandArt(kind)}</div>`;
+
+/* ------------------------------- pieces ---------------------------------- */
+
+function tile(it) {
+  return `<article class="tile">
+    ${it.n ? `<div class="n">${esc(it.n)}</div>` : ""}
+    ${it.tag ? `<span class="tag">${esc(it.tag)}</span>` : ""}
+    <h3>${esc(it.title)}</h3>
+    ${it.body ? `<p>${esc(it.body)}</p>` : ""}
+  </article>`;
+}
+const callout = s => s.callout ? `<div class="callout">${esc(s.callout)}</div>` : "";
+
+function bodyFor(s) {
+  const items = s.items ?? [];
+
+  if (s.kind === "cover") return `<div class="cover">
+    <div>
+      <h2>${esc(s.title)}</h2>
+      <p class="lead">${esc(s.lead)}</p>
+      <p class="lead" style="font-size:14.5px;color:var(--dim)">${esc(s.body)}</p>
+      <div class="metas">${(s.meta ?? []).map(m => `<span>${esc(m)}</span>`).join("")}</div>
+    </div>
+    ${s.art ? artBox(s.art) : ""}
+  </div>`;
+
+  if (s.kind === "statement") return `<div class="state">
+    <div>
+      <div class="big">${esc(s.headline)}</div>
+      <p class="lead">${esc(s.body)}</p>
+      ${callout(s)}
+    </div>
+    ${artBox("hero")}
+  </div>`;
+
+  if (s.kind === "compare") return `<div class="cmp">
+    ${items.map(it => `<article class="tile">
+      <span class="tag">${esc(it.tag)}</span>
+      <h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></article>`).join("")}
+    ${callout(s)}
+  </div>`;
+
+  if (s.kind === "duo") return `<div class="duo">
+    ${items.map(it => `<article class="tile">
+      <span class="key">${esc(it.key)}</span>
+      <h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></article>`).join("")}
+    ${s.callout ? `<div class="callout" style="grid-column:1/-1">${esc(s.callout)}</div>` : ""}
+  </div>`;
+
+  if (s.kind === "steps") return `<div class="flow ${s.art ? "withpic" : ""}">
+    <div class="flow-list">${items.map(tile).join("")}</div>
+    ${s.art ? `<div class="pic">${brandArt(s.art)}</div>` : ""}
+    ${callout(s)}
+  </div>`;
+
+  if (s.kind === "certificate") {
+    const name = s.defaultName
+      || (state.learner ? state.learner.split("@")[0].replace(/[._-]+/g, " ") : "");
+    const today = new Date().toLocaleDateString("en-GB",
+      { day: "numeric", month: "long", year: "numeric" });
+    return `<div>
+      <div class="cert">
+        <img src="course/brand/logo-full.png" alt="Gold Technology">
+        <p class="kicker">CERTIFICATE OF COMPLETION</p>
+        <input class="who" id="cert-name" value="${esc(name)}"
+               placeholder="Your name" aria-label="Your name">
+        <p class="said">${esc(s.award)}</p>
+        <h3>${esc(s.course)}</h3>
+        <p class="mod">${esc(s.moduleLine)}</p>
+        <div class="foot">
+          <span>ISSUED BY<b>${esc(s.issuer)}</b></span>
+          <span style="text-align:right">DATE<b>${esc(today)}</b></span>
+        </div>
+      </div>
+      <p class="cert-hint">Use the Print button below, then choose "Save as PDF" if you want a copy.</p>
+    </div>`;
+  }
+
+  if (s.kind === "feature") return `<div class="feature">
+    <div><div class="kw">${esc(s.keyword)}</div></div>
+    <div>
+      <div class="big" style="font-size:22px">${esc(s.title)}</div>
+      <p class="lead">${esc(s.body)}</p>
+      <div class="chips">${(s.chips ?? []).map(c => `<span>${esc(c)}</span>`).join("")}</div>
+      ${callout(s)}
+    </div>
+  </div>`;
+
+  if (s.kind === "video") return `<div class="vid">
+    <video id="lesson-video" controls playsinline preload="metadata"
+      poster="${esc(s.poster)}" src="${esc(s.video)}"></video></div>`;
+
+  if (s.kind === "quiz") {
+    const picked = state.answered[s.id];
+    return `<div class="quiz">
+      <p class="scen">${esc(s.scenario)}</p>
+      <div class="opts">${s.options.map((o, i) => {
+        let cls = "opt";
+        if (picked !== undefined) {
+          cls += o.correct ? " right" : (picked === i ? " wrong" : " dim");
+        }
+        return `<button class="${cls}" data-pick="${i}" ${picked !== undefined ? "disabled" : ""}>
+          <span class="k">${esc(o.label)}</span>
+          <span class="t">${esc(o.text)}</span>
+          <span class="mk">${o.correct ? "✓" : "✕"}</span></button>`;
+      }).join("")}</div>
+      ${picked !== undefined ? `<div class="why ${s.options[picked].correct ? "right" : "wrong"}">
+        <b>${s.options[picked].correct ? "THAT IS RIGHT" : "NOT QUITE"}</b>
+        ${esc(s.options[picked].why)}</div>` : ""}
+    </div>`;
+  }
+
+  if (s.kind === "roadmap") return `<div style="width:100%">
+    <p class="lead" style="margin:0 0 18px;max-width:70ch">${esc(s.body)}</p>
+    <div class="grid three">${items.map(tile).join("")}</div>
+  </div>`;
+
+  if (s.kind === "complete") return `<div class="done">
+    <div class="done-top">
+      <div class="tick">✓</div>
+      <div><p class="eyebrow">MODULE COMPLETE</p>
+        <p class="lead" style="margin-top:6px;color:#D6DDEA">${esc(s.body)}</p></div>
+    </div>
+    <div class="grid three">${items.map(tile).join("")}</div>
+  </div>`;
+
+  /* default: cards */
+  const n = items.length === 4 ? "four" : items.length === 3 ? "three" : "";
+  return `<div class="grid ${n}">${items.map(tile).join("")}${callout(s)}</div>`;
+}
+
+/* ------------------------------- screens --------------------------------- */
+
+function renderGate() {
+  app.innerHTML = `<main class="gate"><section class="gate-card">
+    <div class="gate-brand">
+      <img class="gate-logo" src="course/brand/logo-full.png" alt="Gold Technology">
+      <div>
+        <p class="eyebrow">AI FOR ALL · MODULE 01</p>
+        <h1>Introduction to Artificial Intelligence</h1>
+        <p>A practical foundation module for working professionals. Plain English, real examples, no technical background required.</p>
+      </div>
+      <div class="pills"><span>17 screens</span><span>About 20 minutes</span><span>Desktop &amp; mobile</span></div>
+    </div>
+    <div class="gate-form">
+      <p class="eyebrow">PRIVATE TRAINING ACCESS</p>
+      <h2>Enter your email</h2>
+      <p>Approved learners go straight into the module.</p>
+      <form id="gate-form" novalidate>
+        <label for="em">Work or approved email</label>
+        <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="name@company.com">
+        <button class="btn-gold" type="submit">Enter training</button>
+        <button class="btn-ghost" type="button" id="req">Request access</button>
+      </form>
+      <p class="note" id="note" aria-live="polite">Access is limited to approved email addresses.</p>
+      <p class="gate-foot">Gold Technology · Internal training preview</p>
+    </div>
+  </section></main>`;
+  document.getElementById("gate-form").addEventListener("submit", e => { e.preventDefault(); tryEnter(); });
+  document.getElementById("req").addEventListener("click", requestAccess);
+}
+
+const typed = () => document.getElementById("em")?.value.trim().toLowerCase() ?? "";
+function say(msg, bad = true) {
+  const n = document.getElementById("note");
+  if (n) { n.textContent = msg; n.classList.toggle("bad", bad); }
+}
+function tryEnter() {
+  const e = typed();
+  if (!/^\S+@\S+\.\S+$/.test(e)) return say("Please enter a valid email address.");
+  if (!approvedEmails.has(e)) return say("This address does not have access yet. Use Request access below.");
+  start();
+}
+function requestAccess() {
+  const e = typed();
+  if (!/^\S+@\S+\.\S+$/.test(e)) return say("Enter your email first, then select Request access.");
+  if (approvedEmails.has(e)) return start();
+  location.href = "mailto:" + accessRequestRecipient
+    + "?subject=" + encodeURIComponent("Access request - AI For All training")
+    + "&body=" + encodeURIComponent("Please grant AI training access to: " + e);
+  say("Your email app will open with a ready-made request.", false);
+}
+
+function actBtn(a, cls, off) {
+  if (!a) return "";
+  return `<button class="${cls}" data-go="${esc(a.target)}" ${off ? "disabled" : ""}>${esc(a.label)}</button>`;
+}
+
+function renderCourse() {
+  const s = cur();
+  const pct = ((state.i + 1) / slides.length) * 100;
+  app.innerHTML = `<main class="shell">
+    <header class="bar">
+      <button class="bar-brand" data-go="welcome" aria-label="Back to start">
+        <img src="course/brand/logo-mark.png" alt="Gold Technology">
+        <span><b>AI FOR ALL</b><small>Module 01 · Foundation</small></span>
+      </button>
+      <div class="prog">
+        <div class="prog-top"><span>SCREEN ${state.i + 1} OF ${slides.length}</span><span>${Math.round(pct)}%</span></div>
+        <div class="prog-bar"><i style="width:${pct}%"></i></div>
+      </div>
+      <div class="tools">
+        <button class="tool" id="t-play" aria-label="Play or pause">▶<small>Play</small></button>
+        <button class="tool" id="t-again" aria-label="Replay">↻<small>Replay</small></button>
+        <button class="tool ${state.cc ? "on" : ""}" id="t-cc" aria-label="Captions">CC<small>Text</small></button>
+        <button class="tool" id="t-mute" aria-label="Mute">${state.muted ? "✕" : "◍"}<small>${state.muted ? "Muted" : "Sound"}</small></button>
+        <button class="tool" id="t-full" aria-label="Full screen">⛶<small>Full</small></button>
+      </div>
+    </header>
+
+    <section class="stage">
+      <article class="card ${s.tone === "warn" ? "warn" : ""}">
+        <header class="head">
+          <div>
+            <p class="eyebrow">${esc(s.section)}</p>
+            <h1>${esc(s.title)}</h1>
+            ${s.lead && s.kind !== "cover" ? `<p class="lead">${esc(s.lead)}</p>` : ""}
+          </div>
+          <div class="num">${pad(state.i)} / ${slides.length}</div>
+        </header>
+        ${s.art && s.kind === "cards" ? `<div class="mark">${brandArt(s.art)}</div>` : ""}
+        <div class="body">${bodyFor(s)}</div>
+        ${state.cc ? `<div class="cc"><span>CC</span><p>${esc(s.narration)}</p></div>` : ""}
+        <footer class="acts">
+          ${actBtn(s.secondary, "act2", false)}
+          ${s.kind === "certificate" ? `<button class="act2" id="print-cert">Print</button>` : ""}
+          ${actBtn(s.primary, "act", locked(s))}
+        </footer>
+      </article>
+    </section>
+
+    <nav class="nav">
+      <button id="prev" ${state.i === 0 ? "disabled" : ""}>← Previous</button>
+      <div class="where">${esc(s.section)}</div>
+      <button id="next" ${state.i === slides.length - 1 || locked(s) ? "disabled" : ""}>Next →</button>
+    </nav>
+  </main>`;
+
+  app.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
+  app.querySelectorAll("[data-pick]").forEach(b =>
+    b.addEventListener("click", () => answer(s, Number(b.dataset.pick))));
+  document.getElementById("prev")?.addEventListener("click", () => step(-1));
+  document.getElementById("next")?.addEventListener("click", () => step(1));
+  document.getElementById("t-play")?.addEventListener("click", togglePlay);
+  document.getElementById("t-again")?.addEventListener("click", replay);
+  document.getElementById("t-cc")?.addEventListener("click", toggleCC);
+  document.getElementById("t-mute")?.addEventListener("click", toggleMute);
+  document.getElementById("t-full")?.addEventListener("click", toggleFull);
+  document.getElementById("print-cert")?.addEventListener("click", () => window.print());
+  if (isVideo()) bindVideo();
+  refreshTools();
+}
+
+function answer(s, i) {
+  state.answered[s.id] = i;
+  renderCourse();
+  const first = app.querySelector(".why");
+  if (first) first.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+
+/* ------------------------------- movement -------------------------------- */
+
+function start() {
+  state.learner = typed();          // used to pre-fill the certificate
+  state.started = true; state.i = 0;
+  renderCourse(); play(true);
+}
+
+function go(target) {
+  const n = idx.get(target);
+  if (n === undefined) return;
+  stopAll(); state.i = n; renderCourse(); play(true);
+}
+function step(d) {
+  const n = Math.min(slides.length - 1, Math.max(0, state.i + d));
+  if (n === state.i) return;
+  stopAll(); state.i = n; renderCourse(); play(true);
+}
+
+/* ------------------------------- audio ----------------------------------- */
+
+const speech = window.speechSynthesis ?? null;
+let keepAlive = null;
+
+function maleVoice() {
+  const all = speech?.getVoices?.() ?? [];
+  if (!all.length) return null;
+  const en = all.filter(v => /^en/i.test(v.lang));
+  const pool = en.length ? en : all;
+  for (const re of [/christopher/i, /\bguy\b/i, /prabhat/i, /\bryan\b/i, /\bdavid\b/i,
+                    /\bmark\b/i, /\bravi\b/i, /\balex\b/i, /\bdaniel\b/i]) {
+    const hit = pool.find(v => re.test(v.name));
+    if (hit) return hit;
+  }
+  const female = /zira|hazel|susan|heera|samantha|victoria|karen|moira|tessa|fiona|aria|jenny|neerja|nicky/i;
+  return pool.find(v => !female.test(v.name)) ?? pool[0];
+}
+
+function stopSpeech() {
+  clearInterval(keepAlive); keepAlive = null;
+  speech?.cancel(); state.speaking = false;
+}
+function stopAll() { narration.pause(); vid()?.pause(); stopSpeech(); state.playing = false; }
+
+function speak() {
+  if (!SPEAK_WHEN_NO_FILE || !speech || state.muted) return false;
+  speech.cancel();
+  const u = new SpeechSynthesisUtterance(cur().narration);
+  const v = maleVoice();
+  if (v) { u.voice = v; u.lang = v.lang; }
+  u.rate = .94; u.pitch = .9;
+  u.onend = u.onerror = () => { stopSpeech(); refreshTools(); };
+  speech.speak(u);
+  state.speaking = true;
+  clearInterval(keepAlive);
+  keepAlive = setInterval(() => {
+    if (!speech.speaking) return clearInterval(keepAlive);
+    speech.pause(); speech.resume();
+  }, 9000);
+  return true;
+}
+
+async function play(restart = false) {
+  stopSpeech();
+  if (isVideo()) { narration.pause(); state.playing = false; return refreshTools(); }
+  const base = audioFor(state.i);
+  for (const src of [base, base.replace(/\.mp3$/i, ".wav")]) {
+    if (!src) break;
+    if (state.mediaKey !== src) { narration.src = src; narration.load(); state.mediaKey = src; }
+    else if (restart) narration.currentTime = 0;
+    narration.muted = state.muted;
+    try { await narration.play(); state.playing = true; return refreshTools(); }
+    catch { state.mediaKey = ""; }
+  }
+  state.playing = speak();
+  refreshTools();
+}
+
+function togglePlay() {
+  if (isVideo()) {
+    const v = vid(); if (!v) return;
+    v.paused ? v.play().catch(() => {}) : v.pause();
+    return refreshTools();
+  }
+  if (state.speaking) {
+    speech.paused ? speech.resume() : speech.pause();
+    return refreshTools();
+  }
+  narration.paused ? play(false) : narration.pause();
+}
+function replay() {
+  if (isVideo()) { const v = vid(); if (v) { v.currentTime = 0; v.play().catch(() => {}); } return refreshTools(); }
+  play(true);
+}
+function toggleMute() {
+  state.muted = !state.muted;
+  narration.muted = state.muted;
+  const v = vid(); if (v) v.muted = state.muted;
+  if (state.muted) stopSpeech();
+  refreshTools();
+}
+function toggleCC() {
+  state.cc = !state.cc;
+  const card = app.querySelector(".card"); if (!card) return;
+  const had = card.querySelector(".cc");
+  if (state.cc && !had) {
+    const d = document.createElement("div");
+    d.className = "cc";
+    d.innerHTML = `<span>CC</span><p>${esc(cur().narration)}</p>`;
+    card.insertBefore(d, card.querySelector(".acts"));
+  } else if (!state.cc && had) had.remove();
+  document.getElementById("t-cc")?.classList.toggle("on", state.cc);
+}
+function toggleFull() {
+  document.fullscreenElement ? document.exitFullscreen?.() : document.documentElement.requestFullscreen?.();
+}
+function bindVideo() {
+  const v = vid();
+  if (!v || v.dataset.on) return;
+  v.dataset.on = "1"; v.muted = state.muted;
+  v.addEventListener("play", () => { narration.pause(); stopSpeech(); refreshTools(); });
+  v.addEventListener("pause", refreshTools);
+  v.addEventListener("ended", refreshTools);
+}
+function refreshTools() {
+  const m = media();
+  state.playing = (state.speaking && speech?.speaking && !speech.paused)
+                  || Boolean(m && !m.paused && !m.ended);
+  const p = document.getElementById("t-play");
+  if (p) { p.innerHTML = `${state.playing ? "❚❚" : "▶"}<small>${state.playing ? "Pause" : "Play"}</small>`;
+           p.classList.toggle("on", state.playing); }
+  const mu = document.getElementById("t-mute");
+  if (mu) mu.innerHTML = `${state.muted ? "✕" : "◍"}<small>${state.muted ? "Muted" : "Sound"}</small>`;
+  const f = document.getElementById("t-full");
+  if (f) { const on = Boolean(document.fullscreenElement);
+           f.innerHTML = `⛶<small>${on ? "Exit" : "Full"}</small>`; f.classList.toggle("on", on); }
+}
+
+narration.addEventListener("play", refreshTools);
+narration.addEventListener("pause", refreshTools);
+narration.addEventListener("ended", refreshTools);
+document.addEventListener("fullscreenchange", refreshTools);
+
+window.addEventListener("keydown", e => {
+  if (!state.started) return;
+  const tag = document.activeElement?.tagName;
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight" && !locked(cur())) step(1);
+  if (e.key === " " && !["BUTTON","INPUT","TEXTAREA","VIDEO"].includes(tag)) { e.preventDefault(); togglePlay(); }
+});
+
+/* Missing files usually mean a half-copied folder. Say so plainly. */
+function showWarn() {
+  if (document.getElementById("warn")) return;
+  const web = location.protocol.startsWith("http");
+  const d = document.createElement("div");
+  d.id = "warn";
+  d.innerHTML = "<strong>Some course files could not be found.</strong>" + (web
+    ? "The <b>course</b> folder is missing from the website. Upload it next to index.html, keeping its images, brand, audio and media folders inside."
+    : "This usually means the page was opened from inside the ZIP. Unzip the whole folder first, then open <b>START_TRAINING.html</b> from the unzipped copy.");
+  document.body.prepend(d);
+}
+const probe = new Image();
+probe.addEventListener("error", showWarn);
+probe.src = "course/brand/logo-mark.png";
+
+renderGate();
+</script>
+</body>
+</html>

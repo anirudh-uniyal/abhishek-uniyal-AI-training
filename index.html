@@ -4,1151 +4,1357 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>AI For All — Introduction to Artificial Intelligence</title>
+<meta name="description" content="Module 1 — AI Fundamentals & Generative AI. Gold Technology AI Training Program for MBA and engineering graduates.">
+<title>Module 1 — AI Fundamentals &amp; Generative AI | Gold Technology</title>
 <style>
 :root{
-  --bg:#0A0E18; --panel:#111726; --panel2:#171F31; --raise:#1D2639;
-  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
-  --ink:#F4F6FA; --muted:#8C97AC; --dim:#616C80;
-  --gold:#E0B84C; --gold2:#C99B2E; --goldsoft:rgba(224,184,76,.12);
-  --ok:#3DD68C; --oksoft:rgba(61,214,140,.12);
-  --no:#F2726B; --nosoft:rgba(242,114,107,.12);
+  --bg:#080B12;
+  --bg2:#0B0F18;
+  --panel:#111725;
+  --panel2:#161D2E;
+  --raise:#1C2436;
+  --line:rgba(255,255,255,.075);
+  --line2:rgba(255,255,255,.14);
+  --ink:#EEF2F9;
+  --body:#C3CBD9;
+  --muted:#8B95A8;
+  --dim:#5F6A7D;
+  --gold:#E8BE55;
+  --gold2:#C99B2E;
+  --goldsoft:rgba(232,190,85,.10);
+  --goldline:rgba(232,190,85,.28);
+  --ok:#4FD18B;
+  --oksoft:rgba(79,209,139,.10);
+  --no:#F0766E;
+  --nosoft:rgba(240,118,110,.10);
+  --info:#6EA8FE;
+  --infosoft:rgba(110,168,254,.10);
+  --serif:Georgia,"Times New Roman",Times,serif;
+  --sans:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
   --r:14px;
+  --maxw:1240px;
 }
+
 *{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased;font-size:16px;line-height:1.5}
-button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{
+  margin:0;background:var(--bg);color:var(--body);
+  font-family:var(--sans);font-size:17px;line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
 img{display:block;max-width:100%}
+a{color:var(--gold);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
 
-/* ---------- shared bits ---------- */
-.eyebrow{margin:0;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.18em}
-.callout{margin-top:18px;padding:13px 16px;border-left:2px solid var(--gold);
-  border-radius:0 8px 8px 0;background:var(--goldsoft);color:#DCE3EF;font-size:14px;line-height:1.55}
-.lead{color:var(--muted);font-size:17px;line-height:1.6;margin:14px 0 0}
+/* ============ reading progress ============ */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.06);z-index:60}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .12s linear}
 
-/* ---------- access ---------- */
-.gate{min-height:100dvh;display:grid;place-items:center;padding:24px;
-  background:radial-gradient(900px 500px at 15% 0%,rgba(224,184,76,.10),transparent 60%),
-             radial-gradient(800px 500px at 100% 100%,rgba(58,110,200,.12),transparent 60%),var(--bg)}
-.gate-card{width:min(1020px,100%);display:grid;grid-template-columns:1.05fr .95fr;
-  border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel);
-  box-shadow:0 40px 90px rgba(0,0,0,.55)}
-.gate-brand{padding:46px 44px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;
-  background:linear-gradient(160deg,#0E1421,#141C2D);border-right:1px solid var(--line)}
-.gate-logo{width:172px;height:auto}
-.gate-brand h1{margin:14px 0 0;font-size:clamp(30px,3.4vw,42px);line-height:1.08;letter-spacing:-.03em;font-weight:600}
-.gate-brand p{margin:14px 0 0;color:var(--muted);font-size:15px;line-height:1.6;max-width:42ch}
-.pills{display:flex;flex-wrap:wrap;gap:7px}
-.pills span{padding:7px 11px;border:1px solid var(--line2);border-radius:100px;
-  color:#C3CCDC;font-size:11px;font-weight:600}
-.gate-form{padding:46px 44px;display:flex;flex-direction:column;justify-content:center}
-.gate-form h2{margin:12px 0 0;font-size:28px;font-weight:600;letter-spacing:-.02em}
-.gate-form>p{margin:10px 0 26px;color:var(--muted);font-size:14px}
-label{display:block;margin-bottom:8px;color:#AEB8C8;font-size:12px;font-weight:600;letter-spacing:.04em}
-input{width:100%;min-height:52px;padding:0 15px;border:1px solid var(--line2);border-radius:10px;
-  background:#0C1220;color:var(--ink);font-size:16px}
-input::placeholder{color:#596274}
-.btn-gold,.btn-ghost{width:100%;min-height:50px;border-radius:10px;cursor:pointer;
-  font-size:15px;font-weight:600;transition:transform .15s,filter .15s}
-.btn-gold{margin-top:14px;border:0;color:#12161F;background:linear-gradient(135deg,var(--gold),var(--gold2))}
-.btn-ghost{margin-top:9px;border:1px solid var(--line2);background:transparent;color:#C3CCDC}
-.btn-gold:hover,.btn-ghost:hover{transform:translateY(-1px);filter:brightness(1.06)}
-.note{min-height:22px;margin:14px 0 0;color:var(--dim);font-size:12.5px;line-height:1.5}
-.note.bad{color:#F0A9A4}
-.gate-foot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);color:var(--dim);font-size:11.5px}
+/* ============ top bar ============ */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(8,11,18,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-in{
+  max-width:var(--maxw);margin:0 auto;padding:11px 24px;
+  display:flex;align-items:center;gap:14px;
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand img{width:32px;height:32px;object-fit:contain;flex:none}
+.brand-txt{min-width:0}
+.brand-name{
+  font-size:13px;font-weight:700;color:var(--ink);letter-spacing:.02em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3
+}
+.brand-sub{font-size:11px;color:var(--dim);letter-spacing:.10em;text-transform:uppercase;line-height:1.3}
+.topbar-spacer{flex:1}
+.topbar-chip{
+  flex:none;font-size:12px;font-weight:700;color:var(--gold);
+  border:1px solid var(--goldline);background:var(--goldsoft);
+  padding:6px 13px;border-radius:999px;white-space:nowrap
+}
 
-/* ---------- shell ---------- */
-.shell{min-height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
-.bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:26px;
-  padding:14px 26px;border-bottom:1px solid var(--line);background:rgba(10,14,24,.92);
-  position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
-.bar-brand{display:flex;align-items:center;gap:11px;border:0;background:none;cursor:pointer;padding:0}
-.bar-brand img{width:auto;height:36px;object-fit:contain}
-.bar-brand b{display:block;font-size:12px;letter-spacing:.14em;font-weight:700}
-.bar-brand small{display:block;margin-top:2px;color:var(--dim);font-size:11px}
-.prog{max-width:420px;margin:0 auto;width:100%}
-.prog-top{display:flex;justify-content:space-between;margin-bottom:7px;
-  color:var(--dim);font-size:10.5px;font-weight:600;letter-spacing:.1em}
-.prog-bar{height:4px;border-radius:100px;background:rgba(255,255,255,.09);overflow:hidden}
-.prog-bar i{display:block;height:100%;border-radius:inherit;
-  background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .4s ease}
-.tools{display:flex;gap:3px}
-.tool{min-width:42px;height:42px;display:grid;place-items:center;gap:2px;padding:4px;
-  border:0;border-radius:9px;background:transparent;color:var(--dim);cursor:pointer;font-size:13px}
-.tool small{font-size:8.5px;letter-spacing:.04em}
-.tool:hover,.tool.on{background:rgba(255,255,255,.07);color:var(--ink)}
-.tool:disabled{opacity:.3;cursor:not-allowed}
+/* ============ hero ============ */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(900px 420px at 18% -10%,rgba(232,190,85,.16),transparent 62%),
+    radial-gradient(700px 380px at 92% 8%,rgba(110,168,254,.09),transparent 60%);
+  pointer-events:none
+}
+.hero-in{position:relative;max-width:var(--maxw);margin:0 auto;padding:64px 24px 54px}
+.hero-logo{width:210px;margin-bottom:34px;opacity:.97}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:11px;font-weight:800;letter-spacing:.20em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 18px
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);opacity:.6}
+h1{
+  font-family:var(--serif);font-weight:400;color:var(--ink);
+  font-size:clamp(34px,5.4vw,58px);line-height:1.1;letter-spacing:-.015em;
+  margin:0 0 20px;max-width:17ch
+}
+h1 em{font-style:italic;color:var(--gold)}
+.lede{font-size:clamp(16px,1.9vw,19px);line-height:1.68;color:var(--body);max-width:62ch;margin:0 0 30px}
+.meta{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:34px}
+.meta span{
+  font-size:12.5px;font-weight:600;color:var(--body);
+  border:1px solid var(--line2);border-radius:999px;padding:7px 14px;background:rgba(255,255,255,.02)
+}
+.meta span b{color:var(--gold);font-weight:700}
 
-.stage{min-height:0;display:grid;place-items:center;padding:22px 26px}
-.card{position:relative;width:min(1120px,100%);
-  min-height:min(560px,100%);max-height:100%;
-  padding:30px 40px 22px;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;
-  border:1px solid var(--line);border-radius:18px;background:var(--panel);
-  box-shadow:0 26px 70px rgba(0,0,0,.42)}
-.card::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;
-  border-radius:18px 18px 0 0;background:linear-gradient(90deg,var(--gold),transparent 65%)}
-.card.warn::before{background:linear-gradient(90deg,var(--no),transparent 65%)}
-.head{display:flex;justify-content:space-between;align-items:flex-start;gap:26px}
-.head h1{margin:11px 0 0;font-size:clamp(24px,2.7vw,36px);line-height:1.14;letter-spacing:-.028em;font-weight:600;max-width:22ch}
-.head .lead{max-width:60ch}
-.num{color:var(--line2);font-size:13px;font-weight:700;letter-spacing:.1em;white-space:nowrap;padding-top:2px}
-.body{min-height:0;display:flex;align-items:center;overflow:auto;scrollbar-width:thin}
-.body>*{min-width:0}
-.body::-webkit-scrollbar{width:6px}
-.body::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
-.acts{display:flex;justify-content:flex-end;gap:10px;align-items:center}
-.act,.act2{min-height:44px;padding:0 22px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;
-  transition:transform .15s,filter .15s}
-.act{border:0;color:#12161F;background:linear-gradient(135deg,var(--gold),var(--gold2))}
-.act2{border:1px solid var(--line2);background:transparent;color:#C3CCDC}
-.act:hover,.act2:hover{transform:translateY(-1px);filter:brightness(1.07)}
-.act:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.outcome{
+  border:1px solid var(--goldline);background:var(--goldsoft);
+  border-radius:var(--r);padding:22px 24px;max-width:74ch
+}
+.outcome h4{
+  margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);font-family:var(--sans)
+}
+.outcome p{margin:0;color:#E4E9F2;font-size:16px;line-height:1.66}
 
-.nav{display:grid;grid-template-columns:150px 1fr 150px;align-items:center;gap:16px;
-  padding:12px 26px;border-top:1px solid var(--line)}
-.nav button{height:40px;padding:0 15px;border:1px solid var(--line2);border-radius:9px;
-  background:transparent;color:#AEB8C8;cursor:pointer;font-size:13px;font-weight:600}
-.nav button:disabled{opacity:.28;cursor:not-allowed}
-.nav .where{text-align:center;color:var(--dim);font-size:11.5px;letter-spacing:.06em;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* ============ journey strip ============ */
+.journey{border-bottom:1px solid var(--line);background:var(--bg2)}
+.journey-in{max-width:var(--maxw);margin:0 auto;padding:26px 24px}
+.journey h5{
+  margin:0 0 15px;font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim)
+}
+.mods{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.mod{
+  flex:none;min-width:132px;border:1px solid var(--line);border-radius:11px;
+  padding:11px 13px;background:var(--panel);
+}
+.mod b{display:block;font-size:10.5px;letter-spacing:.13em;color:var(--dim);font-weight:800;margin-bottom:4px}
+.mod span{display:block;font-size:12.5px;color:var(--muted);line-height:1.45}
+.mod.on{border-color:var(--goldline);background:linear-gradient(160deg,rgba(232,190,85,.13),rgba(232,190,85,.03))}
+.mod.on b{color:var(--gold)}
+.mod.on span{color:var(--ink);font-weight:600}
 
-/* ---------- layouts ---------- */
-.cover{width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
-.cover h2{margin:0;font-size:clamp(30px,3.6vw,46px);line-height:1.08;letter-spacing:-.035em;font-weight:600}
-.cover .metas{margin-top:24px;display:flex;flex-wrap:wrap;gap:7px}
-.cover .metas span{padding:7px 12px;border:1px solid var(--line2);border-radius:100px;color:#AEB8C8;font-size:11.5px;font-weight:600}
-/* brand artwork, built from the logo's triangle */
-.artbox{display:grid;place-items:center;padding:18px;border-radius:14px;
-  border:1px solid var(--line);background:
-    radial-gradient(70% 70% at 50% 30%,rgba(234,198,75,.07),transparent 70%),var(--panel2)}
-.art{width:100%;max-width:270px;height:auto;display:block}
-.mark{position:absolute;right:-30px;bottom:-34px;width:210px;opacity:.05;pointer-events:none;z-index:0}
-.card>*{position:relative;z-index:1}
+/* ============ layout ============ */
+.layout{max-width:var(--maxw);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:236px 1fr;gap:56px;align-items:start}
 
-.grid{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.grid.four{grid-template-columns:repeat(4,1fr)}
-.grid.three{grid-template-columns:repeat(3,1fr)}
-.grid .callout{grid-column:1/-1;margin-top:4px}
-.tile{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);
-  transition:border-color .2s,transform .2s}
-.tile:hover{border-color:var(--line2);transform:translateY(-2px)}
-.tile .n{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.12em}
-.tile .tag{display:block;margin-top:9px;color:var(--dim);font-size:10px;font-weight:700;letter-spacing:.13em}
-.tile h3{margin:10px 0 0;font-size:16.5px;font-weight:600;letter-spacing:-.012em;line-height:1.25}
-.tile p{margin:7px 0 0;color:var(--muted);font-size:13.5px;line-height:1.55}
-.warn .tile .n{color:var(--no)}
+.toc{position:sticky;top:86px;padding:44px 0 40px;max-height:calc(100vh - 100px);overflow-y:auto}
+.toc h5{margin:0 0 14px;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.toc a{
+  display:block;padding:7px 0 7px 15px;font-size:13.5px;line-height:1.45;
+  color:var(--muted);border-left:2px solid var(--line);text-decoration:none;transition:.16s
+}
+.toc a:hover{color:var(--ink);border-left-color:var(--line2);text-decoration:none}
+.toc a.active{color:var(--gold);border-left-color:var(--gold);font-weight:650}
+.toc a small{display:block;font-size:10.5px;color:var(--dim);letter-spacing:.09em;font-weight:700}
 
-.state{width:100%;display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
-.big{font-size:clamp(24px,2.9vw,36px);line-height:1.24;letter-spacing:-.028em;font-weight:600}
-.big em{font-style:normal;color:var(--gold)}
+.content{padding:44px 0 80px;max-width:790px;min-width:0}
 
-.duo{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.duo .tile{padding:26px;min-height:210px;display:flex;flex-direction:column}
-.duo .key{display:inline-flex;align-self:flex-start;padding:6px 12px;border-radius:7px;
-  background:var(--goldsoft);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em}
-.duo h3{margin:16px 0 0;font-size:20px}
-.duo p{margin-top:10px;font-size:14px}
+/* ============ sections ============ */
+.sec{margin-bottom:74px}
+.sec-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.sec-num{
+  display:inline-block;font-family:var(--serif);font-size:13px;font-weight:700;
+  color:var(--gold);letter-spacing:.16em;margin-bottom:11px
+}
+h2{
+  font-family:var(--serif);font-weight:400;color:var(--ink);
+  font-size:clamp(26px,3.5vw,36px);line-height:1.2;letter-spacing:-.01em;margin:0
+}
+h3{
+  font-family:var(--sans);font-size:19px;font-weight:700;color:var(--ink);
+  line-height:1.4;margin:38px 0 12px;letter-spacing:-.005em
+}
+h4{font-family:var(--sans);font-size:15.5px;font-weight:700;color:var(--ink);margin:26px 0 9px}
+p{margin:0 0 17px}
+.sec ul,.sec ol{margin:0 0 17px;padding-left:22px}
+.sec li{margin-bottom:9px;line-height:1.68}
+.sec li::marker{color:var(--gold)}
+strong{color:var(--ink);font-weight:650}
 
-.cmp{width:100%;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.cmp .tile{padding:26px;min-height:190px}
-.cmp .tag{margin-top:0;color:var(--gold)}
-.cmp h3{margin:14px 0 0;font-size:19px}
-.cmp p{margin-top:10px;font-size:14px}
-.cmp .callout{grid-column:1/-1}
+/* ============ callouts ============ */
+.call{border-radius:var(--r);padding:19px 22px;margin:26px 0;border:1px solid var(--line);background:var(--panel)}
+.call-t{
+  display:flex;align-items:center;gap:8px;margin:0 0 8px;
+  font-size:10.5px;font-weight:800;letter-spacing:.15em;text-transform:uppercase
+}
+.call p:last-child{margin-bottom:0}
+.call.key{border-color:var(--goldline);background:var(--goldsoft)}
+.call.key .call-t{color:var(--gold)}
+.call.job{border-color:rgba(110,168,254,.28);background:var(--infosoft)}
+.call.job .call-t{color:var(--info)}
+.call.warn{border-color:rgba(240,118,110,.3);background:var(--nosoft)}
+.call.warn .call-t{color:var(--no)}
 
-.flow{width:100%;display:grid;gap:13px}
-.flow.withpic{grid-template-columns:minmax(0,1fr) 250px;align-items:stretch}
-.flow-list{display:grid;gap:10px;align-content:start;min-width:0}
-.flow .tile{display:grid;grid-template-columns:30px minmax(0,1fr);
-  column-gap:14px;row-gap:3px;padding:14px 17px}
-.flow .tile .n{grid-column:1;grid-row:1;padding-top:2px}
-.flow .tile h3{grid-column:2;grid-row:1;margin:0;font-size:16px}
-.flow .tile p{grid-column:2;grid-row:2;margin:0}
-.flow .pic{border-radius:12px;border:1px solid var(--line);min-height:0;display:grid;place-items:center;
-  padding:16px;background:radial-gradient(70% 70% at 50% 40%,rgba(234,198,75,.07),transparent 70%),var(--panel2)}
-.flow .callout{grid-column:1/-1;margin-top:2px}
+/* ============ tables ============ */
+.tw{overflow-x:auto;margin:24px 0;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:540px;font-size:14.5px}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.6}
+th{
+  background:var(--panel2);color:var(--gold);font-weight:700;
+  font-size:11px;letter-spacing:.11em;text-transform:uppercase;white-space:nowrap
+}
+tbody tr:last-child td{border-bottom:none}
+td b{color:var(--ink);font-weight:650}
 
-.feature{width:100%;display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
-.kw{font-size:clamp(34px,4.4vw,60px);font-weight:700;letter-spacing:-.045em;line-height:1;
-  background:linear-gradient(120deg,var(--gold),#F4DFA0);-webkit-background-clip:text;
-  background-clip:text;color:transparent}
-.chips{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px}
-.chips span{padding:9px 14px;border:1px solid var(--line2);border-radius:9px;
-  background:var(--panel2);font-size:13px;font-weight:600}
+/* ============ nesting diagram ============ */
+.figure{margin:28px 0}
+.figure svg{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.cap{margin:11px 0 0;font-size:13px;color:var(--dim);line-height:1.6;font-style:italic}
 
-/* ---------- quiz ---------- */
-.quiz{width:min(880px,100%);margin:auto}
-.scen{margin:0 0 18px;padding:15px 18px;border:1px solid var(--line);border-left:2px solid var(--gold);
-  border-radius:0 10px 10px 0;background:var(--panel2);color:#D6DDEA;font-size:15px;line-height:1.6}
-.opts{display:grid;gap:9px}
-.opt{width:100%;padding:15px 17px;display:grid;grid-template-columns:32px 1fr auto;gap:14px;align-items:center;
-  border:1px solid var(--line);border-radius:11px;background:var(--panel2);cursor:pointer;text-align:left;
-  transition:border-color .18s,background .18s,transform .18s}
-.opt:hover:not(:disabled){border-color:var(--gold);transform:translateY(-1px)}
+/* ============ flow chips ============ */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:9px;margin:24px 0}
+.flow .step{
+  flex:1 1 150px;border:1px solid var(--line);border-radius:11px;
+  padding:14px 15px;background:var(--panel);min-width:0
+}
+.flow .step b{display:block;font-size:10.5px;letter-spacing:.13em;color:var(--gold);font-weight:800;margin-bottom:6px;text-transform:uppercase}
+.flow .step span{display:block;font-size:13.5px;color:var(--body);line-height:1.5}
+.flow .arw{display:flex;align-items:center;color:var(--dim);font-size:17px;flex:none}
+
+/* ============ compare (before / after) ============ */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:26px 0}
+.vs .col{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:20px 21px}
+.vs .col.bad{border-color:rgba(240,118,110,.24)}
+.vs .col.good{border-color:rgba(79,209,139,.26)}
+.vs h5{margin:0 0 4px;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.vs .col.bad h5{color:var(--no)}
+.vs .col.good h5{color:var(--ok)}
+.vs .tag{font-size:12px;color:var(--dim);margin:0 0 14px}
+.vs ol{margin:0;padding-left:19px;font-size:14.5px}
+.vs li{margin-bottom:8px;line-height:1.6}
+
+/* ============ stat tiles ============ */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin:26px 0}
+.stat{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:17px 18px}
+.stat b{display:block;font-family:var(--serif);font-size:29px;color:var(--gold);line-height:1.1;margin-bottom:5px}
+.stat span{display:block;font-size:12.5px;color:var(--muted);line-height:1.5}
+
+/* ============ activity ============ */
+.task{border:1px solid var(--goldline);border-radius:var(--r);background:linear-gradient(165deg,rgba(232,190,85,.07),rgba(232,190,85,.015));padding:24px 26px;margin:26px 0}
+.task h4{margin:0 0 12px;color:var(--gold);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.task ol{margin:0;padding-left:20px}
+.task li{margin-bottom:9px}
+
+/* ============ knowledge check ============ */
+.check{border-top:1px solid var(--line);padding-top:52px;margin-top:8px}
+.q{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:22px 24px;margin-bottom:14px}
+.q-n{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+.q-t{font-size:16.5px;font-weight:650;color:var(--ink);line-height:1.55;margin:0 0 16px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{
+  display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;
+  border:1px solid var(--line2);border-radius:10px;background:var(--panel2);
+  color:var(--body);padding:12px 15px;font:inherit;font-size:14.5px;line-height:1.55;
+  cursor:pointer;transition:.15s
+}
+.opt:hover:not(:disabled){border-color:var(--gold);background:var(--raise)}
 .opt:disabled{cursor:default}
-.opt .k{width:28px;height:28px;display:grid;place-items:center;border-radius:7px;
-  background:rgba(255,255,255,.06);color:#AEB8C8;font-size:12.5px;font-weight:700}
-.opt .t{font-size:15px;line-height:1.4}
-.opt .mk{font-size:16px;font-weight:700;opacity:0}
-.opt.right{border-color:var(--ok);background:var(--oksoft)}
-.opt.right .k{background:var(--ok);color:#08130D}
-.opt.right .mk{opacity:1;color:var(--ok)}
-.opt.wrong{border-color:var(--no);background:var(--nosoft)}
-.opt.wrong .k{background:var(--no);color:#1A0C0B}
-.opt.wrong .mk{opacity:1;color:var(--no)}
-.opt.dim{opacity:.42}
-.why{margin-top:11px;padding:14px 17px;border-radius:10px;font-size:14px;line-height:1.6;
-  border:1px solid var(--line);background:var(--panel2);color:#D6DDEA}
-.why b{display:block;margin-bottom:5px;font-size:11.5px;letter-spacing:.12em}
-.why.right{border-color:rgba(61,214,140,.4);background:var(--oksoft)}
-.why.right b{color:var(--ok)}
-.why.wrong{border-color:rgba(242,114,107,.4);background:var(--nosoft)}
-.why.wrong b{color:var(--no)}
-
-/* ---------- video / complete ---------- */
-.vid{width:min(900px,100%);margin:auto;border-radius:14px;overflow:hidden;
-  border:1px solid var(--line);background:#05080F}
-.vid video{width:100%;display:block;aspect-ratio:16/9;background:#05080F}
-
-.done{width:100%;display:grid;gap:22px}
-.done-top{display:grid;grid-template-columns:70px 1fr;gap:20px;align-items:center}
-.tick{width:70px;height:70px;display:grid;place-items:center;border-radius:50%;
-  border:1.5px solid var(--gold);color:var(--gold);background:var(--goldsoft);font-size:30px}
-
-/* ---------- certificate ---------- */
-.cert{width:min(760px,100%);margin:auto;padding:34px 40px;border-radius:14px;
-  border:1px solid rgba(234,198,75,.34);background:
-  radial-gradient(120% 80% at 50% 0%,rgba(234,198,75,.09),transparent 62%),#0C1220;
-  text-align:center;position:relative}
-.cert::after{content:"";position:absolute;inset:9px;border:1px solid rgba(234,198,75,.14);
-  border-radius:9px;pointer-events:none}
-.cert img{width:112px;margin:0 auto 16px}
-.cert .kicker{color:var(--gold);font-size:10.5px;font-weight:700;letter-spacing:.24em;margin:0}
-.cert .who{margin:20px auto 6px;display:block;width:min(440px,100%);padding:8px 12px;
-  border:0;border-bottom:1px solid rgba(234,198,75,.42);border-radius:0;background:transparent;
-  color:var(--ink);font-size:27px;font-weight:600;text-align:center;letter-spacing:-.02em}
-.cert .who::placeholder{color:#4A5468}
-.cert .said{margin:12px 0 0;color:var(--muted);font-size:13px}
-.cert h3{margin:8px 0 0;font-size:21px;font-weight:600;letter-spacing:-.02em}
-.cert .mod{margin:5px 0 0;color:var(--gold);font-size:11.5px;font-weight:700;letter-spacing:.14em}
-.cert .foot{margin-top:24px;padding-top:16px;border-top:1px solid rgba(255,255,255,.09);
-  display:flex;justify-content:space-between;gap:16px;color:var(--dim);font-size:11px}
-.cert .foot b{display:block;color:#AEB8C8;font-size:12.5px;font-weight:600;margin-top:3px}
-.cert-hint{margin:14px 0 0;text-align:center;color:var(--dim);font-size:12px}
-
-@media print{
-  body{background:#fff}
-  .bar,.nav,.acts,.cc,.head,#warn{display:none !important}
-  .shell,.stage,.card{display:block;min-height:0;max-height:none;border:0;box-shadow:none;padding:0;background:#fff}
-  .cert{border:1px solid #C9A227;background:#fff;color:#111;width:100%}
-  .cert h3,.cert .who{color:#111}
-  .cert .said,.cert .foot{color:#555}
-  .cert .foot b{color:#111}
-  .cert-hint{display:none}
+.opt .k{
+  flex:none;width:23px;height:23px;border-radius:6px;border:1px solid var(--line2);
+  display:grid;place-items:center;font-size:11.5px;font-weight:800;color:var(--muted)
 }
+.opt.right{border-color:var(--ok);background:var(--oksoft);color:#E4F6EC}
+.opt.right .k{border-color:var(--ok);background:var(--ok);color:#08210F}
+.opt.wrong{border-color:var(--no);background:var(--nosoft);color:#F8E3E1}
+.opt.wrong .k{border-color:var(--no);background:var(--no);color:#2A0A08}
+.exp{margin-top:14px;padding:13px 16px;border-left:2px solid var(--gold);background:var(--goldsoft);border-radius:0 9px 9px 0;font-size:14px;line-height:1.62;color:#DFE5F0}
+.exp b{color:var(--gold)}
+.score{
+  border:1px solid var(--goldline);background:var(--goldsoft);border-radius:var(--r);
+  padding:20px 24px;margin-top:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap
+}
+.score[hidden]{display:none}
+.score b{font-family:var(--serif);font-size:27px;color:var(--gold);line-height:1}
+.score span{font-size:14.5px;color:var(--body);flex:1;min-width:190px}
+.btn{
+  border:1px solid var(--line2);background:var(--panel2);color:var(--ink);
+  border-radius:10px;padding:10px 18px;font:inherit;font-size:14px;font-weight:650;cursor:pointer
+}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ---------- captions ---------- */
-.cc{position:absolute;left:42px;right:42px;bottom:82px;z-index:9;padding:13px 16px;
-  display:grid;grid-template-columns:30px 1fr;gap:13px;align-items:start;border-radius:11px;
-  border:1px solid var(--line2);background:rgba(6,9,16,.96);box-shadow:0 16px 40px rgba(0,0,0,.5)}
-.cc span{display:grid;place-items:center;height:20px;border:1px solid var(--line2);
-  border-radius:4px;font-size:9px;font-weight:700}
-.cc p{margin:0;font-size:13px;line-height:1.55;color:#D6DDEA}
+/* ============ footer ============ */
+footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:20px}
+.foot-in{
+  max-width:var(--maxw);margin:0 auto;padding:36px 24px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap
+}
+.foot-in img{width:38px;height:38px;object-fit:contain;opacity:.85}
+.foot-in p{margin:0;font-size:13px;color:var(--dim);line-height:1.6}
+.foot-in p b{display:block;color:var(--muted);font-size:13.5px;font-weight:650}
 
-/* ---------- setup warning ---------- */
-#warn{position:fixed;inset:0 0 auto 0;z-index:999;padding:14px 22px;
-  background:#F0C24B;color:#2B1F00;font-size:13.5px;line-height:1.55}
-#warn strong{display:block;margin-bottom:3px;font-size:14.5px}
-#warn b{background:rgba(255,255,255,.55);padding:1px 5px;border-radius:4px}
-
-/* ---------- responsive ---------- */
+/* ============ responsive ============ */
 @media (max-width:980px){
-  .gate-card{grid-template-columns:1fr}
-  .gate-brand{padding:34px 28px;gap:24px}
-  .gate-form{padding:34px 28px}
-  .bar{grid-template-columns:auto auto;gap:12px;padding:11px 16px}
-  .prog{order:3;grid-column:1/-1;max-width:none}
-  .tool small{display:none}
-  .tool{min-width:38px;height:38px}
-  .stage{padding:14px}
-  .card{padding:24px 20px 20px;min-height:calc(100dvh - 190px);gap:16px}
-  .cover,.state,.feature,.flow.withpic{grid-template-columns:1fr}
-  .flow .pic{display:none}
-  .grid,.grid.four,.grid.three,.duo,.cmp{grid-template-columns:1fr}
-  .head{flex-direction:column;gap:8px}
-  .num{display:none}
-  .body{align-items:flex-start}
-  .cc{left:20px;right:20px;bottom:78px}
-  .nav{grid-template-columns:auto 1fr auto;padding:10px 14px}
-  .nav .where{display:none}
-  .acts{flex-wrap:wrap}
-  .act,.act2{flex:1;min-width:130px;justify-content:center;display:flex;align-items:center}
+  .layout{grid-template-columns:1fr;gap:0}
+  .toc{display:none}
+  .content{padding:34px 0 64px;max-width:none}
 }
-@media (max-width:640px){
-  .gate{padding:0}
-  .gate-card{border:0;border-radius:0;min-height:100dvh}
-  .cover h2{font-size:27px}
-  .card{border-radius:12px}
+@media (max-width:680px){
+  body{font-size:16px}
+  .hero-in{padding:44px 20px 40px}
+  .hero-logo{width:168px;margin-bottom:26px}
+  .topbar-in,.journey-in,.layout,.foot-in{padding-left:20px;padding-right:20px}
+  .brand-sub{display:none}
+  .vs{grid-template-columns:1fr}
+  .sec{margin-bottom:56px}
+  .outcome,.task,.q{padding-left:18px;padding-right:18px}
+  .flow .arw{display:none}
+  .flow .step{flex:1 1 100%}
+}
+@media print{
+  .topbar,.progress,.toc,.journey{display:none}
+  body{background:#fff;color:#111}
 }
 </style>
 </head>
 <body>
-<div id="app"></div>
-<audio id="narration" preload="none"></audio>
-<noscript>Please enable JavaScript to run this training.</noscript>
+
+<div class="progress"><i id="bar"></i></div>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <img src="course/brand/logo-mark.png" alt="Gold Technology">
+      <div class="brand-txt">
+        <div class="brand-name">Gold Technology</div>
+        <div class="brand-sub">AI Training Program</div>
+      </div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-chip">Module 1 of 10</div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-in">
+    <img class="hero-logo" src="course/brand/logo-full.png" alt="Gold Technology">
+    <p class="eyebrow">Module 01</p>
+    <h1>AI Fundamentals &amp; <em>Generative AI</em></h1>
+    <p class="lede">
+      Before you can use AI at work, you have to understand what it actually is — and, more
+      importantly, what it is not. This module builds the vocabulary, the mental model and the
+      professional judgement that every other module in this program depends on.
+    </p>
+    <div class="meta">
+      <span><b>3–4</b> hours</span>
+      <span><b>8</b> core topics</span>
+      <span><b>1</b> business case</span>
+      <span><b>1</b> hands-on activity</span>
+      <span>Level: <b>Foundation</b></span>
+    </div>
+    <div class="outcome">
+      <h4>What you will be able to do</h4>
+      <p>
+        Explain AI, machine learning, deep learning and generative AI in business language;
+        describe how a ChatGPT-type system actually produces an answer; judge when AI is the right
+        tool and when it is the wrong one; recognise hallucination and bias before they reach a
+        customer; and design a workflow where a human and AI each do what they are genuinely good at.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JOURNEY ================= -->
+<section class="journey">
+  <div class="journey-in">
+    <h5>The 10-module learning journey</h5>
+    <div class="mods">
+      <div class="mod on"><b>01</b><span>AI Fundamentals &amp; Generative AI</span></div>
+      <div class="mod"><b>02</b><span>Prompt Engineering</span></div>
+      <div class="mod"><b>03</b><span>AI for Marketing</span></div>
+      <div class="mod"><b>04</b><span>AI for Sales &amp; BD</span></div>
+      <div class="mod"><b>05</b><span>AI for HR &amp; Recruitment</span></div>
+      <div class="mod"><b>06</b><span>AI for Finance &amp; Analytics</span></div>
+      <div class="mod"><b>07</b><span>AI for Operations</span></div>
+      <div class="mod"><b>08</b><span>AI + ERP / CRM</span></div>
+      <div class="mod"><b>09</b><span>AI for Entrepreneurship</span></div>
+      <div class="mod"><b>10</b><span>Capstone Project</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BODY ================= -->
+<div class="layout">
+
+  <aside class="toc">
+    <h5>On this page</h5>
+    <nav id="toc">
+      <a href="#s1"><small>01</small>What is Artificial Intelligence?</a>
+      <a href="#s2"><small>02</small>AI vs ML vs Deep Learning</a>
+      <a href="#s3"><small>03</small>What is Generative AI?</a>
+      <a href="#s4"><small>04</small>How LLMs actually work</a>
+      <a href="#s5"><small>05</small>Generative AI vs traditional software</a>
+      <a href="#s6"><small>06</small>Capabilities and limitations</a>
+      <a href="#s7"><small>07</small>Hallucination, bias, inaccuracy</a>
+      <a href="#s8"><small>08</small>Human + AI collaboration</a>
+      <a href="#s9"><small>Case</small>500 enquiries a month</a>
+      <a href="#s10"><small>Lab</small>Practical activity</a>
+      <a href="#s11"><small>Check</small>Knowledge check</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+  <!-- ---------- 01 ---------- -->
+  <section class="sec" id="s1">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <h2>What is Artificial Intelligence?</h2>
+    </div>
+
+    <p>
+      Artificial Intelligence is software that performs tasks which normally require human
+      intelligence — understanding language, recognising patterns, making a judgement, or producing
+      something new. That is the textbook line. The part that actually matters for your career is the
+      shift hiding underneath it.
+    </p>
+
+    <p>
+      For fifty years, software worked one way: a human thought through every rule, and a programmer
+      wrote those rules down. If a rule was not written, the software could not handle the situation.
+      A payroll system knows that PF is 12% because somebody typed <em>12%</em> into it. It has no
+      idea what PF means.
+    </p>
+
+    <p>
+      AI inverts this. Instead of being given the rules, the system is given <strong>examples</strong>
+      and works out the rules itself. Nobody can write down the rule for "this customer email sounds
+      frustrated" — there are too many ways to be frustrated in English, let alone in Hinglish. But
+      show a system a few million emails and it will learn the pattern.
+    </p>
+
+    <div class="call key">
+      <div class="call-t">Key idea</div>
+      <p>
+        Traditional software is <strong>told</strong> what to do. AI is <strong>shown</strong> what
+        good looks like and works out the rest. This is why AI can handle messy, unpredictable,
+        human input — and also why it is never 100% certain.
+      </p>
+    </div>
+
+    <h3>Narrow AI vs General AI</h3>
+    <p>
+      Every AI system in commercial use today is <strong>Narrow AI</strong> — extremely capable at a
+      defined range of tasks, and completely blank outside it. A model that writes excellent sales
+      emails has no awareness that it is doing sales, no goals of its own, and no memory of you
+      between conversations unless it has been specifically built to keep one.
+    </p>
+    <p>
+      <strong>General AI</strong> — a system with human-level ability across any domain, with its own
+      understanding and intent — does not exist. It is a research ambition, not a product you can
+      buy. Treat any vendor claim that sounds like general AI as marketing.
+    </p>
+
+    <h3>Why AI became useful now</h3>
+    <p>
+      AI as a field is from the 1950s. Three things changed in the last decade and turned it from a
+      lab subject into something your employer expects you to use:
+    </p>
+    <ul>
+      <li><strong>Data.</strong> Digitisation gave us the enormous text and image collections these systems learn from.</li>
+      <li><strong>Compute.</strong> GPUs made it economically possible to train on that data.</li>
+      <li><strong>Architecture.</strong> The transformer design (2017) let models handle long stretches of language with real context, not just word-by-word.</li>
+      <li><strong>Access.</strong> From 2022, chat interfaces removed the need to be a programmer. A business analyst could now use a frontier model directly.</li>
+    </ul>
+
+    <div class="call job">
+      <div class="call-t">Career framing</div>
+      <p>
+        AI is not a product you buy — it is a <strong>capability you insert into a process</strong>.
+        Companies are not hiring people who can name AI tools. They are hiring people who can look at
+        an existing business process, find the step that is slow because a human is reading or
+        writing something, and redesign that step. Everything in this program trains that skill.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 02 ---------- -->
+  <section class="sec" id="s2">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <h2>AI vs Machine Learning vs Deep Learning</h2>
+    </div>
+
+    <p>
+      These three terms get used as if they mean the same thing. They do not. They sit inside one
+      another, and being able to place them correctly is a standard interview question.
+    </p>
+
+    <div class="figure">
+      <svg viewBox="0 0 720 340" role="img" aria-label="Nested diagram: Artificial Intelligence contains Machine Learning, which contains Deep Learning, which contains Generative AI">
+        <rect x="14" y="14" width="692" height="312" rx="18" fill="rgba(232,190,85,.05)" stroke="#E8BE55" stroke-opacity=".45"/>
+        <text x="36" y="46" fill="#E8BE55" font-family="Georgia,serif" font-size="17">Artificial Intelligence</text>
+        <text x="36" y="68" fill="#8B95A8" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">The goal — machines doing intelligent tasks</text>
+
+        <rect x="48" y="84" width="624" height="228" rx="15" fill="rgba(110,168,254,.06)" stroke="#6EA8FE" stroke-opacity=".42"/>
+        <text x="70" y="114" fill="#6EA8FE" font-family="Georgia,serif" font-size="16">Machine Learning</text>
+        <text x="70" y="135" fill="#8B95A8" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">The method — learning patterns from data</text>
+
+        <rect x="82" y="151" width="556" height="145" rx="13" fill="rgba(79,209,139,.06)" stroke="#4FD18B" stroke-opacity=".42"/>
+        <text x="104" y="180" fill="#4FD18B" font-family="Georgia,serif" font-size="15">Deep Learning</text>
+        <text x="104" y="200" fill="#8B95A8" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">Multi-layer neural networks that find features themselves</text>
+
+        <rect x="116" y="214" width="488" height="66" rx="11" fill="rgba(232,190,85,.13)" stroke="#E8BE55" stroke-opacity=".6"/>
+        <text x="138" y="242" fill="#EEF2F9" font-family="Georgia,serif" font-size="15">Generative AI</text>
+        <text x="138" y="263" fill="#C3CBD9" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">Creates new content — this is where ChatGPT sits</text>
+      </svg>
+      <p class="cap">Each term sits inside the one before it. Generative AI is a specific use of deep learning, which is a specific kind of machine learning, which is one route to AI.</p>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Term</th><th>What it is</th><th>How it works</th><th>Business example</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Artificial Intelligence</b></td>
+            <td>The overall goal: machines performing tasks that need intelligence</td>
+            <td>Any technique at all — including hand-written rules</td>
+            <td>A chatbot that routes a customer to the right department</td>
+          </tr>
+          <tr>
+            <td><b>Machine Learning</b></td>
+            <td>A method of achieving AI by learning from data instead of being programmed</td>
+            <td>Humans choose which features matter; the model learns the weights</td>
+            <td>Predicting which leads are likely to convert, from past sales data</td>
+          </tr>
+          <tr>
+            <td><b>Deep Learning</b></td>
+            <td>Machine learning using neural networks with many layers</td>
+            <td>The model discovers the features itself — no human feature engineering</td>
+            <td>Reading a scanned purchase order and extracting the line items</td>
+          </tr>
+          <tr>
+            <td><b>Generative AI</b></td>
+            <td>Deep learning models that produce new content</td>
+            <td>Predicts the most probable next piece of content, over and over</td>
+            <td>Drafting a proposal, summarising a meeting, writing a job description</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The distinction that actually matters</h3>
+    <p>
+      Machine learning needs a human to decide what the model should look at. To predict lead
+      quality, someone must decide that company size, industry and budget are the useful signals.
+      Deep learning removes that step — given enough examples, the network works out for itself which
+      signals matter, including combinations no human would have thought to specify.
+    </p>
+    <p>
+      That is why deep learning took over anything involving language, images or audio: nobody can
+      list the features that make a sentence sound angry, but a network trained on enough sentences
+      can find them.
+    </p>
+
+    <div class="call job">
+      <div class="call-t">Interview answer</div>
+      <p>
+        "AI is the objective. Machine learning is the main way we get there — the system learns
+        patterns from data rather than following written rules. Deep learning is machine learning
+        with multi-layer neural networks, which is what made language and images work. Generative AI
+        is deep learning applied to creating new content."
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 03 ---------- -->
+  <section class="sec" id="s3">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <h2>What is Generative AI?</h2>
+    </div>
+
+    <p>
+      Until about 2020, almost all commercial AI was <strong>predictive</strong>. You gave it
+      something that already existed and it told you something about it: is this transaction
+      fraudulent, will this customer churn, is this resume a match, what is this photo of. Useful,
+      but the output was always a label, a score or a number.
+    </p>
+
+    <p>
+      <strong>Generative AI creates something that did not exist before.</strong> You describe what
+      you need and it produces the artefact: the email, the summary, the analysis, the code, the
+      image, the structured record.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th></th><th>Predictive AI</th><th>Generative AI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Question it answers</b></td><td>"What is this?" / "What will happen?"</td><td>"Make me this."</td></tr>
+          <tr><td><b>Output</b></td><td>A category, score or number</td><td>New content — text, image, code, audio</td></tr>
+          <tr><td><b>Example</b></td><td>This lead scores 82/100</td><td>Here is the follow-up email for this lead</td></tr>
+          <tr><td><b>Who used it</b></td><td>Data teams</td><td>Everyone in the business</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Why this changed everything for business roles</h3>
+    <p>
+      Look at what a marketing executive, an HR generalist, a sales manager or a business analyst
+      actually produces in a day. Emails. Job descriptions. Campaign copy. Meeting notes. Proposals.
+      Comparison sheets. Reports. Almost all professional output is <strong>content</strong> — and
+      content is exactly what generative AI makes.
+    </p>
+    <p>
+      Predictive AI made data scientists more productive. Generative AI makes <em>everyone else</em>
+      more productive. That is why your employer now expects fluency in it regardless of your
+      function, and it is the reason this program exists.
+    </p>
+
+    <div class="call key">
+      <div class="call-t">Key idea</div>
+      <p>
+        Generative AI does not remove the need for judgement — it removes the cost of the first
+        draft. The value you add moves from <em>producing</em> the document to <em>deciding whether
+        the document is right</em>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 04 ---------- -->
+  <section class="sec" id="s4">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <h2>LLMs — how a ChatGPT-type system actually works</h2>
+    </div>
+
+    <p>
+      LLM stands for <strong>Large Language Model</strong>. You do not need the mathematics, but you
+      do need an accurate mental model — because almost every mistake people make with AI at work
+      comes from imagining the wrong one.
+    </p>
+
+    <h3>It predicts the next piece of text. That is all.</h3>
+    <p>
+      An LLM breaks language into <strong>tokens</strong> — roughly, word fragments. "Understanding"
+      might be two tokens; "ERP" might be one. Given the tokens so far, the model calculates which
+      token is most likely to come next, adds it, and repeats. A 400-word email is that same
+      prediction running several hundred times.
+    </p>
+    <p>
+      The reason this produces something coherent rather than gibberish is scale. Trained on an
+      enormous amount of human writing, "predict what comes next" forces the model to internalise
+      grammar, tone, structure, domain conventions and a great deal of factual association — because
+      all of those things shape what word genuinely comes next.
+    </p>
+
+    <h3>The three stages of training</h3>
+    <div class="flow">
+      <div class="step"><b>1 · Pre-training</b><span>Reads a vast body of text and learns language, structure and world patterns. Expensive, done once.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>2 · Fine-tuning</b><span>Trained on example instructions and good answers, so it responds to requests instead of just continuing text.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>3 · Alignment</b><span>Humans rate competing answers; the model is tuned toward the helpful, safe, well-formatted ones.</span></div>
+    </div>
+    <p>
+      Stage 3 is why the model sounds polite and confident. Note carefully: it was rewarded for
+      answers people <em>rated highly</em>. Confidence was rewarded. Accuracy was rewarded only when
+      the rater happened to know the truth. Hold on to that — it explains Section 07.
+    </p>
+
+    <h3>The context window is its only memory</h3>
+    <p>
+      Everything the model can "see" at once — your instruction, the document you pasted, the
+      conversation so far — sits in a fixed-size <strong>context window</strong>. Inside the window,
+      it has perfect access. Outside, the information does not exist for it.
+    </p>
+    <p>Three practical consequences:</p>
+    <ul>
+      <li><strong>It knows nothing about your company</strong> unless you put it in the window. It has never seen your price list, your policies or your customers.</li>
+      <li><strong>Very long documents must be broken up</strong>, or the model will work with only part of them.</li>
+      <li><strong>A new chat starts blank.</strong> Context does not carry over unless the product is explicitly built to store it.</li>
+    </ul>
+
+    <h3>The same question can give different answers</h3>
+    <p>
+      The model picks from a probability distribution rather than always taking the single most
+      likely token, which is what keeps writing natural instead of robotic. The side effect is that
+      identical prompts can produce different output. This is normal and expected — but it means an
+      LLM must never sit in a process that requires an identical result every single time.
+    </p>
+
+    <div class="call warn">
+      <div class="call-t">The most important sentence in this module</div>
+      <p>
+        An LLM generates text that is <strong>statistically plausible</strong>. It is not looking
+        anything up, and it has no internal check for truth. Fluent and correct feel identical
+        coming out of it. Verification is your job, not the model's.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 05 ---------- -->
+  <section class="sec" id="s5">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <h2>Generative AI vs traditional software</h2>
+    </div>
+
+    <p>
+      Both are software, and that is where the similarity ends. Confusing the two is the most
+      expensive mistake a business makes with AI, so this comparison is worth learning properly.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th></th><th>Traditional software</th><th>Generative AI</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Logic</b></td><td>Rules written by a human</td><td>Patterns learned from data</td></tr>
+          <tr><td><b>Same input twice</b></td><td>Identical output, always</td><td>May differ slightly each time</td></tr>
+          <tr><td><b>Accuracy</b></td><td>Exact</td><td>Approximate, usually very good</td></tr>
+          <tr><td><b>Unexpected input</b></td><td>Rejects it or throws an error</td><td>Attempts an answer anyway</td></tr>
+          <tr><td><b>How it fails</b></td><td>Loudly — it crashes or refuses</td><td>Quietly — a confident wrong answer</td></tr>
+          <tr><td><b>Handles ambiguity</b></td><td>No</td><td>Yes, this is its strength</td></tr>
+          <tr><td><b>Testing</b></td><td>Pass / fail</td><td>Judged on quality, needs sampling and review</td></tr>
+          <tr><td><b>Change a behaviour</b></td><td>Edit the code, redeploy</td><td>Change the instruction, immediate</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Row five is the one that costs companies money. When a traditional system fails you know
+      instantly — a screen errors, a job aborts, someone raises a ticket. When an LLM fails, you get
+      a well-written paragraph with a wrong number in it, and it looks exactly like the paragraphs
+      that were right.
+    </p>
+
+    <h3>A rule you can apply on day one</h3>
+    <div class="vs">
+      <div class="col bad">
+        <h5>Use traditional software</h5>
+        <p class="tag">When the answer must be exactly right, every time</p>
+        <ol>
+          <li>Salary and PF calculation</li>
+          <li>GST and tax computation</li>
+          <li>Accounting entries and ledgers</li>
+          <li>Inventory quantity on hand</li>
+          <li>Invoice totals and payments</li>
+          <li>Anything with a legal or audit consequence</li>
+        </ol>
+      </div>
+      <div class="col good">
+        <h5>Use generative AI</h5>
+        <p class="tag">When the task involves language, judgement or variety</p>
+        <ol>
+          <li>Summarising a long email thread</li>
+          <li>Drafting proposals and outreach</li>
+          <li>Categorising unstructured enquiries</li>
+          <li>Extracting fields from messy text</li>
+          <li>Explaining what a report implies</li>
+          <li>Generating options to choose between</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="call key">
+      <div class="call-t">Key idea</div>
+      <p>
+        The strongest business systems use both. AI reads the unstructured, human side of the
+        problem — the email, the resume, the complaint — and converts it into clean structured data.
+        Traditional software then does the exact, auditable work with that data. Module 8 builds this
+        pattern properly with ERP and CRM.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 06 ---------- -->
+  <section class="sec" id="s6">
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <h2>AI capabilities and limitations</h2>
+    </div>
+
+    <p>
+      Professional competence with AI is mostly knowing where the boundary is. People who
+      underestimate it waste hours on work the model would have done in seconds. People who
+      overestimate it send a customer something wrong.
+    </p>
+
+    <h3>What it is genuinely excellent at</h3>
+    <ul>
+      <li><strong>Summarising</strong> — a 30-page report or a 60-message thread into what matters.</li>
+      <li><strong>Drafting</strong> — the first 80% of any document, in seconds instead of an hour.</li>
+      <li><strong>Rewriting</strong> — changing tone, length, language or audience while keeping meaning.</li>
+      <li><strong>Structuring the unstructured</strong> — turning a rambling email into clean fields. This is the single highest-value business use.</li>
+      <li><strong>Classifying</strong> — sorting enquiries, tickets or feedback into categories at volume.</li>
+      <li><strong>Explaining</strong> — making a technical or financial concept clear for a specific audience.</li>
+      <li><strong>Generating options</strong> — twelve subject lines, six objection responses, five campaign angles.</li>
+    </ul>
+
+    <h3>Where it is weak or unsafe</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Limitation</th><th>What goes wrong</th><th>How you work around it</th></tr></thead>
+        <tbody>
+          <tr><td><b>No live knowledge</b></td><td>Training has a cut-off date; recent events are unknown or guessed</td><td>Use a tool with search, or paste the current information in yourself</td></tr>
+          <tr><td><b>No company knowledge</b></td><td>It invents your pricing, policies and product details</td><td>Always supply the real document in the prompt</td></tr>
+          <tr><td><b>Arithmetic at scale</b></td><td>Multi-step calculations drift; totals look right but are not</td><td>Let it set up the logic; compute in Excel and verify</td></tr>
+          <tr><td><b>Not a source of truth</b></td><td>Statistics, citations and case law can be fabricated</td><td>Verify every figure against a real source before use</td></tr>
+          <tr><td><b>No accountability</b></td><td>The model cannot own a decision or its consequences</td><td>A named human signs off on anything that leaves the company</td></tr>
+          <tr><td><b>Confidentiality risk</b></td><td>Data pasted into a public tool may leave your control</td><td>Follow company policy; never paste customer or salary data into public tools</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call key">
+      <div class="call-t">The 80% principle</div>
+      <p>
+        Treat AI output as a strong first draft from a fast, well-read intern who has never met your
+        customers and will not admit uncertainty. The last 20% — the facts, the numbers, the
+        relationship, the judgement — is where you earn your salary.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 07 ---------- -->
+  <section class="sec" id="s7">
+    <div class="sec-head">
+      <div class="sec-num">07</div>
+      <h2>Hallucination, bias and inaccurate information</h2>
+    </div>
+
+    <p>
+      This is the section that separates someone who is employable with AI from someone who is a
+      liability with it.
+    </p>
+
+    <h3>Hallucination</h3>
+    <p>
+      A <strong>hallucination</strong> is output that is fluent, confident, well-formatted and
+      factually false. It is not a bug that will eventually be patched away — it follows directly
+      from how the technology works. The model produces the most plausible continuation. When it does
+      not have the fact, the most plausible continuation is a fact-shaped sentence, so it writes one.
+    </p>
+    <p>What it typically looks like in a workplace:</p>
+    <ul>
+      <li><strong>Invented figures</strong> — "the Indian ERP market grew 23.4% in 2024", stated with no source and no basis.</li>
+      <li><strong>Fake references</strong> — a plausible report title from a real consulting firm that was never published.</li>
+      <li><strong>Fabricated product detail</strong> — features, modules or integrations your product does not have.</li>
+      <li><strong>Wrong attribution</strong> — a real quotation assigned to the wrong person or company.</li>
+      <li><strong>Confident policy</strong> — a clause of law or a compliance rule stated crisply and incorrectly.</li>
+    </ul>
+
+    <div class="call warn">
+      <div class="call-t">Why this is a business risk, not a technical curiosity</div>
+      <p>
+        A hallucinated number in a client proposal is a credibility loss. A hallucinated compliance
+        statement is a legal exposure. A hallucinated specification in a tender is a commitment your
+        company may have to honour. Lawyers in several countries have been sanctioned for filing
+        AI-generated citations that did not exist.
+      </p>
+    </div>
+
+    <h3>Bias</h3>
+    <p>
+      The model learned from human-written text, so it absorbed human patterns — including the unfair
+      ones. Bias shows up as systematically different treatment of similar people or cases:
+    </p>
+    <ul>
+      <li>Resume screening that quietly favours certain colleges, cities, names or career paths.</li>
+      <li>Job descriptions written in language that skews the applicant pool.</li>
+      <li>Performance summaries that describe identical behaviour differently by gender.</li>
+      <li>Default assumptions — that a "software engineer" is male, that a good candidate studied in a metro.</li>
+    </ul>
+    <p>
+      Bias is harder to catch than hallucination because each individual output looks reasonable. You
+      only see it in the aggregate — which is exactly why an AI-assisted process needs auditing, not
+      just spot-checking. Module 5 takes this further in a recruitment setting.
+    </p>
+
+    <h3>Your verification playbook</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Practice</th><th>What it means in daily work</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ground it</b></td><td>Paste the real source document instead of relying on the model's memory. A model working from your text hallucinates far less than one working from recall.</td></tr>
+          <tr><td><b>Check every number</b></td><td>Treat all figures, dates, percentages and names as unverified until you have seen them in a real source.</td></tr>
+          <tr><td><b>Demand checkable sources</b></td><td>Ask for references, then open them. An unopened citation is worth nothing.</td></tr>
+          <tr><td><b>Ask it to challenge itself</b></td><td>"What in this answer are you least confident about, and what would make it wrong?" surfaces weak claims quickly.</td></tr>
+          <tr><td><b>Scale scrutiny to stakes</b></td><td>An internal brainstorm needs a glance. A customer proposal, an offer letter or anything with a rupee figure needs line-by-line checking.</td></tr>
+          <tr><td><b>Protect confidential data</b></td><td>No salary data, customer records, contracts or unreleased plans in public tools.</td></tr>
+          <tr><td><b>Keep a human accountable</b></td><td>Every AI-assisted output that leaves the company has a named person who owns it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">What this looks like to an employer</div>
+      <p>
+        In an interview, "AI sometimes makes mistakes" is a weak answer. "AI hallucinates because it
+        predicts plausible text rather than retrieving facts, so I ground it in source documents and
+        verify every figure before anything goes to a client" is the answer that gets you hired.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 08 ---------- -->
+  <section class="sec" id="s8">
+    <div class="sec-head">
+      <div class="sec-num">08</div>
+      <h2>Human + AI collaboration</h2>
+    </div>
+
+    <p>
+      The useful question is not "will AI replace this job". It is "which parts of this job should AI
+      do, and which parts must stay human". Organisations that get this split right see real gains.
+      Organisations that get it wrong either ban AI entirely or let it write to customers unchecked —
+      both are expensive.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Give to AI</th><th>Keep with the human</th></tr></thead>
+        <tbody>
+          <tr><td>Reading 500 documents nobody has time to read</td><td>Deciding what the organisation does about them</td></tr>
+          <tr><td>The first draft of anything</td><td>The final wording that carries your name</td></tr>
+          <tr><td>Converting messy text into structured fields</td><td>Confirming the extraction is actually correct</td></tr>
+          <tr><td>Generating options and angles</td><td>Choosing, based on the relationship and the context</td></tr>
+          <tr><td>Consistent formatting and repetitive rewriting</td><td>Ethics, fairness and the judgement calls</td></tr>
+          <tr><td>Speed and volume</td><td>Accountability for the outcome</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The working loop</h3>
+    <div class="flow">
+      <div class="step"><b>1 · Frame</b><span>Define the task, the audience, the constraints and the output format you need.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>2 · Generate</b><span>Let AI produce the draft, the extraction or the set of options.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>3 · Verify</b><span>Check facts, figures, tone and fit. Correct or regenerate what fails.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>4 · Decide</b><span>Apply judgement, take the decision, own the result.</span></div>
+    </div>
+    <p>
+      Notice that steps 1, 3 and 4 are entirely human, and they are where all the professional skill
+      sits. Someone who only knows step 2 has learned a tool. Someone who is strong at 1, 3 and 4 has
+      learned a way of working — and that is what the rest of this program develops.
+    </p>
+
+    <div class="call key">
+      <div class="call-t">The honest version</div>
+      <p>
+        AI will not replace you. But a colleague who has restructured their work around AI will
+        produce three times what you produce, at similar quality — and that comparison is what
+        actually affects careers. The goal of this program is to make sure you are that colleague.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 09 CASE ---------- -->
+  <section class="sec" id="s9">
+    <div class="sec-head">
+      <div class="sec-num">Real-world case</div>
+      <h2>500 customer enquiries every month</h2>
+    </div>
+
+    <p>
+      A mid-sized technology company receives roughly <strong>500 enquiries a month</strong> through
+      its website, email and trade-show contacts. They arrive as free text — some detailed, some a
+      single line, some not sales enquiries at all.
+    </p>
+
+    <div class="vs">
+      <div class="col bad">
+        <h5>Traditional approach</h5>
+        <p class="tag">One executive, manually</p>
+        <ol>
+          <li>Opens and reads every enquiry</li>
+          <li>Works out what the customer wants</li>
+          <li>Categorises it by hand</li>
+          <li>Assigns it to a salesperson</li>
+          <li>Types a short summary — when there is time</li>
+        </ol>
+      </div>
+      <div class="col good">
+        <h5>AI-assisted approach</h5>
+        <p class="tag">AI first pass, human review</p>
+        <ol>
+          <li>AI reads the enquiry</li>
+          <li>Identifies the actual requirement</li>
+          <li>Scores it Hot / Warm / Cold</li>
+          <li>Extracts company, budget, requirement, timeline</li>
+          <li>Writes a briefing for the salesperson</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>500</b><span>enquiries per month</span></div>
+      <div class="stat"><b>~6 min</b><span>manual handling, each</span></div>
+      <div class="stat"><b>50 hrs</b><span>per month, manual</span></div>
+      <div class="stat"><b>~8 hrs</b><span>with AI, review only</span></div>
+    </div>
+    <p class="cap" style="margin-top:-10px">
+      Indicative figures for discussion. The point is not the exact saving — it is that the executive
+      moves from processing enquiries to acting on the ones that matter.
+    </p>
+
+    <h3>The real benefit is not the time saved</h3>
+    <p>
+      When a human handles 500 enquiries manually, the last hundred get less attention than the
+      first. Categorisation drifts with mood and workload. Enquiries that arrive on a busy day sit
+      unread. Good leads go cold silently — and nobody can see it happening.
+    </p>
+    <p>An AI-assisted pass changes three things beyond speed:</p>
+    <ul>
+      <li><strong>Consistency.</strong> Enquiry 500 is assessed by the same standard as enquiry 1.</li>
+      <li><strong>Structure.</strong> Free text becomes fields, so the pipeline becomes measurable and reportable.</li>
+      <li><strong>Speed of response.</strong> Hot leads surface within minutes rather than days, and response time is the strongest predictor of B2B conversion.</li>
+    </ul>
+
+    <div class="call warn">
+      <div class="call-t">Where the human stays</div>
+      <p>
+        AI proposes the category and drafts the summary. A salesperson still checks the Hot leads
+        before acting, because a misread budget or a missed nuance is a lost deal. The AI is doing
+        the reading, not the selling.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 10 ACTIVITY ---------- -->
+  <section class="sec" id="s10">
+    <div class="sec-head">
+      <div class="sec-num">Practical activity</div>
+      <h2>Triage ten live enquiries</h2>
+    </div>
+
+    <p>
+      Below are ten enquiries of the kind the company in the case study actually receives. Work
+      through them with an AI tool. Not all of them are sales leads — noticing that is part of the
+      exercise.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Enquiry as received</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>"We are a manufacturing unit in Pune, around 120 staff. Current system is Tally and it is not handling production planning. Need ERP with production and quality modules. Budget approx 8–10 lakh. Want to go live before the next financial year."</td></tr>
+          <tr><td><b>2</b></td><td>"Sir please send me the price list."</td></tr>
+          <tr><td><b>3</b></td><td>"I am a final year B.Tech student. Do you offer internships in your development team?"</td></tr>
+          <tr><td><b>4</b></td><td>"Real estate developer, Nashik. Sales team of 25 people, currently on spreadsheets. Looking at CRM. We are evaluating three vendors and will decide within three weeks. Can you do a demo on Thursday?"</td></tr>
+          <tr><td><b>5</b></td><td>"Our GST report is showing wrong figures for last month. This is urgent, our filing is due. Ticket number GT-4412."</td></tr>
+          <tr><td><b>6</b></td><td>"IT services company, about 400 employees. Thinking about an HRMS at some point, probably next financial year. Just want to understand what is available. No budget approved yet."</td></tr>
+          <tr><td><b>7</b></td><td>"Pharma distribution, Mumbai. We need batch-wise inventory with expiry tracking — we are losing stock to expiry every quarter. Around 15 lakh approved. Need this running in 6 weeks."</td></tr>
+          <tr><td><b>8</b></td><td>"Textile SME in Surat. We implemented an ERP two years ago, it never worked properly and we want to migrate. 60 users. Budget around 12 lakh, planning for Q3."</td></tr>
+          <tr><td><b>9</b></td><td>"Hi, I have 6 years experience in ERP implementation. Attaching my CV, please consider me for any suitable opening."</td></tr>
+          <tr><td><b>10</b></td><td>"Auto component supplier, Chakan. Need ERP with quality module for our IATF audit. Audit is in four months. Please send a proposal and arrange a demo next week."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="task">
+      <h4>Your four tasks</h4>
+      <ol>
+        <li><strong>Categorise each enquiry.</strong> Sales lead, support request, careers, or not relevant. Three of the ten are not sales leads — find them.</li>
+        <li><strong>Extract the requirement.</strong> For every genuine lead, pull out company type, location, product needed, user count, budget and timeline. Mark anything that was not stated as "not stated" — do not let the AI fill the gap with an invented value.</li>
+        <li><strong>Assign a priority.</strong> Hot, Warm or Cold. Write the reason in one line. Priority should reflect budget clarity, timeline urgency and how specific the requirement is.</li>
+        <li><strong>Write the sales summary.</strong> For the Hot leads, produce a three-line briefing a salesperson could read thirty seconds before calling: what they need, why now, and what to open the conversation with.</li>
+      </ol>
+    </div>
+
+    <h4>Deliver it as a table</h4>
+    <p>
+      Ask the AI for a single table with these columns — structured output is far more useful than
+      prose, and this is the habit Module 2 builds on:
+    </p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Type</th><th>Company</th><th>Requirement</th><th>Budget</th><th>Timeline</th><th>Priority</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Sales lead</td><td>Manufacturing, Pune</td><td>ERP — production + quality</td><td>₹8–10L</td><td>Before FY end</td><td><b style="color:var(--no)">Hot</b></td><td>Clear budget, defined need, hard deadline</td></tr>
+          <tr><td>2</td><td>Sales lead</td><td>Not stated</td><td>Not stated</td><td>Not stated</td><td>Not stated</td><td><b style="color:var(--info)">Cold</b></td><td>No qualifying information at all</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call warn">
+      <div class="call-t">The trap to watch for</div>
+      <p>
+        Enquiry 2 gives the AI almost nothing. Many models will still confidently produce a company
+        size and an industry. Check your output for exactly this — the moment you catch the model
+        inventing a field, Section 07 has stopped being theory.
+      </p>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">How this is assessed</div>
+      <p>
+        Not on speed. You are assessed on whether you caught the three non-leads, whether your
+        priority reasoning is defensible to a sales manager, and whether you spotted anything the AI
+        invented. Bring your corrections to the discussion — a clean catch is worth more than a fast
+        table.
+      </p>
+    </div>
+
+    <h3>Where this applies</h3>
+    <p>
+      This single workflow — read unstructured input, classify it, extract fields, summarise for a
+      human — sits underneath a large share of business AI. You will meet it again in
+      <strong>Sales and CRM</strong> as lead qualification, in <strong>Customer Support</strong> as
+      ticket triage, in <strong>HR</strong> as resume screening, and in <strong>Operations</strong>
+      as purchase-order processing. Learn it properly here and the later modules become variations
+      on a pattern you already know.
+    </p>
+  </section>
+
+  <!-- ---------- 11 CHECK ---------- -->
+  <section class="sec check" id="s11">
+    <div class="sec-head">
+      <div class="sec-num">Knowledge check</div>
+      <h2>Eight questions before you move on</h2>
+    </div>
+    <p>
+      Answer these once you have read the module. Each answer explains the reasoning, so a wrong
+      choice is still useful.
+    </p>
+    <div id="quiz"></div>
+    <div class="score" id="score" hidden>
+      <b id="score-n">0/8</b>
+      <span id="score-t"></span>
+      <button class="btn" id="retry">Try again</button>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <img src="course/brand/logo-mark.png" alt="Gold Technology">
+    <p>
+      <b>Gold Technology — AI Training Program</b>
+      Module 1 of 10 · AI Fundamentals &amp; Generative AI · For MBA and engineering graduates
+    </p>
+  </div>
+</footer>
 
 <script>
-window.COURSE = { slides: [
+(function(){
+  "use strict";
 
-{
-  id: "welcome",
-  kind: "cover",
-  section: "MODULE 01 · FOUNDATION",
-  title: "Introduction to Artificial Intelligence",
-  lead: "A practical starting point for people who work with information every day.",
-  body: "By the end of this module you will be able to explain what AI is, spot where it already sits in your work, and judge when an AI answer can be trusted.",
-  art: "hero",
-  meta: ["17 screens", "About 20 minutes", "No technical background needed"],
-  primary: { label: "Begin module", target: "outcomes" },
-  narration: "Welcome to Module One of AI for All. This module is a practical introduction to artificial intelligence for people who work with information every day. No technical background is needed. Select Begin module when you are ready."
-},
+  /* ---------- reading progress ---------- */
+  var bar = document.getElementById("bar");
+  function progress(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    bar.style.width = pct.toFixed(2) + "%";
+  }
 
-{
-  id: "outcomes",
-  kind: "cards",
-  section: "WHAT YOU WILL TAKE AWAY",
-  title: "Four things you will be able to do",
-  items: [
-    { n: "01", title: "Explain AI in plain language", body: "To a colleague, a client, or your own team, without using jargon." },
-    { n: "02", title: "Spot AI already in your work", body: "In the tools you open every morning without thinking about it." },
-    { n: "03", title: "Judge when to trust an answer", body: "And know which answers must be checked before they leave your desk." },
-    { n: "04", title: "Use it without creating risk", body: "Three habits that protect you, your client, and your organisation." }
-  ],
-  primary: { label: "Continue", target: "what-is-ai" },
-  secondary: { label: "Back", target: "welcome" },
-  narration: "Four things by the end of this module. Explain AI in plain language. Spot where it already sits in your work. Judge when an answer can be trusted. And use it without creating risk."
-},
+  /* ---------- table of contents scroll-spy ---------- */
+  var links = Array.prototype.slice.call(document.querySelectorAll("#toc a"));
+  var secs  = links.map(function(a){ return document.querySelector(a.getAttribute("href")); });
 
-{
-  id: "what-is-ai",
-  kind: "statement",
-  section: "THE CORE IDEA",
-  title: "One sentence to remember",
-  headline: "AI is software that learns from examples instead of following fixed rules.",
-  body: "Ordinary software does exactly what someone wrote down. An AI system studies a large number of examples, works out the pattern inside them, and then applies that pattern to something it has never seen before.",
-  callout: "That single difference explains almost everything else about AI.",
-  primary: { label: "Continue", target: "rules-vs-patterns" },
-  secondary: { label: "Back", target: "outcomes" },
-  narration: "Here is one sentence worth remembering. AI is software that learns from examples instead of following fixed rules. Ordinary software does exactly what someone wrote down. An AI system studies many examples, works out the pattern inside them, and applies that pattern to something new. That single difference explains almost everything else about AI."
-},
+  function spy(){
+    var mark = window.scrollY + 140, idx = 0;
+    for (var i = 0; i < secs.length; i++){
+      if (secs[i] && secs[i].offsetTop <= mark) idx = i;
+    }
+    links.forEach(function(a, i){ a.classList.toggle("active", i === idx); });
+  }
 
-{
-  id: "rules-vs-patterns",
-  kind: "compare",
-  section: "TWO KINDS OF SOFTWARE",
-  title: "Written rules, or learned patterns",
-  items: [
+  var ticking = false;
+  window.addEventListener("scroll", function(){
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function(){ progress(); spy(); ticking = false; });
+  }, { passive:true });
+  window.addEventListener("resize", function(){ progress(); spy(); });
+  progress(); spy();
+
+  /* ---------- knowledge check ---------- */
+  var QUESTIONS = [
     {
-      tag: "TRADITIONAL SOFTWARE",
-      title: "A person writes every rule",
-      body: "Your payroll system applies tax rules exactly as they were programmed. It is predictable and repeatable, but it can only ever do what someone thought to tell it."
+      q: "What is the fundamental difference between AI and traditional software?",
+      o: [
+        "AI runs faster because it uses more powerful hardware",
+        "Traditional software follows rules a human wrote; AI learns patterns from examples",
+        "AI works online while traditional software works offline",
+        "There is no real difference, only the marketing terminology"
+      ],
+      a: 1,
+      e: "Traditional software executes rules a person wrote down. AI is shown examples and derives the pattern itself — which is why it can handle messy human input, and why it is never fully certain."
     },
     {
-      tag: "AI SYSTEM",
-      title: "The rule is learned from examples",
-      body: "A tool reads ten thousand past invoices and works out where the total sits on a page it has never seen. Flexible and fast, but never guaranteed to be right."
+      q: "How do AI, Machine Learning and Deep Learning relate to each other?",
+      o: [
+        "They are three competing technologies you choose between",
+        "Deep Learning contains Machine Learning, which contains AI",
+        "AI contains Machine Learning, which contains Deep Learning",
+        "They are unrelated fields that happen to share terminology"
+      ],
+      a: 2,
+      e: "They nest. AI is the overall goal, Machine Learning is the main method of reaching it, and Deep Learning is Machine Learning using multi-layer neural networks. Generative AI sits inside Deep Learning."
+    },
+    {
+      q: "What separates Generative AI from earlier predictive AI?",
+      o: [
+        "Generative AI creates new content; predictive AI classifies or scores what already exists",
+        "Generative AI is always accurate, predictive AI is not",
+        "Generative AI only works with images",
+        "Predictive AI needs no data to function"
+      ],
+      a: 0,
+      e: "Predictive AI answers questions about existing data — a label, a score, a forecast. Generative AI produces something new: the email, the summary, the analysis. That is why it became useful to every business function, not just data teams."
+    },
+    {
+      q: "At a technical level, what is an LLM doing when it answers you?",
+      o: [
+        "Searching a verified database of facts",
+        "Retrieving the closest matching answer it memorised during training",
+        "Repeatedly predicting the next most probable token, given everything so far",
+        "Applying a set of logical rules written by its developers"
+      ],
+      a: 2,
+      e: "It predicts the next token, adds it, and repeats — hundreds of times for a single paragraph. It is not looking anything up, which is exactly why it can produce fluent text that is factually wrong."
+    },
+    {
+      q: "Why does hallucination happen?",
+      o: [
+        "The model is deliberately programmed to be creative with facts",
+        "The internet contains wrong information and the model repeats it",
+        "The model optimises for plausible text, and has no internal test for truth",
+        "It is a temporary bug that the next model version will remove"
+      ],
+      a: 2,
+      e: "Hallucination follows from the mechanism itself. When the model lacks a fact, the most plausible continuation is still a fact-shaped sentence — so it writes one, in the same confident tone it uses when correct."
+    },
+    {
+      q: "A colleague asks AI to calculate the GST payable across 400 invoices and wants to file the return using that output. What is the right response?",
+      o: [
+        "Fine — AI handles calculations faster than any human",
+        "Fine, as long as the prompt is written well",
+        "Wrong tool. Tax computation must be exact and auditable, so it belongs in software, not an LLM",
+        "Fine if you run it twice and the answers match"
+      ],
+      a: 2,
+      e: "Anything requiring exactness and an audit trail — tax, payroll, accounting entries, invoice totals — belongs in traditional software. Use AI to explain or summarise the result, never to compute the filed figure."
+    },
+    {
+      q: "Which task is the strongest fit for generative AI in a business process?",
+      o: [
+        "Being the single source of truth for company pricing",
+        "Converting 500 unstructured customer enquiries into structured, categorised records",
+        "Taking the final decision on which candidate to hire",
+        "Producing the exact stock quantity available in the warehouse"
+      ],
+      a: 1,
+      e: "Turning messy human text into clean structured data is the highest-value business use of generative AI. The other three each require exactness or accountability, which is why a human or a conventional system must own them."
+    },
+    {
+      q: "What is the correct model for human + AI collaboration?",
+      o: [
+        "AI takes the routine decisions so humans handle only exceptions",
+        "Humans draft, AI reviews and approves the final version",
+        "AI does the reading, drafting and structuring; humans frame the task, verify and decide",
+        "Whoever produces the answer faster should be trusted"
+      ],
+      a: 2,
+      e: "AI handles volume, speed and the first pass. Framing the task, verifying the output and owning the decision stay human — those three steps are where professional judgement and accountability live."
     }
-  ],
-  callout: "Predictable but rigid, or flexible but fallible. Neither is better everywhere.",
-  primary: { label: "Continue", target: "how-it-learns" },
-  secondary: { label: "Back", target: "what-is-ai" },
-  narration: "There are two kinds of software. In traditional software, a person writes every rule. Your payroll system applies tax rules exactly as programmed. It is predictable, but it can only do what someone thought to tell it. In an AI system, the rule is learned from examples. A tool reads ten thousand past invoices and works out where the total sits on a page it has never seen. Flexible and fast, but never guaranteed to be right."
-},
+  ];
 
-{
-  id: "how-it-learns",
-  kind: "steps",
-  section: "HOW IT ACTUALLY WORKS",
-  title: "Three steps, every single time",
-  art: "learn",
-  items: [
-    { n: "01", title: "It sees examples", body: "Past invoices, old support tickets, years of emails, historical sales figures." },
-    { n: "02", title: "It finds the pattern", body: "Which things tend to appear together, and what usually follows what." },
-    { n: "03", title: "It applies the pattern", body: "To a document, a question, or a customer it has never encountered before." }
-  ],
-  callout: "The quality of the examples decides the quality of the answer. There is no way around this.",
-  primary: { label: "Watch the lesson", target: "video-lesson" },
-  secondary: { label: "Back", target: "rules-vs-patterns" },
-  narration: "However complicated an AI system looks, it follows the same three steps. First it sees examples, such as past invoices, old support tickets, or years of sales figures. Then it finds the pattern, working out which things tend to appear together. Finally it applies that pattern to something it has never encountered before. The quality of the examples decides the quality of the answer, and there is no way around that."
-},
+  var LETTERS = ["A","B","C","D"];
+  var host = document.getElementById("quiz");
+  var scoreBox = document.getElementById("score");
+  var scoreN = document.getElementById("score-n");
+  var scoreT = document.getElementById("score-t");
+  var answered, correct;
 
-{
-  id: "video-lesson",
-  kind: "video",
-  section: "NARRATED LESSON",
-  title: "Watch: what artificial intelligence really is",
-  lead: "Around five minutes. Use the player controls to pause or replay.",
-  video: "course/media/ai-introduction-lesson.mp4",
+  function build(){
+    answered = 0; correct = 0;
+    scoreBox.hidden = true;
+    host.innerHTML = "";
 
-  audioMode: "video",
-  primary: { label: "Continue", target: "check-one" },
-  secondary: { label: "Back", target: "how-it-learns" },
-  narration: "This screen holds the narrated video lesson. Press play to watch it, then select Continue."
-},
+    QUESTIONS.forEach(function(item, qi){
+      var card = document.createElement("div");
+      card.className = "q";
 
-{
-  id: "check-one",
-  kind: "quiz",
-  section: "QUICK CHECK · 1 OF 3",
-  title: "What is this system doing?",
-  scenario: "A tool reads thousands of past support tickets. A new ticket arrives and it sends it straight to the right team.",
-  options: [
-    { label: "A", text: "Following routing rules somebody wrote", correct: false,
-      why: "That would be traditional software. Here nobody wrote the rules - the system worked them out from the old tickets." },
-    { label: "B", text: "Finding patterns in past examples", correct: true,
-      why: "Exactly. It studied thousands of examples, learned which words point to which team, and applied that to a new ticket." },
-    { label: "C", text: "Understanding how the customer feels", correct: false,
-      why: "It can detect words that usually signal frustration, but that is still pattern matching. There is no understanding behind it." }
-  ],
-  primary: { label: "Continue", target: "data-and-model" },
-  secondary: { label: "Back", target: "video-lesson" },
-  narration: "Quick check, one of three. A tool reads thousands of past support tickets. A new ticket arrives and it sends it straight to the right team. What is the system doing? Select your answer."
-},
+      var n = document.createElement("div");
+      n.className = "q-n";
+      n.textContent = "Question " + (qi + 1) + " of " + QUESTIONS.length;
+      card.appendChild(n);
 
-{
-  id: "data-and-model",
-  kind: "duo",
-  section: "TWO WORDS YOU WILL HEAR",
-  title: "Data and model, without the mystique",
-  items: [
-    { key: "DATA", title: "The examples you give it", body: "Your invoices, your emails, your call notes, your spreadsheets. If it has never seen something, it cannot have learned it." },
-    { key: "MODEL", title: "The pattern it learned", body: "The finished result of all that reading. This is the part that produces an answer when you ask a question." }
-  ],
-  callout: "Poor data gives a poor model, and a poor model gives a poor answer. In that order, every time.",
-  primary: { label: "Continue", target: "what-its-good-at" },
-  secondary: { label: "Back", target: "check-one" },
-  narration: "Two words come up in every AI conversation. Data means the examples you give it, such as your invoices and emails. Model means the pattern it learned from them. Poor data gives a poor model, and a poor model gives a poor answer."
-},
+      var t = document.createElement("p");
+      t.className = "q-t";
+      t.textContent = item.q;
+      card.appendChild(t);
 
-{
-  id: "what-its-good-at",
-  kind: "cards",
-  section: "WHAT IT IS ACTUALLY FOR",
-  title: "Four jobs AI does well",
-  items: [
-    { n: "01", tag: "UNDERSTAND", title: "Read and summarise", body: "Work through a long contract or report and answer questions about what is inside it." },
-    { n: "02", tag: "RECOGNISE", title: "Spot the exception", body: "Find the unusual transaction, the defect on the line, the duplicate record." },
-    { n: "03", tag: "PREDICT", title: "Estimate what comes next", body: "Likely demand, delivery date, credit risk, or which customer is about to leave." },
-    { n: "04", tag: "GENERATE", title: "Produce a first draft", body: "Text, slides, code, or a starting analysis you then correct and improve." }
-  ],
-  callout: "Most tools are strong at one of these and weak at the others. Ask which job a product is really doing.",
-  primary: { label: "Continue", target: "generative" },
-  secondary: { label: "Back", target: "data-and-model" },
-  narration: "AI is a tool for specific jobs, and there are four worth knowing. It can understand, reading long documents and answering questions about them. It can recognise, spotting an unusual transaction or a duplicate record. It can predict, estimating demand, delivery dates or risk. And it can generate, producing a first draft you then correct. Most tools are strong at one of these and weak at the others."
-},
+      var opts = document.createElement("div");
+      opts.className = "opts";
 
-{
-  id: "generative",
-  kind: "feature",
-  section: "THE PART EVERYONE TALKS ABOUT",
-  keyword: "GENERATIVE",
-  title: "It writes the first draft, not the final one",
-  body: "You describe what you need in ordinary words, and it produces something new: a paragraph, a summary, a slide outline, a formula. This is what changed in the last few years, and it is why AI suddenly appeared in everyone's working day.",
-  chips: ["Text", "Images", "Code", "Analysis"],
-  callout: "Think of it as a fast, willing colleague on their first week. Useful, quick, and in need of checking.",
-  primary: { label: "Continue", target: "ai-at-work" },
-  secondary: { label: "Back", target: "what-its-good-at" },
-  narration: "Generative AI is the part everyone talks about. You describe what you need in ordinary words and it produces something new: a paragraph, a summary, a slide outline, a formula. This is what changed in the last few years and why AI suddenly appeared in everyone's working day. Think of it as a fast, willing colleague in their first week. Useful, quick, and in need of checking."
-},
+      item.o.forEach(function(text, oi){
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "opt";
 
-{
-  id: "ai-at-work",
-  kind: "cards",
-  section: "WHERE YOU ALREADY MEET IT",
-  title: "It is probably in four tools you opened today",
-  art: "grid",
-  items: [
-    { n: "01", tag: "INBOX", title: "Sorting and drafting", body: "Deciding what reaches you first and suggesting how to reply." },
-    { n: "02", tag: "MEETINGS", title: "Notes and actions", body: "Transcribing the call, summarising it, listing who agreed to what." },
-    { n: "03", tag: "REPORTING", title: "The first version", body: "Pulling figures together and writing the commentary around them." },
-    { n: "04", tag: "HIRING", title: "Screening and scheduling", body: "Ranking applications, arranging interviews, drafting the questions." }
-  ],
-  callout: "Ignore the branding on the product. Ask what job the AI inside it is doing.",
-  primary: { label: "Continue", target: "check-two" },
-  secondary: { label: "Back", target: "generative" },
-  narration: "You have probably already used AI today without noticing. It sorts your inbox and suggests replies. It transcribes your meetings and lists the actions. It pulls figures together for a report and writes the commentary. It ranks job applications and schedules interviews. Ignore the branding on the product and ask what job the AI inside it is doing."
-},
+        var k = document.createElement("span");
+        k.className = "k";
+        k.textContent = LETTERS[oi];
+        b.appendChild(k);
 
-{
-  id: "check-two",
-  kind: "quiz",
-  section: "QUICK CHECK · 2 OF 3",
-  title: "Which one is generative AI?",
-  scenario: "All three of these exist in ordinary business software. Only one of them creates something new.",
-  options: [
-    { label: "A", text: "A dashboard showing last quarter's sales", correct: false,
-      why: "This displays numbers that already exist. Useful, but nothing new is being produced." },
-    { label: "B", text: "A tool that writes the first draft of your quarterly summary", correct: true,
-      why: "Correct. It produces new text that did not exist before, based on patterns it learned from a great deal of writing." },
-    { label: "C", text: "A filter moving suspicious email to junk", correct: false,
-      why: "That is AI, but the recognising kind. It sorts what already exists rather than creating anything." }
-  ],
-  primary: { label: "Continue", target: "limits" },
-  secondary: { label: "Back", target: "ai-at-work" },
-  narration: "Quick check, two of three. All three of these exist in ordinary business software, but only one of them creates something new. Which one is generative AI?"
-},
+        var s = document.createElement("span");
+        s.textContent = text;
+        b.appendChild(s);
 
-{
-  id: "limits",
-  kind: "cards",
-  tone: "warn",
-  section: "WHERE IT FALLS DOWN",
-  title: "Four failures worth planning for",
-  items: [
-    { n: "01", title: "It can be confidently wrong", body: "Fluent, well-organised writing is not evidence. The tone stays the same whether it is right or not." },
-    { n: "02", title: "It does not know your context", body: "It has never met your client, read your contract, or seen last week's decision." },
-    { n: "03", title: "It repeats what is in the data", body: "Past examples carry past bias. The pattern it learned includes the unfairness in it." },
-    { n: "04", title: "It cannot be accountable", body: "Your name goes on the work. The tool does not attend the review meeting." }
-  ],
-  callout: "None of these make AI unusable. They decide what you check before the work leaves your desk.",
-  primary: { label: "Continue", target: "scenario" },
-  secondary: { label: "Back", target: "check-two" },
-  narration: "Useful does not mean correct. AI can be confidently wrong, because fluent writing is not evidence. It does not know your context. It repeats bias from its data. And it cannot be accountable, because your name goes on the work."
-},
+        b.addEventListener("click", function(){ pick(card, opts, item, oi); });
+        opts.appendChild(b);
+      });
 
-{
-  id: "scenario",
-  kind: "quiz",
-  section: "QUICK CHECK · 3 OF 3",
-  title: "What would you do here?",
-  scenario: "An AI tool drafts a client email for you. It reads well, but it states a delivery date you have not seen anywhere else.",
-  options: [
-    { label: "A", text: "Send it. The tool is usually accurate.", correct: false,
-      why: "Usually accurate is not the same as accurate this time, and a wrong date in writing to a client becomes your problem." },
-    { label: "B", text: "Confirm the date with your delivery team, then send", correct: true,
-      why: "Right. Anything a client, a regulator or your manager will see is worth thirty seconds of checking." },
-    { label: "C", text: "Paste the signed contract in and ask it to verify", correct: false,
-      why: "This adds a second problem. You have now put confidential client terms into an outside tool to check a single date." }
-  ],
-  primary: { label: "Continue", target: "habits" },
-  secondary: { label: "Back", target: "limits" },
-  narration: "Quick check, three of three. An AI tool drafts a client email for you. It reads well, but it states a delivery date you have not seen anywhere else. What would you do?"
-},
+      card.appendChild(opts);
+      host.appendChild(card);
+    });
+  }
 
-{
-  id: "habits",
-  kind: "steps",
-  section: "HOW TO USE IT WELL",
-  title: "Three habits that cover almost everything",
-  art: "verify",
-  items: [
-    { n: "01", title: "Ask precisely", body: "Say who it is for, what it is for, and what a good answer looks like. Vague questions get vague answers." },
-    { n: "02", title: "Verify what matters", body: "Anything a client, a regulator or your manager will read. Skip the check on a rough internal note." },
-    { n: "03", title: "Protect what is private", body: "No client data, no personal records, no passwords, no unreleased numbers. Assume anything you paste may be stored." }
-  ],
-  callout: "Ask well, check what counts, share nothing you should not. That is the whole discipline.",
-  primary: { label: "Continue", target: "roadmap" },
-  secondary: { label: "Back", target: "scenario" },
-  narration: "Three habits cover almost everything. Ask precisely: say who it is for and what a good answer looks like. Verify what matters: anything a client or your manager will read. And protect what is private."
-},
+  function pick(card, opts, item, chosen){
+    var buttons = Array.prototype.slice.call(opts.querySelectorAll(".opt"));
+    if (buttons[0].disabled) return;
 
-{
-  id: "roadmap",
-  kind: "roadmap",
-  section: "WHAT COMES NEXT",
-  title: "This was the foundation",
-  body: "Module 01 gives everyone the same vocabulary and the same instincts. The modules that follow turn that into daily practice.",
-  items: [
-    { n: "02", title: "Writing prompts that work", body: "Getting usable output on the first attempt instead of the fifth." },
-    { n: "03", title: "AI for analysis and reporting", body: "Working with your own documents, numbers and templates." },
-    { n: "04", title: "Safe and compliant use", body: "What your organisation's policy should say, and why." }
-  ],
-  primary: { label: "Finish module", target: "complete" },
-  secondary: { label: "Back", target: "habits" },
-  narration: "This was the foundation. Module one gives everyone the same vocabulary and the same instincts. The modules that follow turn that into daily practice: writing prompts that work, using AI for analysis and reporting, and safe and compliant use at work."
-},
+    buttons.forEach(function(b, i){
+      b.disabled = true;
+      if (i === item.a) b.classList.add("right");
+      else if (i === chosen) b.classList.add("wrong");
+    });
 
-{
-  id: "complete",
-  kind: "complete",
-  section: "MODULE 01 COMPLETE",
-  title: "You can now explain AI to anyone in the room",
-  body: "You have the vocabulary, you know the failure modes, and you have three habits that keep the work safe.",
-  items: [
-    { n: "01", title: "What it is", body: "Software that learns patterns from examples rather than following written rules." },
-    { n: "02", title: "What it does", body: "Understands, recognises, predicts, generates. Rarely all four at once." },
-    { n: "03", title: "How to use it", body: "Ask precisely, verify what matters, protect what is private." }
-  ],
-  primary: { label: "Get your certificate", target: "certificate" },
-  secondary: { label: "Replay the video", target: "video-lesson" },
-  narration: "Congratulations. Module one is complete. You can now explain that AI is software which learns patterns from examples rather than following written rules. You know it understands, recognises, predicts and generates, and rarely all four at once. And you have three habits: ask precisely, verify what matters, and protect what is private."
-},
+    var exp = document.createElement("div");
+    exp.className = "exp";
+    exp.innerHTML = "<b>" + (chosen === item.a ? "Correct. " : "Not quite. ") + "</b>" + item.e;
+    card.appendChild(exp);
 
-{
-  id: "certificate",
-  kind: "certificate",
-  section: "CERTIFICATE",
-  title: "Your record of completion",
-  lead: "Type your name as you would like it to appear, then print or save it as a PDF.",
-  // Shown in the name box. The learner can still type over it.
-  defaultName: "Abhishek Uniyal",
-  award: "has completed",
-  course: "Introduction to Artificial Intelligence",
-  moduleLine: "Module 01 · Foundation",
-  issuer: "Gold Technology",
-  primary: { label: "Restart module", target: "welcome" },
-  secondary: { label: "Back", target: "complete" },
-  narration: "Here is your record of completion. Type your name as you would like it to appear, then print it or save it as a PDF."
-}
+    answered++;
+    if (chosen === item.a) correct++;
+    if (answered === QUESTIONS.length) finish();
+  }
 
-]};
+  function finish(){
+    scoreN.textContent = correct + "/" + QUESTIONS.length;
+    var msg;
+    if (correct === QUESTIONS.length)      msg = "Full marks. You have the foundation this program builds on — move on to Module 2, Prompt Engineering.";
+    else if (correct >= 6)                 msg = "Solid understanding. Re-read the sections behind the ones you missed, then continue to Module 2.";
+    else if (correct >= 4)                 msg = "The basics are there, but the detail is not yet secure. Work through Sections 04 to 07 again before moving on.";
+    else                                   msg = "Read the module once more before continuing — Module 2 assumes everything covered here.";
+    scoreT.textContent = msg;
+    scoreBox.hidden = false;
+  }
+
+  document.getElementById("retry").addEventListener("click", function(){
+    build();
+    document.getElementById("s11").scrollIntoView({ behavior:"smooth", block:"start" });
+  });
+
+  build();
+})();
 </script>
-<script>
-/* ===========================================================================
-   SETTINGS - the two things you are likely to change
-   =========================================================================== */
 
-/* APPROVED LEARNER EMAILS. Add a line inside the brackets, in quotes, with a
-   comma after the line above. Lowercase only. Save, then reload the page.   */
-const approvedEmails = new Set([
-  "anirudhuniyal14@gmail.com",
-  "ankii0210@gmail.com"
-]);
-
-/* Where "Request access" messages are sent. */
-const accessRequestRecipient = "anirudhuniyal14@gmail.com";
-
-/* Narration files live in course/audio/male/ and are named after each screen,
-   for example 01-welcome.mp3. They are made by MAKE_MY_VOICE_FREE.bat.
-   While they do not exist the course stays silent, which is what you want
-   when presenting. Set this to true to have the browser read screens aloud. */
-const SPEAK_WHEN_NO_FILE = false;
-
-/* =========================================================================== */
-
-/* Never show a blank page. If the text of the course did not load, say so. */
-if (!window.COURSE || !Array.isArray(window.COURSE.slides)) {
-  const b = document.createElement("div");
-  b.id = "warn";
-  b.innerHTML = "<strong>The course text did not load.</strong>"
-    + "The file <b>course/content.js</b> is missing. If this is a website, "
-    + "upload that file into the <b>course</b> folder next to index.html. "
-    + "If this is on your computer, make sure the whole folder was unzipped.";
-  document.body.prepend(b);
-  throw new Error("course/content.js did not load");
-}
-
-const slides = window.COURSE.slides;
-const app = document.getElementById("app");
-const narration = document.getElementById("narration");
-const idx = new Map(slides.map((s, i) => [s.id, i]));
-const state = { started:false, i:0, cc:false, playing:false, muted:false,
-                mediaKey:"", answered:{}, speaking:false, learner:"" };
-
-const esc = (v = "") => String(v)
-  .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-  .replaceAll('"',"&quot;").replaceAll("'","&#039;");
-
-const cur = () => slides[state.i];
-const isVideo = () => cur().audioMode === "video";
-const vid = () => document.getElementById("lesson-video");
-const media = () => (isVideo() ? vid() : narration);
-const pad = n => String(n + 1).padStart(2, "0");
-
-/* Each screen's clip is named from its position and id. */
-function audioFor(i) {
-  const s = slides[i];
-  return s.audioMode === "video" ? "" : `course/audio/male/${pad(i)}-${s.id}.mp3`;
-}
-
-/* A screen with an unanswered question should not let you skip ahead. */
-const locked = s => s.kind === "quiz" && !state.answered[s.id];
-
-/* ---------------------------------------------------------------------------
-   Brand artwork. Every picture in the course is drawn from the same shape as
-   the Gold Technology logo - a triangle built out of smaller triangles - so
-   nothing looks like borrowed stock imagery.
-   --------------------------------------------------------------------------- */
-function triField(rows, side, apexX, top) {
-  const h = side * 0.8660254, out = [];
-  for (let r = 0; r < rows; r++) {
-    const yT = top + r * h, yB = top + (r + 1) * h;
-    const lT = apexX - r * side / 2, lB = apexX - (r + 1) * side / 2;
-    for (let c = 0; c <= r; c++)
-      out.push({ up: true, r, c, p: [[lT + c * side, yT], [lB + c * side, yB], [lB + (c + 1) * side, yB]] });
-    for (let c = 0; c < r; c++)
-      out.push({ up: false, r, c, p: [[lT + c * side, yT], [lT + (c + 1) * side, yT], [lB + (c + 1) * side, yB]] });
-  }
-  return out;
-}
-
-/* Shrink each triangle towards its middle so they sit apart, like the logo. */
-function triPath(p, gap = 0.87) {
-  const mx = (p[0][0] + p[1][0] + p[2][0]) / 3, my = (p[0][1] + p[1][1] + p[2][1]) / 3;
-  return "M" + p.map(([x, y]) =>
-    `${(mx + (x - mx) * gap).toFixed(1)},${(my + (y - my) * gap).toFixed(1)}`).join("L") + "Z";
-}
-
-const ART = {
-  /* the logo itself, opened out */
-  hero:   { rows: 5, of: t => t.up ? { fill: 0.95 - t.r * 0.14 } : { line: 0.10 } },
-  /* fills in row by row - examples, then pattern, then answer */
-  learn:  { rows: 4, of: t => !t.up ? { line: 0.09 }
-              : t.r < 2 ? { fill: 0.92 } : t.r === 2 ? { fill: 0.45 } : { line: 0.34 } },
-  /* a system with a few parts lit up */
-  grid:   { rows: 4, of: t => t.up ? ((t.r + t.c) % 3 === 0 ? { fill: 0.88 } : { line: 0.26 })
-              : { line: 0.09 } },
-  /* the outer edges hold, the middle is checked */
-  verify: { rows: 4, of: t => t.up ? ((t.c === 0 || t.c === t.r) ? { fill: 0.85 } : { line: 0.2 })
-              : { line: 0.09 } }
-};
-
-function brandArt(kind) {
-  const cfg = ART[kind] ?? ART.hero;
-  const W = 300, pad = 16;
-  const side = (W - pad * 2) / cfg.rows;
-  const H = Math.round(cfg.rows * side * 0.8660254 + pad * 2);
-  const shapes = triField(cfg.rows, side, W / 2, pad).map(t => {
-    const s = cfg.of(t), d = triPath(t.p);
-    return s.fill != null
-      ? `<path d="${d}" fill="#EAC64B" opacity="${s.fill}"/>`
-      : `<path d="${d}" fill="none" stroke="#EAC64B" stroke-width="1" opacity="${s.line}"/>`;
-  }).join("");
-  return `<svg class="art" viewBox="0 0 ${W} ${H}" role="img" aria-label="Gold Technology emblem">${shapes}</svg>`;
-}
-
-const artBox = kind => `<div class="artbox">${brandArt(kind)}</div>`;
-
-/* ------------------------------- pieces ---------------------------------- */
-
-function tile(it) {
-  return `<article class="tile">
-    ${it.n ? `<div class="n">${esc(it.n)}</div>` : ""}
-    ${it.tag ? `<span class="tag">${esc(it.tag)}</span>` : ""}
-    <h3>${esc(it.title)}</h3>
-    ${it.body ? `<p>${esc(it.body)}</p>` : ""}
-  </article>`;
-}
-const callout = s => s.callout ? `<div class="callout">${esc(s.callout)}</div>` : "";
-
-function bodyFor(s) {
-  const items = s.items ?? [];
-
-  if (s.kind === "cover") return `<div class="cover">
-    <div>
-      <h2>${esc(s.title)}</h2>
-      <p class="lead">${esc(s.lead)}</p>
-      <p class="lead" style="font-size:14.5px;color:var(--dim)">${esc(s.body)}</p>
-      <div class="metas">${(s.meta ?? []).map(m => `<span>${esc(m)}</span>`).join("")}</div>
-    </div>
-    ${s.art ? artBox(s.art) : ""}
-  </div>`;
-
-  if (s.kind === "statement") return `<div class="state">
-    <div>
-      <div class="big">${esc(s.headline)}</div>
-      <p class="lead">${esc(s.body)}</p>
-      ${callout(s)}
-    </div>
-    ${artBox("hero")}
-  </div>`;
-
-  if (s.kind === "compare") return `<div class="cmp">
-    ${items.map(it => `<article class="tile">
-      <span class="tag">${esc(it.tag)}</span>
-      <h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></article>`).join("")}
-    ${callout(s)}
-  </div>`;
-
-  if (s.kind === "duo") return `<div class="duo">
-    ${items.map(it => `<article class="tile">
-      <span class="key">${esc(it.key)}</span>
-      <h3>${esc(it.title)}</h3><p>${esc(it.body)}</p></article>`).join("")}
-    ${s.callout ? `<div class="callout" style="grid-column:1/-1">${esc(s.callout)}</div>` : ""}
-  </div>`;
-
-  if (s.kind === "steps") return `<div class="flow ${s.art ? "withpic" : ""}">
-    <div class="flow-list">${items.map(tile).join("")}</div>
-    ${s.art ? `<div class="pic">${brandArt(s.art)}</div>` : ""}
-    ${callout(s)}
-  </div>`;
-
-  if (s.kind === "certificate") {
-    const name = s.defaultName
-      || (state.learner ? state.learner.split("@")[0].replace(/[._-]+/g, " ") : "");
-    const today = new Date().toLocaleDateString("en-GB",
-      { day: "numeric", month: "long", year: "numeric" });
-    return `<div>
-      <div class="cert">
-        <img src="course/brand/logo-full.png" alt="Gold Technology">
-        <p class="kicker">CERTIFICATE OF COMPLETION</p>
-        <input class="who" id="cert-name" value="${esc(name)}"
-               placeholder="Your name" aria-label="Your name">
-        <p class="said">${esc(s.award)}</p>
-        <h3>${esc(s.course)}</h3>
-        <p class="mod">${esc(s.moduleLine)}</p>
-        <div class="foot">
-          <span>ISSUED BY<b>${esc(s.issuer)}</b></span>
-          <span style="text-align:right">DATE<b>${esc(today)}</b></span>
-        </div>
-      </div>
-      <p class="cert-hint">Use the Print button below, then choose "Save as PDF" if you want a copy.</p>
-    </div>`;
-  }
-
-  if (s.kind === "feature") return `<div class="feature">
-    <div><div class="kw">${esc(s.keyword)}</div></div>
-    <div>
-      <div class="big" style="font-size:22px">${esc(s.title)}</div>
-      <p class="lead">${esc(s.body)}</p>
-      <div class="chips">${(s.chips ?? []).map(c => `<span>${esc(c)}</span>`).join("")}</div>
-      ${callout(s)}
-    </div>
-  </div>`;
-
-  if (s.kind === "video") return `<div class="vid">
-    <video id="lesson-video" controls playsinline preload="metadata"
-      poster="${esc(s.poster)}" src="${esc(s.video)}"></video></div>`;
-
-  if (s.kind === "quiz") {
-    const picked = state.answered[s.id];
-    return `<div class="quiz">
-      <p class="scen">${esc(s.scenario)}</p>
-      <div class="opts">${s.options.map((o, i) => {
-        let cls = "opt";
-        if (picked !== undefined) {
-          cls += o.correct ? " right" : (picked === i ? " wrong" : " dim");
-        }
-        return `<button class="${cls}" data-pick="${i}" ${picked !== undefined ? "disabled" : ""}>
-          <span class="k">${esc(o.label)}</span>
-          <span class="t">${esc(o.text)}</span>
-          <span class="mk">${o.correct ? "✓" : "✕"}</span></button>`;
-      }).join("")}</div>
-      ${picked !== undefined ? `<div class="why ${s.options[picked].correct ? "right" : "wrong"}">
-        <b>${s.options[picked].correct ? "THAT IS RIGHT" : "NOT QUITE"}</b>
-        ${esc(s.options[picked].why)}</div>` : ""}
-    </div>`;
-  }
-
-  if (s.kind === "roadmap") return `<div style="width:100%">
-    <p class="lead" style="margin:0 0 18px;max-width:70ch">${esc(s.body)}</p>
-    <div class="grid three">${items.map(tile).join("")}</div>
-  </div>`;
-
-  if (s.kind === "complete") return `<div class="done">
-    <div class="done-top">
-      <div class="tick">✓</div>
-      <div><p class="eyebrow">MODULE COMPLETE</p>
-        <p class="lead" style="margin-top:6px;color:#D6DDEA">${esc(s.body)}</p></div>
-    </div>
-    <div class="grid three">${items.map(tile).join("")}</div>
-  </div>`;
-
-  /* default: cards */
-  const n = items.length === 4 ? "four" : items.length === 3 ? "three" : "";
-  return `<div class="grid ${n}">${items.map(tile).join("")}${callout(s)}</div>`;
-}
-
-/* ------------------------------- screens --------------------------------- */
-
-function renderGate() {
-  app.innerHTML = `<main class="gate"><section class="gate-card">
-    <div class="gate-brand">
-      <img class="gate-logo" src="course/brand/logo-full.png" alt="Gold Technology">
-      <div>
-        <p class="eyebrow">AI FOR ALL · MODULE 01</p>
-        <h1>Introduction to Artificial Intelligence</h1>
-        <p>A practical foundation module for working professionals. Plain English, real examples, no technical background required.</p>
-      </div>
-      <div class="pills"><span>17 screens</span><span>About 20 minutes</span><span>Desktop &amp; mobile</span></div>
-    </div>
-    <div class="gate-form">
-      <p class="eyebrow">PRIVATE TRAINING ACCESS</p>
-      <h2>Enter your email</h2>
-      <p>Approved learners go straight into the module.</p>
-      <form id="gate-form" novalidate>
-        <label for="em">Work or approved email</label>
-        <input id="em" type="email" inputmode="email" autocomplete="email" placeholder="name@company.com">
-        <button class="btn-gold" type="submit">Enter training</button>
-        <button class="btn-ghost" type="button" id="req">Request access</button>
-      </form>
-      <p class="note" id="note" aria-live="polite">Access is limited to approved email addresses.</p>
-      <p class="gate-foot">Gold Technology · Internal training preview</p>
-    </div>
-  </section></main>`;
-  document.getElementById("gate-form").addEventListener("submit", e => { e.preventDefault(); tryEnter(); });
-  document.getElementById("req").addEventListener("click", requestAccess);
-}
-
-const typed = () => document.getElementById("em")?.value.trim().toLowerCase() ?? "";
-function say(msg, bad = true) {
-  const n = document.getElementById("note");
-  if (n) { n.textContent = msg; n.classList.toggle("bad", bad); }
-}
-function tryEnter() {
-  const e = typed();
-  if (!/^\S+@\S+\.\S+$/.test(e)) return say("Please enter a valid email address.");
-  if (!approvedEmails.has(e)) return say("This address does not have access yet. Use Request access below.");
-  start();
-}
-function requestAccess() {
-  const e = typed();
-  if (!/^\S+@\S+\.\S+$/.test(e)) return say("Enter your email first, then select Request access.");
-  if (approvedEmails.has(e)) return start();
-  location.href = "mailto:" + accessRequestRecipient
-    + "?subject=" + encodeURIComponent("Access request - AI For All training")
-    + "&body=" + encodeURIComponent("Please grant AI training access to: " + e);
-  say("Your email app will open with a ready-made request.", false);
-}
-
-function actBtn(a, cls, off) {
-  if (!a) return "";
-  return `<button class="${cls}" data-go="${esc(a.target)}" ${off ? "disabled" : ""}>${esc(a.label)}</button>`;
-}
-
-function renderCourse() {
-  const s = cur();
-  const pct = ((state.i + 1) / slides.length) * 100;
-  app.innerHTML = `<main class="shell">
-    <header class="bar">
-      <button class="bar-brand" data-go="welcome" aria-label="Back to start">
-        <img src="course/brand/logo-mark.png" alt="Gold Technology">
-        <span><b>AI FOR ALL</b><small>Module 01 · Foundation</small></span>
-      </button>
-      <div class="prog">
-        <div class="prog-top"><span>SCREEN ${state.i + 1} OF ${slides.length}</span><span>${Math.round(pct)}%</span></div>
-        <div class="prog-bar"><i style="width:${pct}%"></i></div>
-      </div>
-      <div class="tools">
-        <button class="tool" id="t-play" aria-label="Play or pause">▶<small>Play</small></button>
-        <button class="tool" id="t-again" aria-label="Replay">↻<small>Replay</small></button>
-        <button class="tool ${state.cc ? "on" : ""}" id="t-cc" aria-label="Captions">CC<small>Text</small></button>
-        <button class="tool" id="t-mute" aria-label="Mute">${state.muted ? "✕" : "◍"}<small>${state.muted ? "Muted" : "Sound"}</small></button>
-        <button class="tool" id="t-full" aria-label="Full screen">⛶<small>Full</small></button>
-      </div>
-    </header>
-
-    <section class="stage">
-      <article class="card ${s.tone === "warn" ? "warn" : ""}">
-        <header class="head">
-          <div>
-            <p class="eyebrow">${esc(s.section)}</p>
-            <h1>${esc(s.title)}</h1>
-            ${s.lead && s.kind !== "cover" ? `<p class="lead">${esc(s.lead)}</p>` : ""}
-          </div>
-          <div class="num">${pad(state.i)} / ${slides.length}</div>
-        </header>
-        ${s.art && s.kind === "cards" ? `<div class="mark">${brandArt(s.art)}</div>` : ""}
-        <div class="body">${bodyFor(s)}</div>
-        ${state.cc ? `<div class="cc"><span>CC</span><p>${esc(s.narration)}</p></div>` : ""}
-        <footer class="acts">
-          ${actBtn(s.secondary, "act2", false)}
-          ${s.kind === "certificate" ? `<button class="act2" id="print-cert">Print</button>` : ""}
-          ${actBtn(s.primary, "act", locked(s))}
-        </footer>
-      </article>
-    </section>
-
-    <nav class="nav">
-      <button id="prev" ${state.i === 0 ? "disabled" : ""}>← Previous</button>
-      <div class="where">${esc(s.section)}</div>
-      <button id="next" ${state.i === slides.length - 1 || locked(s) ? "disabled" : ""}>Next →</button>
-    </nav>
-  </main>`;
-
-  app.querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
-  app.querySelectorAll("[data-pick]").forEach(b =>
-    b.addEventListener("click", () => answer(s, Number(b.dataset.pick))));
-  document.getElementById("prev")?.addEventListener("click", () => step(-1));
-  document.getElementById("next")?.addEventListener("click", () => step(1));
-  document.getElementById("t-play")?.addEventListener("click", togglePlay);
-  document.getElementById("t-again")?.addEventListener("click", replay);
-  document.getElementById("t-cc")?.addEventListener("click", toggleCC);
-  document.getElementById("t-mute")?.addEventListener("click", toggleMute);
-  document.getElementById("t-full")?.addEventListener("click", toggleFull);
-  document.getElementById("print-cert")?.addEventListener("click", () => window.print());
-  if (isVideo()) bindVideo();
-  refreshTools();
-}
-
-function answer(s, i) {
-  state.answered[s.id] = i;
-  renderCourse();
-  const first = app.querySelector(".why");
-  if (first) first.scrollIntoView({ block: "nearest", behavior: "smooth" });
-}
-
-/* ------------------------------- movement -------------------------------- */
-
-function start() {
-  state.learner = typed();          // used to pre-fill the certificate
-  state.started = true; state.i = 0;
-  renderCourse(); play(true);
-}
-
-function go(target) {
-  const n = idx.get(target);
-  if (n === undefined) return;
-  stopAll(); state.i = n; renderCourse(); play(true);
-}
-function step(d) {
-  const n = Math.min(slides.length - 1, Math.max(0, state.i + d));
-  if (n === state.i) return;
-  stopAll(); state.i = n; renderCourse(); play(true);
-}
-
-/* ------------------------------- audio ----------------------------------- */
-
-const speech = window.speechSynthesis ?? null;
-let keepAlive = null;
-
-function maleVoice() {
-  const all = speech?.getVoices?.() ?? [];
-  if (!all.length) return null;
-  const en = all.filter(v => /^en/i.test(v.lang));
-  const pool = en.length ? en : all;
-  for (const re of [/christopher/i, /\bguy\b/i, /prabhat/i, /\bryan\b/i, /\bdavid\b/i,
-                    /\bmark\b/i, /\bravi\b/i, /\balex\b/i, /\bdaniel\b/i]) {
-    const hit = pool.find(v => re.test(v.name));
-    if (hit) return hit;
-  }
-  const female = /zira|hazel|susan|heera|samantha|victoria|karen|moira|tessa|fiona|aria|jenny|neerja|nicky/i;
-  return pool.find(v => !female.test(v.name)) ?? pool[0];
-}
-
-function stopSpeech() {
-  clearInterval(keepAlive); keepAlive = null;
-  speech?.cancel(); state.speaking = false;
-}
-function stopAll() { narration.pause(); vid()?.pause(); stopSpeech(); state.playing = false; }
-
-function speak() {
-  if (!SPEAK_WHEN_NO_FILE || !speech || state.muted) return false;
-  speech.cancel();
-  const u = new SpeechSynthesisUtterance(cur().narration);
-  const v = maleVoice();
-  if (v) { u.voice = v; u.lang = v.lang; }
-  u.rate = .94; u.pitch = .9;
-  u.onend = u.onerror = () => { stopSpeech(); refreshTools(); };
-  speech.speak(u);
-  state.speaking = true;
-  clearInterval(keepAlive);
-  keepAlive = setInterval(() => {
-    if (!speech.speaking) return clearInterval(keepAlive);
-    speech.pause(); speech.resume();
-  }, 9000);
-  return true;
-}
-
-async function play(restart = false) {
-  stopSpeech();
-  if (isVideo()) { narration.pause(); state.playing = false; return refreshTools(); }
-  const base = audioFor(state.i);
-  for (const src of [base, base.replace(/\.mp3$/i, ".wav")]) {
-    if (!src) break;
-    if (state.mediaKey !== src) { narration.src = src; narration.load(); state.mediaKey = src; }
-    else if (restart) narration.currentTime = 0;
-    narration.muted = state.muted;
-    try { await narration.play(); state.playing = true; return refreshTools(); }
-    catch { state.mediaKey = ""; }
-  }
-  state.playing = speak();
-  refreshTools();
-}
-
-function togglePlay() {
-  if (isVideo()) {
-    const v = vid(); if (!v) return;
-    v.paused ? v.play().catch(() => {}) : v.pause();
-    return refreshTools();
-  }
-  if (state.speaking) {
-    speech.paused ? speech.resume() : speech.pause();
-    return refreshTools();
-  }
-  narration.paused ? play(false) : narration.pause();
-}
-function replay() {
-  if (isVideo()) { const v = vid(); if (v) { v.currentTime = 0; v.play().catch(() => {}); } return refreshTools(); }
-  play(true);
-}
-function toggleMute() {
-  state.muted = !state.muted;
-  narration.muted = state.muted;
-  const v = vid(); if (v) v.muted = state.muted;
-  if (state.muted) stopSpeech();
-  refreshTools();
-}
-function toggleCC() {
-  state.cc = !state.cc;
-  const card = app.querySelector(".card"); if (!card) return;
-  const had = card.querySelector(".cc");
-  if (state.cc && !had) {
-    const d = document.createElement("div");
-    d.className = "cc";
-    d.innerHTML = `<span>CC</span><p>${esc(cur().narration)}</p>`;
-    card.insertBefore(d, card.querySelector(".acts"));
-  } else if (!state.cc && had) had.remove();
-  document.getElementById("t-cc")?.classList.toggle("on", state.cc);
-}
-function toggleFull() {
-  document.fullscreenElement ? document.exitFullscreen?.() : document.documentElement.requestFullscreen?.();
-}
-function bindVideo() {
-  const v = vid();
-  if (!v || v.dataset.on) return;
-  v.dataset.on = "1"; v.muted = state.muted;
-  v.addEventListener("play", () => { narration.pause(); stopSpeech(); refreshTools(); });
-  v.addEventListener("pause", refreshTools);
-  v.addEventListener("ended", refreshTools);
-}
-function refreshTools() {
-  const m = media();
-  state.playing = (state.speaking && speech?.speaking && !speech.paused)
-                  || Boolean(m && !m.paused && !m.ended);
-  const p = document.getElementById("t-play");
-  if (p) { p.innerHTML = `${state.playing ? "❚❚" : "▶"}<small>${state.playing ? "Pause" : "Play"}</small>`;
-           p.classList.toggle("on", state.playing); }
-  const mu = document.getElementById("t-mute");
-  if (mu) mu.innerHTML = `${state.muted ? "✕" : "◍"}<small>${state.muted ? "Muted" : "Sound"}</small>`;
-  const f = document.getElementById("t-full");
-  if (f) { const on = Boolean(document.fullscreenElement);
-           f.innerHTML = `⛶<small>${on ? "Exit" : "Full"}</small>`; f.classList.toggle("on", on); }
-}
-
-narration.addEventListener("play", refreshTools);
-narration.addEventListener("pause", refreshTools);
-narration.addEventListener("ended", refreshTools);
-document.addEventListener("fullscreenchange", refreshTools);
-
-window.addEventListener("keydown", e => {
-  if (!state.started) return;
-  const tag = document.activeElement?.tagName;
-  if (e.key === "ArrowLeft") step(-1);
-  if (e.key === "ArrowRight" && !locked(cur())) step(1);
-  if (e.key === " " && !["BUTTON","INPUT","TEXTAREA","VIDEO"].includes(tag)) { e.preventDefault(); togglePlay(); }
-});
-
-/* Missing files usually mean a half-copied folder. Say so plainly. */
-function showWarn() {
-  if (document.getElementById("warn")) return;
-  const web = location.protocol.startsWith("http");
-  const d = document.createElement("div");
-  d.id = "warn";
-  d.innerHTML = "<strong>Some course files could not be found.</strong>" + (web
-    ? "The <b>course</b> folder is missing from the website. Upload it next to index.html, keeping its images, brand, audio and media folders inside."
-    : "This usually means the page was opened from inside the ZIP. Unzip the whole folder first, then open <b>START_TRAINING.html</b> from the unzipped copy.");
-  document.body.prepend(d);
-}
-const probe = new Image();
-probe.addEventListener("error", showWarn);
-probe.src = "course/brand/logo-mark.png";
-
-renderGate();
-</script>
 </body>
 </html>
