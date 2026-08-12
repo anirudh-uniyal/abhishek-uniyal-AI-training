@@ -445,22 +445,22 @@ body.screens{padding-bottom:96px}
   display:flex;gap:7px;overflow-x:auto;scrollbar-width:none
 }
 .rail-in::-webkit-scrollbar{display:none}
-.step{
+.railstep{
   flex:none;border:1px solid var(--line);background:var(--panel);color:var(--muted);
   border-radius:9px;padding:7px 12px;font:inherit;font-size:12px;font-weight:700;
   cursor:pointer;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:7px
 }
-.step:hover{border-color:var(--line2);color:var(--ink)}
-.step .n{
+.railstep:hover{border-color:var(--line2);color:var(--ink)}
+.railstep .n{
   width:19px;height:19px;border-radius:5px;background:var(--raise);color:var(--muted);
   display:grid;place-items:center;font-size:10.5px;font-weight:800;flex:none
 }
-.step.seen .n{background:rgba(79,209,139,.2);color:var(--ok)}
-.step.on{border-color:var(--gold);background:var(--goldsoft);color:var(--gold)}
-.step.on .n{background:var(--gold);color:#14100A}
-.step .lbl{display:none}
-.step.on .lbl{display:inline}
-@media (min-width:900px){ .step .lbl{display:inline} }
+.railstep.seen .n{background:rgba(79,209,139,.2);color:var(--ok)}
+.railstep.on{border-color:var(--gold);background:var(--goldsoft);color:var(--gold)}
+.railstep.on .n{background:var(--gold);color:#14100A}
+.railstep .lbl{display:none}
+.railstep.on .lbl{display:inline}
+@media (min-width:900px){ .railstep .lbl{display:inline} }
 
 /* ---------- screens ---------- */
 .stage-wrap{max-width:860px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
@@ -533,3 +533,7 @@ body.screens{padding-bottom:96px}
   .stepnav .mid{font-size:12px}
   .screen-head{padding-top:30px}
 }
+
+/* ---------- paged knowledge check: one question at a time ---------- */
+.q{display:none}
+.q.on{display:block;animation:screenIn .2s ease}

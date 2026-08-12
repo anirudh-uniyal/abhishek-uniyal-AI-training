@@ -1,6 +1,7 @@
 /* =====================================================================
    Gold Technology — AI Training Program
-   Shared lesson runtime: progress, navigation, quiz, prompt builder.
+   Shared lesson runtime: progress, screen navigation, paged quiz,
+   copy buttons and the prompt builder.
 
    A page opts in by defining window.LESSON before loading this file:
      window.LESSON = { id: "m2", quiz: [ { q, o:[...], a, e }, ... ] }
@@ -13,7 +14,7 @@
   var MODULE_ID = LESSON.id || "m0";
   var NS = "gt-ai:";
 
-  /* ---------------- storage (never let a blocked cookie jar break a lesson) ---- */
+  /* ---------------- storage (a blocked cookie jar must not break a lesson) --- */
   function read(key, fallback) {
     try {
       var v = localStorage.getItem(NS + key);
@@ -24,58 +25,60 @@
     try { localStorage.setItem(NS + key, JSON.stringify(value)); } catch (e) { /* ignore */ }
   }
 
-  /* ---------------- reading progress + furthest-read persistence -------------- */
-  var bar = document.getElementById("bar");
+  var bar     = document.getElementById("bar");
   var pctFill = document.querySelector(".topbar-pct .fill");
   var pctText = document.querySelector(".topbar-pct .val");
-  var furthest = read(MODULE_ID + ":read", 0);
-  var saveTimer = null;
 
-  function progress() {
-    var h = document.documentElement;
-    var max = h.scrollHeight - h.clientHeight;
-    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
-
-    if (bar) bar.style.width = pct.toFixed(2) + "%";
-
-    if (pct > furthest) {
-      furthest = pct;
-      if (pctFill) pctFill.style.width = furthest.toFixed(1) + "%";
-      if (pctText) pctText.textContent = Math.round(furthest) + "%";
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(function () { write(MODULE_ID + ":read", furthest); }, 400);
-    }
-  }
-  if (pctFill) pctFill.style.width = furthest.toFixed(1) + "%";
-  if (pctText) pctText.textContent = Math.round(furthest) + "%";
-
-  /* ---------------- table-of-contents scroll spy ------------------------------ */
-  var links = Array.prototype.slice.call(document.querySelectorAll("#toc a"));
-  var secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
-
-  function spy() {
-    var mark = window.scrollY + 140, idx = 0;
-    for (var i = 0; i < secs.length; i++) {
-      if (secs[i] && secs[i].offsetTop <= mark) idx = i;
-    }
-    links.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+  function setProgress(pct) {
+    if (bar)     bar.style.width = pct.toFixed(1) + "%";
+    if (pctFill) pctFill.style.width = pct.toFixed(1) + "%";
+    if (pctText) pctText.textContent = Math.round(pct) + "%";
   }
 
-  var ticking = false;
-  window.addEventListener("scroll", function () {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(function () { progress(); spy(); ticking = false; });
-  }, { passive: true });
-  window.addEventListener("resize", function () { progress(); spy(); });
-  progress(); spy();
+  /* ---------------- scroll progress (long-form pages only) ------------------- */
+  var hasScreens = !!document.querySelector(".screen");
+  if (!hasScreens) {
+    var furthest = read(MODULE_ID + ":read", 0);
+    var saveTimer = null;
+    var scrollProgress = function () {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      if (bar) bar.style.width = pct.toFixed(2) + "%";
+      if (pct > furthest) {
+        furthest = pct;
+        if (pctFill) pctFill.style.width = furthest.toFixed(1) + "%";
+        if (pctText) pctText.textContent = Math.round(furthest) + "%";
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function () { write(MODULE_ID + ":read", furthest); }, 400);
+      }
+    };
+    if (pctFill) pctFill.style.width = furthest.toFixed(1) + "%";
+    if (pctText) pctText.textContent = Math.round(furthest) + "%";
+    window.addEventListener("scroll", scrollProgress, { passive: true });
+    scrollProgress();
+  }
 
-  /* ---------------- completed modules in the journey strip -------------------- */
+  /* ---------------- table-of-contents scroll spy ----------------------------- */
+  var tocLinks = Array.prototype.slice.call(document.querySelectorAll("#toc a"));
+  if (tocLinks.length) {
+    var tocSecs = tocLinks.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var spy = function () {
+      var mark = window.scrollY + 140, idx = 0;
+      for (var i = 0; i < tocSecs.length; i++) {
+        if (tocSecs[i] && tocSecs[i].offsetTop <= mark) idx = i;
+      }
+      tocLinks.forEach(function (a, i) { a.classList.toggle("active", i === idx); });
+    };
+    window.addEventListener("scroll", spy, { passive: true });
+    window.addEventListener("resize", spy);
+    spy();
+  }
+
+  /* ---------------- completed modules in the journey strip ------------------- */
   document.querySelectorAll("[data-mod]").forEach(function (card) {
     var id = card.getAttribute("data-mod");
-    var scored = read(id + ":score", null);
-    var seen = read(id + ":read", 0);
-    if (scored !== null && seen >= 85) {
+    if (read(id + ":score", null) !== null && read(id + ":read", 0) >= 85) {
       card.classList.add("done");
       var b = card.querySelector("b");
       if (b && !b.querySelector(".tick")) {
@@ -87,7 +90,7 @@
     }
   });
 
-  /* ---------------- copy-to-clipboard ---------------------------------------- */
+  /* ---------------- copy to clipboard ---------------------------------------- */
   function copyText(text, btn) {
     function done() {
       var old = btn.textContent;
@@ -95,21 +98,19 @@
       btn.classList.add("ok");
       setTimeout(function () { btn.textContent = old; btn.classList.remove("ok"); }, 1600);
     }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
-    } else {
-      fallback(text, done);
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:absolute;left:-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) { /* ignore */ }
+      document.body.removeChild(ta);
     }
-  }
-  function fallback(text, done) {
-    var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.cssText = "position:absolute;left:-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand("copy"); done(); } catch (e) { /* ignore */ }
-    document.body.removeChild(ta);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else { fallback(); }
   }
 
   document.querySelectorAll(".copy").forEach(function (btn) {
@@ -123,22 +124,17 @@
   /* ---------------- prompt builder ------------------------------------------- */
   var builder = document.getElementById("builder");
   if (builder) {
-    var out = builder.querySelector("#built");
+    var out   = builder.querySelector("#built");
     var areas = Array.prototype.slice.call(builder.querySelectorAll("textarea[data-part]"));
     var saved = read(MODULE_ID + ":builder", {});
 
-    areas.forEach(function (t) {
-      if (saved[t.dataset.part]) t.value = saved[t.dataset.part];
-      t.addEventListener("input", function () { render(); persist(); });
-    });
-
-    function persist() {
+    var persist = function () {
       var data = {};
       areas.forEach(function (t) { if (t.value.trim()) data[t.dataset.part] = t.value; });
       write(MODULE_ID + ":builder", data);
-    }
+    };
 
-    function render() {
+    var renderBuilder = function () {
       var parts = [];
       areas.forEach(function (t) {
         var v = t.value.trim();
@@ -151,51 +147,59 @@
         out.textContent = "Fill the fields above and your prompt assembles here, ready to copy.";
         out.classList.add("builder-empty");
       }
-    }
+    };
+
+    areas.forEach(function (t) {
+      if (saved[t.dataset.part]) t.value = saved[t.dataset.part];
+      t.addEventListener("input", function () { renderBuilder(); persist(); });
+    });
 
     var loadBtn = builder.querySelector("#builder-example");
     if (loadBtn) {
       loadBtn.addEventListener("click", function () {
         var ex = JSON.parse(loadBtn.getAttribute("data-example"));
         areas.forEach(function (t) { t.value = ex[t.dataset.part] || ""; });
-        render(); persist();
+        renderBuilder(); persist();
       });
     }
-
     var clearBtn = builder.querySelector("#builder-clear");
     if (clearBtn) {
       clearBtn.addEventListener("click", function () {
         areas.forEach(function (t) { t.value = ""; });
-        render(); persist();
+        renderBuilder(); persist();
       });
     }
-
-    render();
+    renderBuilder();
   }
 
-  /* ---------------- knowledge check ------------------------------------------ */
+  /* ---------------- knowledge check: one question at a time ------------------ */
+  var Quiz = null;
   var QUESTIONS = LESSON.quiz || [];
-  var host = document.getElementById("quiz");
+  var quizHost = document.getElementById("quiz");
 
-  if (host && QUESTIONS.length) {
-    var LETTERS = ["A", "B", "C", "D"];
-    var scoreBox = document.getElementById("score");
-    var scoreN = document.getElementById("score-n");
-    var scoreT = document.getElementById("score-t");
-    var answered, correct;
+  if (quizHost && QUESTIONS.length) {
+    var LETTERS    = ["A", "B", "C", "D"];
+    var scoreBox   = document.getElementById("score");
+    var scoreN     = document.getElementById("score-n");
+    var scoreT     = document.getElementById("score-t");
+    var SCORE_PAGE = QUESTIONS.length;     // the page just past the last question
+    var cards      = [];
+    var picked     = [];
+    var qi         = 0;
+    var onChange   = null;                 // the router hooks in here
 
-    function build() {
-      answered = 0; correct = 0;
+    function buildQuiz() {
+      cards = []; picked = []; qi = 0;
+      quizHost.innerHTML = "";
       if (scoreBox) scoreBox.hidden = true;
-      host.innerHTML = "";
 
-      QUESTIONS.forEach(function (item, qi) {
+      QUESTIONS.forEach(function (item, index) {
         var card = document.createElement("div");
         card.className = "q";
 
         var n = document.createElement("div");
         n.className = "q-n";
-        n.textContent = "Question " + (qi + 1) + " of " + QUESTIONS.length;
+        n.textContent = "Question " + (index + 1) + " of " + QUESTIONS.length;
         card.appendChild(n);
 
         var t = document.createElement("p");
@@ -220,19 +224,25 @@
           s.textContent = text;
           b.appendChild(s);
 
-          b.addEventListener("click", function () { pick(card, opts, item, oi); });
+          b.addEventListener("click", function () { choose(index, oi); });
           opts.appendChild(b);
         });
 
         card.appendChild(opts);
-        host.appendChild(card);
+        quizHost.appendChild(card);
+        cards.push(card);
       });
+
+      showQuestion(0);
     }
 
-    function pick(card, opts, item, chosen) {
-      var buttons = Array.prototype.slice.call(opts.querySelectorAll(".opt"));
-      if (buttons[0].disabled) return;
+    function choose(index, chosen) {
+      if (picked[index] !== undefined) return;
+      picked[index] = chosen;
 
+      var item    = QUESTIONS[index];
+      var card    = cards[index];
+      var buttons = Array.prototype.slice.call(card.querySelectorAll(".opt"));
       buttons.forEach(function (b, i) {
         b.disabled = true;
         if (i === item.a) b.classList.add("right");
@@ -247,101 +257,179 @@
       exp.appendChild(document.createTextNode(item.e));
       card.appendChild(exp);
 
-      answered++;
-      if (chosen === item.a) correct++;
-      if (answered === QUESTIONS.length) finish();
+      if (onChange) onChange();
     }
 
-    function finish() {
+    function correctCount() {
+      var c = 0;
+      picked.forEach(function (p, i) { if (p === QUESTIONS[i].a) c++; });
+      return c;
+    }
+
+    function showScore() {
+      var correct = correctCount();
       write(MODULE_ID + ":score", correct);
       if (!scoreBox) return;
       scoreN.textContent = correct + "/" + QUESTIONS.length;
-
       var pct = correct / QUESTIONS.length;
-      var msg;
-      if (pct === 1)        msg = "Full marks. You have this module cold — carry on to the next one.";
-      else if (pct >= 0.75) msg = "Solid understanding. Re-read the sections behind the ones you missed, then continue.";
-      else if (pct >= 0.5)  msg = "The basics are there, but the detail is not yet secure. Another pass through the module is worth your time.";
-      else                  msg = "Read the module once more before continuing — the next module builds directly on this one.";
-      scoreT.textContent = msg;
+      scoreT.textContent =
+        pct === 1   ? "Full marks. You have this module cold — carry on to the next one." :
+        pct >= 0.75 ? "Solid understanding. Re-read the topics behind the ones you missed, then continue." :
+        pct >= 0.5  ? "The basics are there, but the detail is not yet secure. Another pass is worth your time." :
+                      "Read the module once more before continuing — the next module builds directly on this one.";
       scoreBox.hidden = false;
     }
 
-    var retry = document.getElementById("retry");
-    if (retry) {
-      retry.addEventListener("click", function () {
-        build();
-        var sec = host.closest(".sec");
-        if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+    function showQuestion(i) {
+      qi = Math.max(0, Math.min(SCORE_PAGE, i));
+      cards.forEach(function (c, k) { c.classList.toggle("on", k === qi); });
+      if (scoreBox) {
+        if (qi === SCORE_PAGE) showScore();
+        else scoreBox.hidden = true;
+      }
+      if (onChange) onChange();
     }
 
-    build();
+    var retry = document.getElementById("retry");
+    if (retry) retry.addEventListener("click", function () { buildQuiz(); });
+
+    Quiz = {
+      atStart:     function () { return qi === 0; },
+      atEnd:       function () { return qi === SCORE_PAGE; },
+      answered:    function () { return qi === SCORE_PAGE || picked[qi] !== undefined; },
+      next:        function () { showQuestion(qi + 1); },
+      prev:        function () { showQuestion(qi - 1); },
+      reset:       function () { buildQuiz(); },
+      label:       function () {
+        return qi === SCORE_PAGE ? "Your score" : "Question " + (qi + 1) + " of " + QUESTIONS.length;
+      },
+      nextLabel:   function () { return qi === SCORE_PAGE - 1 ? "See score" : "Next"; },
+      setOnChange: function (fn) { onChange = fn; }
+    };
+
+    buildQuiz();
   }
 
-  /* ---------------- screen router (one topic per screen) --------------------- */
+  /* ---------------- screen router -------------------------------------------- */
   var screens = Array.prototype.slice.call(document.querySelectorAll(".screen"));
   if (screens.length) {
-    var steps    = Array.prototype.slice.call(document.querySelectorAll(".step"));
-    var prevBtn  = document.getElementById("nav-prev");
-    var nextBtn  = document.getElementById("nav-next");
-    var midLabel = document.getElementById("nav-mid");
-    var total    = screens.length;
-    var seen     = read(MODULE_ID + ":seen", []);
-    var current  = -1;
+    var railSteps = Array.prototype.slice.call(document.querySelectorAll(".railstep"));
+    var prevBtn   = document.getElementById("nav-prev");
+    var nextBtn   = document.getElementById("nav-next");
+    var midLabel  = document.getElementById("nav-mid");
+    var total     = screens.length;
+    var seen      = read(MODULE_ID + ":seen", []);
+    var current   = -1;
+
+    var quizIdx = -1;
+    screens.forEach(function (s, i) { if (s.querySelector("#quiz")) quizIdx = i; });
+    var onQuiz = function () { return Quiz && current === quizIdx; };
+
+    function setBtn(btn, text, arrow) {
+      btn.textContent = "";
+      if (arrow === "left") {
+        btn.appendChild(document.createTextNode("←"));
+        var wl = document.createElement("span");
+        wl.className = "word";
+        wl.textContent = " " + text;
+        btn.appendChild(wl);
+      } else {
+        btn.appendChild(document.createTextNode(text));
+        var wr = document.createElement("span");
+        wr.className = "word";
+        wr.textContent = arrow === "tick" ? " ✓" : " →";
+        btn.appendChild(wr);
+      }
+    }
+
+    function syncNav() {
+      if (onQuiz()) {
+        prevBtn.disabled = false;                 // question 1 steps back to topic 9
+        setBtn(prevBtn, "Previous", "left");
+        if (Quiz.atEnd()) {
+          nextBtn.disabled = true;
+          setBtn(nextBtn, "Finish", "tick");
+        } else {
+          nextBtn.disabled = !Quiz.answered();
+          setBtn(nextBtn, Quiz.nextLabel(), "right");
+        }
+        midLabel.innerHTML = "";
+        var qb = document.createElement("b");
+        qb.textContent = Quiz.label();
+        midLabel.appendChild(qb);
+        if (!Quiz.atEnd() && !Quiz.answered()) {
+          midLabel.appendChild(document.createTextNode(" · choose an answer"));
+        }
+        return;
+      }
+
+      var lastScreen = current === total - 1;
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = lastScreen;
+      setBtn(prevBtn, "Previous", "left");
+      setBtn(nextBtn, lastScreen ? "Finish" : "Next", lastScreen ? "tick" : "right");
+
+      midLabel.innerHTML = "";
+      var b = document.createElement("b");
+      b.textContent = (current + 1) + " / " + total;
+      midLabel.appendChild(b);
+      midLabel.appendChild(document.createTextNode(" · " + (screens[current].dataset.title || "")));
+    }
 
     function markSeen(i) {
       if (seen.indexOf(i) === -1) { seen.push(i); write(MODULE_ID + ":seen", seen); }
-      steps.forEach(function (s, k) { s.classList.toggle("seen", seen.indexOf(k) !== -1); });
+      railSteps.forEach(function (s, k) { s.classList.toggle("seen", seen.indexOf(k) !== -1); });
     }
 
     function show(i, push) {
       i = Math.max(0, Math.min(total - 1, i));
-      if (i === current) return;
+      var changed = i !== current;
       current = i;
 
       screens.forEach(function (s, k) { s.classList.toggle("on", k === i); });
-      steps.forEach(function (s, k) { s.classList.toggle("on", k === i); });
-
-      prevBtn.disabled = i === 0;
-      nextBtn.disabled = i === total - 1;
-      nextBtn.textContent = "";
-      nextBtn.appendChild(document.createTextNode(i === total - 1 ? "Finish" : "Next"));
-      var arrow = document.createElement("span");
-      arrow.className = "word";
-      arrow.textContent = i === total - 1 ? " ✓" : " →";
-      nextBtn.appendChild(arrow);
-
-      midLabel.innerHTML = "";
-      var b = document.createElement("b");
-      b.textContent = (i + 1) + " / " + total;
-      midLabel.appendChild(b);
-      midLabel.appendChild(document.createTextNode(" · " + (screens[i].dataset.title || "")));
+      railSteps.forEach(function (s, k) { s.classList.toggle("on", k === i); });
 
       markSeen(i);
       write(MODULE_ID + ":screen", i);
+      setProgress(((i + 1) / total) * 100);
+      syncNav();
 
-      var pct = ((i + 1) / total) * 100;
-      if (bar) bar.style.width = pct.toFixed(1) + "%";
-      if (pctFill) pctFill.style.width = pct.toFixed(1) + "%";
-      if (pctText) pctText.textContent = Math.round(pct) + "%";
-
-      // keep the active step visible in the rail
-      var chip = steps[i];
+      var chip = railSteps[i];
       if (chip && chip.scrollIntoView) chip.scrollIntoView({ block: "nearest", inline: "center" });
-
       if (push) history.replaceState(null, "", "#s" + (i + 1));
-      window.scrollTo({ top: 0, behavior: "auto" });
+      if (changed) window.scrollTo({ top: 0, behavior: "auto" });
     }
 
-    prevBtn.addEventListener("click", function () { show(current - 1, true); });
-    nextBtn.addEventListener("click", function () { show(current + 1, true); });
-    steps.forEach(function (s, k) { s.addEventListener("click", function () { show(k, true); }); });
+    if (Quiz) Quiz.setOnChange(function () { if (onQuiz()) syncNav(); });
+
+    nextBtn.addEventListener("click", function () {
+      if (onQuiz() && !Quiz.atEnd()) {
+        if (Quiz.answered()) { Quiz.next(); window.scrollTo({ top: 0, behavior: "auto" }); }
+        return;
+      }
+      show(current + 1, true);
+    });
+
+    prevBtn.addEventListener("click", function () {
+      if (onQuiz() && !Quiz.atStart()) {
+        Quiz.prev();
+        window.scrollTo({ top: 0, behavior: "auto" });
+        return;
+      }
+      show(current - 1, true);
+    });
+
+    railSteps.forEach(function (s, k) {
+      s.addEventListener("click", function () {
+        if (Quiz && k === quizIdx && current !== quizIdx) Quiz.reset();
+        show(k, true);
+      });
+    });
 
     document.addEventListener("keydown", function (e) {
       if (e.target.matches("input, textarea")) return;
-      if (e.key === "ArrowLeft")  show(current - 1, true);
-      if (e.key === "ArrowRight") show(current + 1, true);
+      if (e.key === "ArrowLeft")  prevBtn.click();
+      if (e.key === "ArrowRight") nextBtn.click();
     });
 
     function screenFromHash() {
@@ -351,13 +439,11 @@
       return isNaN(n) ? null : n - 1;
     }
 
-    // a hash change on an already-open page must still move the learner
     window.addEventListener("hashchange", function () {
       var target = screenFromHash();
       if (target !== null) show(target, false);
     });
 
-    // deep link wins, otherwise resume where the learner stopped
     var linked = screenFromHash();
     show(linked !== null ? linked : (read(MODULE_ID + ":screen", 0) || 0), false);
   }
