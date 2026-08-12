@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Module 2 — Prompt Engineering. Gold Technology AI Training Program for MBA and engineering graduates.">
+<title>Module 2 — Prompt Engineering | Gold Technology</title>
+<link rel="stylesheet" href="course/assets/lesson.css">
+</head>
+<body>
+
+<div class="progress"><i id="bar"></i></div>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <img src="course/brand/logo-mark.png" alt="Gold Technology">
+      <div class="brand-txt">
+        <div class="brand-name">Gold Technology</div>
+        <div class="brand-sub">AI Training Program</div>
+      </div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-pct"><span class="track"><span class="fill"></span></span><span class="val">0%</span></div>
+    <div class="topbar-chip">Module 2 of 10</div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-in">
+    <img class="hero-logo" src="course/brand/logo-full.png" alt="Gold Technology">
+    <p class="eyebrow">Module 02</p>
+    <h1>Prompt <em>Engineering</em></h1>
+    <p class="lede">
+      Everyone has access to the same models. What separates a professional result from a generic
+      one is the quality of the instruction. This is the most practical module in the program — and
+      the skill your employer will notice first.
+    </p>
+    <div class="meta">
+      <span><b>4–5</b> hours</span>
+      <span><b>10</b> core topics</span>
+      <span><b>1</b> live prompt builder</span>
+      <span><b>1</b> hands-on exercise</span>
+      <span>Level: <b>Core skill</b></span>
+    </div>
+    <div class="outcome">
+      <h4>What you will be able to do</h4>
+      <p>
+        Write a prompt with all six professional components; choose between zero-shot and few-shot
+        for a given task; use role, context and constraints deliberately rather than by accident;
+        specify an output format you can drop straight into a business document; refine a weak answer
+        through iteration; and judge whether a prompt is good enough to reuse across many inputs.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= JOURNEY ================= -->
+<section class="journey">
+  <div class="journey-in">
+    <h5>The 10-module learning journey</h5>
+    <div class="mods">
+      <a class="mod" data-mod="m1" href="index.html"><b>01</b><span>AI Fundamentals &amp; Generative AI</span></a>
+      <a class="mod on" data-mod="m2" href="module-2.html"><b>02</b><span>Prompt Engineering</span></a>
+      <div class="mod soon" data-mod="m3"><b>03</b><span>AI for Marketing</span></div>
+      <div class="mod soon" data-mod="m4"><b>04</b><span>AI for Sales &amp; BD</span></div>
+      <div class="mod soon" data-mod="m5"><b>05</b><span>AI for HR &amp; Recruitment</span></div>
+      <div class="mod soon" data-mod="m6"><b>06</b><span>AI for Finance &amp; Analytics</span></div>
+      <div class="mod soon" data-mod="m7"><b>07</b><span>AI for Operations</span></div>
+      <div class="mod soon" data-mod="m8"><b>08</b><span>AI + ERP / CRM</span></div>
+      <div class="mod soon" data-mod="m9"><b>09</b><span>AI for Entrepreneurship</span></div>
+      <div class="mod soon" data-mod="m10"><b>10</b><span>Capstone Project</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BODY ================= -->
+<div class="layout">
+
+  <aside class="toc">
+    <h5>On this page</h5>
+    <nav id="toc">
+      <a href="#s1"><small>01</small>What is a prompt?</a>
+      <a href="#s2"><small>02</small>The six parts of a prompt</a>
+      <a href="#s3"><small>03</small>Role prompting</a>
+      <a href="#s4"><small>04</small>Context — the biggest lever</a>
+      <a href="#s5"><small>05</small>Constraints</a>
+      <a href="#s6"><small>06</small>Output formats</a>
+      <a href="#s7"><small>07</small>Zero-shot and few-shot</a>
+      <a href="#s8"><small>08</small>Chain-of-thought</a>
+      <a href="#s9"><small>09</small>Iterative prompting</a>
+      <a href="#s10"><small>10</small>Evaluating a prompt</a>
+      <a href="#s11"><small>Example</small>Basic vs professional</a>
+      <a href="#s12"><small>Lab</small>Build a prompt</a>
+      <a href="#s13"><small>Check</small>Knowledge check</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+  <!-- ---------- 01 ---------- -->
+  <section class="sec" id="s1">
+    <div class="sec-head">
+      <div class="sec-num">01</div>
+      <h2>What is a prompt?</h2>
+    </div>
+
+    <p>
+      A prompt is the complete instruction you give an AI system. Most people write prompts the way
+      they type into a search engine — a few keywords, a short question — and then conclude that AI
+      output is generic. The output is generic because the brief was.
+    </p>
+
+    <p>
+      The mental shift that makes everything else work: <strong>stop treating AI like a search box
+      and start treating it like a capable new colleague on their first day.</strong> Very
+      intelligent, very fast, extremely well read — but they have never met your customers, never
+      seen your product, and do not know what a good answer looks like in your company. You would
+      never hand that person a two-word instruction and expect usable work.
+    </p>
+
+    <div class="call key">
+      <div class="call-t">Key idea</div>
+      <p>
+        The model is the same for you and your competitor. The instruction is not. In a workplace
+        where everyone has the same tools, <strong>the prompt is the differentiator</strong> — which
+        is why this is a hiring-relevant skill, not a software trick.
+      </p>
+    </div>
+
+    <h3>Why "prompt engineering" and not just "asking"</h3>
+    <p>
+      Engineering implies something deliberate and repeatable. Anyone can get a good answer once by
+      luck. A professional writes an instruction that produces a good answer <em>reliably</em>, on
+      inputs they have not seen yet — so it can be handed to a colleague, run on 200 records, or
+      built into a process. That reliability is the whole discipline.
+    </p>
+  </section>
+
+  <!-- ---------- 02 ---------- -->
+  <section class="sec" id="s2">
+    <div class="sec-head">
+      <div class="sec-num">02</div>
+      <h2>The six parts of a professional prompt</h2>
+    </div>
+
+    <p>
+      Almost every strong business prompt contains the same six components. Learn them as a checklist
+      and the quality of your output stops depending on inspiration.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Component</th><th>What it does</th><th>Example fragment</th></tr></thead>
+        <tbody>
+          <tr><td><b>Role</b></td><td>Sets the perspective, vocabulary and priorities of the answer</td><td>"Act as a B2B SaaS marketing manager"</td></tr>
+          <tr><td><b>Objective</b></td><td>States the actual deliverable, not the topic</td><td>"Create a 150-word introduction email"</td></tr>
+          <tr><td><b>Audience</b></td><td>Determines tone, depth and what to leave out</td><td>"for an HR manager at a mid-sized company"</td></tr>
+          <tr><td><b>Context</b></td><td>Supplies the facts the model cannot know</td><td>"our product is an AI employee training platform"</td></tr>
+          <tr><td><b>Constraints</b></td><td>Bounds length, tone, language and what to avoid</td><td>"professional and persuasive, no jargon, invent no statistics"</td></tr>
+          <tr><td><b>Output format</b></td><td>Makes the result usable without reformatting</td><td>"three business benefits and one call to action"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Not every prompt needs all six. A quick internal summary needs two or three. But the rule
+      scales cleanly: <strong>the higher the stakes, the more of the six you specify.</strong>
+      Anything going to a customer should have all six.
+    </p>
+
+    <div class="call job">
+      <div class="call-t">Portfolio note</div>
+      <p>
+        By the end of this program you will hand over a Prompt Engineering Workbook of 20–30
+        professional prompts. Start collecting from this module — every prompt you write that works
+        well is an asset you reuse, and it is the most concrete thing you can show an interviewer.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 03 ---------- -->
+  <section class="sec" id="s3">
+    <div class="sec-head">
+      <div class="sec-num">03</div>
+      <h2>Role prompting</h2>
+    </div>
+
+    <p>
+      Telling the model who to be changes what it produces. Ask for feedback on a proposal as
+      "a procurement head" and you get pricing and risk. Ask as "a technical architect" and you get
+      integration and scalability. Same document, different lens.
+    </p>
+
+    <p>
+      Why it works comes straight from Module 1: the model predicts the most probable continuation.
+      Assigning a role narrows the field to text that a person in that role would plausibly write,
+      which pulls the vocabulary, the assumptions and the priorities along with it.
+    </p>
+
+    <h3>Specific roles beat impressive ones</h3>
+    <div class="vs">
+      <div class="col bad">
+        <h5>Weak role</h5>
+        <p class="tag">Too broad to change anything</p>
+        <ol>
+          <li>"Act as a marketing expert"</li>
+          <li>"You are an AI assistant"</li>
+          <li>"Act as a business consultant"</li>
+        </ol>
+      </div>
+      <div class="col good">
+        <h5>Strong role</h5>
+        <p class="tag">Narrow enough to shift the output</p>
+        <ol>
+          <li>"Act as a B2B marketing manager selling ERP software to Indian manufacturing SMEs"</li>
+          <li>"Act as a CFO reviewing this proposal for hidden recurring costs"</li>
+          <li>"Act as a sceptical buyer who has already been let down by one ERP vendor"</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="call warn">
+      <div class="call-t">What a role does not do</div>
+      <p>
+        Calling the model a chartered accountant does not give it accounting knowledge it lacks, and
+        it does not make it accurate. Role changes <strong>framing and style, not facts</strong>. The
+        verification rules from Module 1 apply exactly as before.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 04 ---------- -->
+  <section class="sec" id="s4">
+    <div class="sec-head">
+      <div class="sec-num">04</div>
+      <h2>Context — the single biggest lever</h2>
+    </div>
+
+    <p>
+      If you improve only one thing about your prompting, improve this. Module 1 established that the
+      model knows nothing about your company beyond what you put in the context window. Most
+      disappointing AI output is not a model failure — it is a briefing failure.
+    </p>
+
+    <h3>What counts as context</h3>
+    <ul>
+      <li><strong>The product or service</strong> — what it actually does, in your words.</li>
+      <li><strong>The customer</strong> — industry, size, role, what they care about, what they fear.</li>
+      <li><strong>The situation</strong> — first outreach, follow-up after a demo, recovering a stalled deal.</li>
+      <li><strong>The source material</strong> — the actual email thread, the real price list, the real dataset.</li>
+      <li><strong>What has already been tried</strong> — so it does not hand you back what failed last month.</li>
+    </ul>
+
+    <div class="call key">
+      <div class="call-t">The test to apply</div>
+      <p>
+        If a new employee would need to be told something before doing this task, the model needs to
+        be told it too. Everything you leave out, the model fills in with a generic average — or
+        invents.
+      </p>
+    </div>
+
+    <h3>Grounding beats recall</h3>
+    <p>
+      There is a large difference between asking the model what it remembers and giving it the source
+      to work from. A prompt that says <em>"Based only on the pricing document below, answer the
+      customer question"</em> hallucinates far less than one that says <em>"What does our pricing look
+      like?"</em>. Whenever the real document exists, paste it in and instruct the model to use only
+      that.
+    </p>
+
+    <div class="prompt">
+      <div class="prompt-h good"><b>Grounded prompt pattern</b><button class="copy" type="button">Copy</button></div>
+      <pre>Using ONLY the information in the document below, answer the customer question.
+If the document does not contain the answer, reply exactly: "Not covered in the
+document" — do not use outside knowledge and do not guess.
+
+DOCUMENT:
+"""
+[paste the real pricing sheet, policy or specification here]
+"""
+
+CUSTOMER QUESTION:
+"""
+[paste the customer email here]
+"""</pre>
+    </div>
+    <p class="cap">
+      This one pattern will prevent most of the hallucination problems from Module 1. Keep it in your
+      workbook.
+    </p>
+  </section>
+
+  <!-- ---------- 05 ---------- -->
+  <section class="sec" id="s5">
+    <div class="sec-head">
+      <div class="sec-num">05</div>
+      <h2>Constraints</h2>
+    </div>
+
+    <p>
+      Constraints are what turn a passable answer into one you can use without rewriting. Without
+      them the model defaults to a safe average: medium length, neutral tone, faintly American,
+      slightly over-explained.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Constraint type</th><th>Example</th><th>Why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><b>Length</b></td><td>"Maximum 150 words", "exactly 5 bullet points"</td><td>Length drives whether it gets read at all</td></tr>
+          <tr><td><b>Tone</b></td><td>"Professional and persuasive, not salesy"</td><td>Wrong tone loses the reader in one line</td></tr>
+          <tr><td><b>Language</b></td><td>"Plain business English, Indian context, amounts in rupees"</td><td>Defaults are usually American</td></tr>
+          <tr><td><b>Must include</b></td><td>"Include three business benefits and one call to action"</td><td>Guarantees the elements you are accountable for</td></tr>
+          <tr><td><b>Must avoid</b></td><td>"No jargon, no superlatives, no emoji"</td><td>Removes the tells that make text read as AI-written</td></tr>
+          <tr><td><b>Honesty</b></td><td>"Do not invent any statistics, names or case studies"</td><td>Directly reduces hallucination risk</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call key">
+      <div class="call-t">The one constraint to add to everything</div>
+      <p>
+        <em>"If you do not have enough information to answer accurately, ask me a question instead of
+        guessing."</em> This single line converts silent invention into a visible question — and a
+        question you can answer is far cheaper than a wrong number you did not notice.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 06 ---------- -->
+  <section class="sec" id="s6">
+    <div class="sec-head">
+      <div class="sec-num">06</div>
+      <h2>Output formats</h2>
+    </div>
+
+    <p>
+      Specifying the shape of the answer is what lets AI output slot into real work instead of
+      sitting in a chat window. Prose has to be re-read and reformatted by a human. A table can be
+      pasted into a deck, sorted, compared and reviewed at a glance.
+    </p>
+
+    <ul>
+      <li><strong>Table</strong> — for anything comparative: leads, vendors, candidates, options.</li>
+      <li><strong>Numbered list</strong> — for steps, priorities and recommendations.</li>
+      <li><strong>Structured sections</strong> — "Summary / Findings / Risks / Recommendation".</li>
+      <li><strong>Email</strong> — with subject line specified separately.</li>
+      <li><strong>JSON or CSV</strong> — when the output feeds a system rather than a person.</li>
+    </ul>
+
+    <div class="prompt">
+      <div class="prompt-h"><b>Specify the columns, not just "a table"</b><button class="copy" type="button">Copy</button></div>
+      <pre>Return the result as a markdown table with exactly these columns:
+
+Enquiry no. | Type | Company | Requirement | Budget | Timeline | Priority | Reason
+
+Rules:
+- One row per enquiry, in the original order.
+- Where a field was not stated, write "Not stated". Never infer or estimate it.
+- Priority must be exactly one of: Hot, Warm, Cold.
+- Keep Reason to a single short sentence.</pre>
+    </div>
+
+    <p>
+      Notice what those four rules do: they make the output <strong>comparable across runs</strong>.
+      That is the difference between a chat answer and something you can build a process on — and it
+      is exactly the format Module 1's enquiry activity asked for.
+    </p>
+  </section>
+
+  <!-- ---------- 07 ---------- -->
+  <section class="sec" id="s7">
+    <div class="sec-head">
+      <div class="sec-num">07</div>
+      <h2>Zero-shot and few-shot prompting</h2>
+    </div>
+
+    <p>
+      The terms sound academic; the distinction is simply whether you show examples.
+    </p>
+
+    <h3>Zero-shot</h3>
+    <p>
+      You describe the task and give no examples. This is most of everyday use, and for standard
+      tasks — summarise this, draft that, explain this — it is entirely sufficient.
+    </p>
+
+    <h3>Few-shot</h3>
+    <p>
+      You include two to five worked examples of input and the output you want, then give the real
+      input. The model infers the pattern from your examples rather than from your description.
+    </p>
+
+    <div class="prompt">
+      <div class="prompt-h"><b>Few-shot lead categorisation</b><button class="copy" type="button">Copy</button></div>
+      <pre>Categorise each enquiry as Hot, Warm or Cold, following these examples exactly.
+
+Enquiry: "Need ERP for 120-staff manufacturing unit, budget 8-10 lakh, want to
+go live before financial year end."
+Output: Hot — clear budget, defined requirement, hard deadline.
+
+Enquiry: "Thinking about an HRMS at some point next year. No budget approved."
+Output: Warm — real need, but no budget and no timeline.
+
+Enquiry: "Please send price list."
+Output: Cold — no company, requirement, budget or timeline stated.
+
+Now categorise this enquiry in the same format:
+Enquiry: "[paste the new enquiry here]"</pre>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>Zero-shot</th><th>Few-shot</th></tr></thead>
+        <tbody>
+          <tr><td><b>You provide</b></td><td>A description of the task</td><td>Worked examples of the task</td></tr>
+          <tr><td><b>Best for</b></td><td>Common tasks with an obvious right shape</td><td>Company-specific style, scoring or judgement</td></tr>
+          <tr><td><b>Consistency</b></td><td>Good</td><td>Noticeably better across many inputs</td></tr>
+          <tr><td><b>Effort</b></td><td>Seconds</td><td>Some setup, then reusable forever</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">When it actually pays off</div>
+      <p>
+        Few-shot earns its setup cost the moment a task repeats. Categorising one enquiry — zero-shot
+        is fine. Categorising 500 the same way every month, so the results are comparable and can be
+        reported on — few-shot, and it becomes a company asset rather than a personal trick.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 08 ---------- -->
+  <section class="sec" id="s8">
+    <div class="sec-head">
+      <div class="sec-num">08</div>
+      <h2>Chain-of-thought</h2>
+    </div>
+
+    <p>
+      For anything with multiple steps or competing factors, asking the model to reason before
+      concluding produces markedly better answers. The high-level idea is enough for business use:
+      <strong>make the intermediate thinking explicit instead of jumping to a verdict.</strong>
+    </p>
+
+    <p>
+      The mechanism follows from Module 1. The model predicts each next token from what is already in
+      the context. If the reasoning steps are written out, they become part of that context and the
+      conclusion is built on them. If it answers immediately, there are no steps to build on.
+    </p>
+
+    <div class="prompt">
+      <div class="prompt-h good"><b>Structured reasoning, then the answer</b><button class="copy" type="button">Copy</button></div>
+      <pre>Before recommending anything, work through this in order:
+
+1. List the factors that matter for this decision.
+2. For each factor, state what the data below actually shows.
+3. Note where the data is missing or too weak to conclude from.
+4. Only then give your recommendation, and say which factor drove it.
+
+Do not begin with the recommendation.</pre>
+    </div>
+
+    <p>
+      Step 3 is the one people leave out, and it is the most valuable. It converts a confident guess
+      into an explicit list of what you still need to find out.
+    </p>
+
+    <div class="call warn">
+      <div class="call-t">Reasoning shown is not reasoning verified</div>
+      <p>
+        A model can produce well-structured, entirely wrong reasoning. The steps make it
+        <em>easier for you to check</em>, which is the real benefit — you can see where the logic went
+        wrong instead of only seeing a wrong conclusion. It is not a substitute for checking.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 09 ---------- -->
+  <section class="sec" id="s9">
+    <div class="sec-head">
+      <div class="sec-num">09</div>
+      <h2>Iterative prompting</h2>
+    </div>
+
+    <p>
+      Beginners write one prompt, get a mediocre answer, and conclude AI is overrated. Professionals
+      expect the first output to be a starting point. Prompting is a conversation, not a command.
+    </p>
+
+    <h3>The refinement moves</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Problem with the draft</th><th>What you say next</th></tr></thead>
+        <tbody>
+          <tr><td>Too long or too dense</td><td>"Cut this to 120 words. Keep the three benefits, drop the background."</td></tr>
+          <tr><td>Tone is wrong</td><td>"Too salesy. Rewrite it as a peer talking to a peer."</td></tr>
+          <tr><td>Too generic</td><td>"This could be about any product. Rewrite using only the specifics I gave you."</td></tr>
+          <tr><td>Missed something</td><td>"You did not address the pricing objection. Add a short paragraph on it."</td></tr>
+          <tr><td>You want choice</td><td>"Give me three versions with different opening lines."</td></tr>
+          <tr><td>Wrong reader</td><td>"Now rewrite the same content for a CFO instead of an HR manager."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The self-critique loop</h3>
+    <p>
+      The strongest single refinement technique is to make the model review its own work against the
+      brief before you do:
+    </p>
+    <div class="prompt">
+      <div class="prompt-h"><b>Two-step critique</b><button class="copy" type="button">Copy</button></div>
+      <pre>Step 1 — Review your draft against my original brief. List every point where it
+is weak, generic, unsupported by the context I gave you, or missing something
+I asked for. Be specific and do not defend the draft.
+
+Step 2 — Rewrite the draft fixing everything you listed.</pre>
+    </div>
+
+    <div class="call key">
+      <div class="call-t">Close the loop</div>
+      <p>
+        When an iteration finally produces what you wanted, fold the correction back into the
+        original prompt. Do not keep re-explaining the same thing in every conversation — that is how
+        a one-off chat becomes a reusable prompt.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 10 ---------- -->
+  <section class="sec" id="s10">
+    <div class="sec-head">
+      <div class="sec-num">10</div>
+      <h2>Evaluating a prompt</h2>
+    </div>
+
+    <p>
+      "It gave a good answer" is not evaluation — it might have been luck. A prompt is an asset only
+      if it performs on inputs you have not seen yet.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Test</th><th>Question to ask</th></tr></thead>
+        <tbody>
+          <tr><td><b>Objective</b></td><td>Did it produce the deliverable I actually asked for, or just text about the topic?</td></tr>
+          <tr><td><b>Accuracy</b></td><td>Are the facts, figures and names correct and checkable?</td></tr>
+          <tr><td><b>Grounding</b></td><td>Did it stay inside the context I supplied, or drift into invention?</td></tr>
+          <tr><td><b>Audience fit</b></td><td>Would the intended reader find the tone and depth right?</td></tr>
+          <tr><td><b>Usability</b></td><td>Can I use it with light edits, or am I effectively rewriting it?</td></tr>
+          <tr><td><b>Repeatability</b></td><td>Does it work on three different inputs, not just the one I tested?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">The professional standard</div>
+      <p>
+        Repeatability is the test that separates a lucky chat from an engineered prompt. Before you
+        put a prompt in your workbook, run it on three genuinely different inputs. If the quality
+        holds, you have built something. If it collapses on input two, your prompt was carrying
+        assumptions that only applied to input one.
+      </p>
+    </div>
+  </section>
+
+  <!-- ---------- 11 WORKED EXAMPLE ---------- -->
+  <section class="sec" id="s11">
+    <div class="sec-head">
+      <div class="sec-num">Worked example</div>
+      <h2>The same task, briefed two ways</h2>
+    </div>
+
+    <p>Here is the difference the six components make on one ordinary request.</p>
+
+    <div class="prompt">
+      <div class="prompt-h bad"><b>Basic prompt</b><button class="copy" type="button">Copy</button></div>
+      <pre>Write a marketing email.</pre>
+    </div>
+
+    <p>
+      This produces a competent, entirely generic email about a product the model has invented, for a
+      reader it has guessed at. Nothing about it is usable.
+    </p>
+
+    <div class="prompt">
+      <div class="prompt-h good"><b>Professional prompt</b><button class="copy" type="button">Copy</button></div>
+      <pre>Act as a B2B SaaS marketing manager. Create a 150-word email for an HR manager
+introducing an AI-based employee training platform. The tone should be
+professional and persuasive. Include three business benefits and one call to
+action.</pre>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Component</th><th>Where it appears</th><th>What it changed</th></tr></thead>
+        <tbody>
+          <tr><td><b>Role</b></td><td>"Act as a B2B SaaS marketing manager"</td><td>Business-to-business framing rather than consumer copy</td></tr>
+          <tr><td><b>Objective</b></td><td>"Create an email introducing…"</td><td>A first-touch introduction, not a renewal or a newsletter</td></tr>
+          <tr><td><b>Audience</b></td><td>"for an HR manager"</td><td>Speaks to training outcomes and admin load, not to a CTO</td></tr>
+          <tr><td><b>Context</b></td><td>"an AI-based employee training platform"</td><td>Gives the model an actual product to write about</td></tr>
+          <tr><td><b>Constraints</b></td><td>"150 words, professional and persuasive"</td><td>Short enough to be read, right register for a cold email</td></tr>
+          <tr><td><b>Output format</b></td><td>"three business benefits and one call to action"</td><td>Guarantees the structural elements the email needs to work</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <details class="reveal">
+      <summary>
+        <span class="chev">›</span>
+        Before you read on — what is still missing from the professional prompt?
+        <small>Think first</small>
+      </summary>
+      <div class="reveal-body">
+        <p>
+          It is a good prompt, and it is still improvable. Three gaps worth noticing:
+        </p>
+        <ul>
+          <li><strong>No honesty constraint.</strong> Nothing stops the model inventing statistics, client names or case studies to make the benefits sound stronger.</li>
+          <li><strong>No subject line.</strong> The single most important part of a cold email is not requested, so you will get a body and have to write the subject yourself.</li>
+          <li><strong>Thin context.</strong> "An AI-based employee training platform" is a category, not a product. What does it actually do, and who is it better than?</li>
+        </ul>
+        <p>
+          Catching gaps like these in your own prompts is the skill Section 10 is testing. A good
+          prompt is rarely the first one you write.
+        </p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ---------- 12 LAB ---------- -->
+  <section class="sec" id="s12">
+    <div class="sec-head">
+      <div class="sec-num">Practical exercise</div>
+      <h2>Turn a bad brief into a professional prompt</h2>
+    </div>
+
+    <p>
+      Here is a request of the kind managers actually send. Your job is to convert it into a prompt
+      that would produce something worth presenting.
+    </p>
+
+    <div class="prompt">
+      <div class="prompt-h bad"><b>The brief you were given</b><button class="copy" type="button">Copy</button></div>
+      <pre>Make a presentation about sales.</pre>
+    </div>
+
+    <p>
+      Use the builder below. Fill in all six components — the assembled prompt appears underneath as
+      you type, and you can copy it straight into any AI tool. Your work is saved in this browser, so
+      you can come back to it.
+    </p>
+
+    <div class="builder" id="builder">
+      <div class="builder-h">
+        <h4>Prompt builder</h4>
+        <button class="btn" type="button" id="builder-clear">Clear</button>
+        <button class="btn" type="button" id="builder-example" data-example='{"role":"Act as a senior B2B sales manager at an ERP software company in India, preparing a quarterly review for the leadership team.","objective":"Create the content plan for a 10-slide presentation covering last quarter sales performance and what we should change next quarter.","audience":"The managing director and the heads of sales, marketing and operations. They are commercially minded, short on time, and want decisions rather than description.","context":"We sell ERP and CRM software to SMEs in manufacturing, real estate and services. Last quarter we closed 18 deals from 340 leads. Average deal size was 9 lakh. The most common loss reason was pricing, followed by long decision cycles.","constraints":"Maximum 10 slides, no more than 5 bullet points per slide. Plain business English, amounts in rupees, no jargon and no superlatives. Do not invent any numbers beyond the ones I have given you. If something needs data I have not provided, say so instead of estimating.","output":"Return a markdown table with three columns: Slide number, Slide title, Key points. After the table, add a short section titled Data I still need."}'>Load model answer</button>
+      </div>
+      <p>Six fields, one professional prompt. Leave a field blank and it is simply left out.</p>
+
+      <div class="fields">
+        <div class="field">
+          <label for="f-role">Role <em>— who should the AI be?</em></label>
+          <textarea id="f-role" data-part="role" data-label="Role" rows="2" placeholder="Act as a senior B2B sales manager at an ERP company in India…"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-obj">Objective <em>— what exactly must it produce?</em></label>
+          <textarea id="f-obj" data-part="objective" data-label="Objective" rows="2" placeholder="Create the content plan for a 10-slide presentation on…"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-aud">Audience <em>— who will read or watch it?</em></label>
+          <textarea id="f-aud" data-part="audience" data-label="Audience" rows="2" placeholder="The managing director and heads of sales, marketing and operations…"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-ctx">Context <em>— the facts it cannot know</em></label>
+          <textarea id="f-ctx" data-part="context" data-label="Context" rows="3" placeholder="We sell ERP to SMEs. Last quarter: 18 deals from 340 leads, average deal size…"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-con">Constraints <em>— length, tone, and what to avoid</em></label>
+          <textarea id="f-con" data-part="constraints" data-label="Constraints" rows="3" placeholder="Max 10 slides, 5 bullets per slide, no jargon, invent no numbers…"></textarea>
+        </div>
+        <div class="field">
+          <label for="f-out">Output format <em>— the shape you want back</em></label>
+          <textarea id="f-out" data-part="output" data-label="Output format" rows="2" placeholder="A markdown table with columns: Slide number, Slide title, Key points…"></textarea>
+        </div>
+      </div>
+
+      <div class="prompt">
+        <div class="prompt-h good"><b>Your assembled prompt</b><button class="copy" type="button">Copy</button></div>
+        <pre id="built" class="builder-empty">Fill the fields above and your prompt assembles here, ready to copy.</pre>
+      </div>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">How this is assessed</div>
+      <p>
+        Not on length. You are assessed on whether all six components are genuinely present, whether
+        your context contains real specifics rather than placeholders, whether your constraints would
+        actually prevent a bad answer, and whether your output format is something a colleague could
+        use without reformatting. Then run it — and bring the result, not just the prompt.
+      </p>
+    </div>
+
+    <details class="reveal">
+      <summary>
+        <span class="chev">›</span>
+        Compare with the model answer once you have written your own
+        <small>After you try</small>
+      </summary>
+      <div class="reveal-body">
+        <p>
+          Press <strong>Load model answer</strong> in the builder to fill all six fields with a
+          worked version. Three things in it are worth copying into your own habits:
+        </p>
+        <ul>
+          <li><strong>The context carries real numbers</strong> — 18 deals from 340 leads, 9 lakh average, pricing as the top loss reason. Without these the deck would be generic advice about selling.</li>
+          <li><strong>The constraints block invention</strong> — "do not invent any numbers beyond the ones I have given you" is the Module 1 lesson applied directly.</li>
+          <li><strong>It asks for what is missing</strong> — the "Data I still need" section turns the model's gaps into your to-do list instead of into fabricated figures.</li>
+        </ul>
+        <p>
+          If your version is different but hits those three ideas, it is a good prompt. There is no
+          single correct answer here.
+        </p>
+      </div>
+    </details>
+
+    <h3>Where this applies</h3>
+    <p>
+      This is the module every remaining module runs on. Marketing campaigns, lead qualification,
+      resume screening, financial analysis, process design — each one is this skill pointed at a
+      different business problem. From here on, the question stops being "can AI do this" and becomes
+      <strong>"how well can I brief it"</strong>.
+    </p>
+  </section>
+
+  <!-- ---------- 13 CHECK ---------- -->
+  <section class="sec check" id="s13">
+    <div class="sec-head">
+      <div class="sec-num">Knowledge check</div>
+      <h2>Eight questions before you move on</h2>
+    </div>
+    <p>
+      Answer these once you have read the module. Each answer explains the reasoning, so a wrong
+      choice is still useful.
+    </p>
+    <div id="quiz"></div>
+    <div class="score" id="score" hidden>
+      <b id="score-n">0/8</b>
+      <span id="score-t"></span>
+      <button class="btn" id="retry">Try again</button>
+    </div>
+  </section>
+
+  <nav class="mnav">
+    <a href="index.html">
+      <small>← Previous module</small>
+      <b>01 · AI Fundamentals &amp; Generative AI</b>
+    </a>
+    <div class="ghost"></div>
+  </nav>
+
+  </main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <img src="course/brand/logo-mark.png" alt="Gold Technology">
+    <p>
+      <b>Gold Technology — AI Training Program</b>
+      Module 2 of 10 · Prompt Engineering · For MBA and engineering graduates
+    </p>
+  </div>
+</footer>
+
+<script>
+window.LESSON = {
+  id: "m2",
+  quiz: [
+    {
+      q: "What is the most useful way to think about writing a prompt?",
+      o: [
+        "Like a search query — keywords are enough",
+        "Like briefing a capable new colleague who knows nothing about your company",
+        "Like writing code — the exact syntax matters most",
+        "Like a conversation with a friend, keep it casual"
+      ],
+      a: 1,
+      e: "The model is capable but has no knowledge of your product, customers or standards. Briefing it the way you would brief a smart new joiner is what produces usable output."
+    },
+    {
+      q: "Which six components make up a professional business prompt?",
+      o: [
+        "Role, Objective, Audience, Context, Constraints, Output format",
+        "Question, Answer, Example, Review, Edit, Approve",
+        "Who, What, When, Where, Why, How",
+        "Input, Process, Output, Test, Deploy, Monitor"
+      ],
+      a: 0,
+      e: "Role, Objective, Audience, Context, Constraints and Output format. Not every prompt needs all six, but the higher the stakes, the more of them you should specify."
+    },
+    {
+      q: "What does assigning a role actually change?",
+      o: [
+        "It gives the model expert knowledge it did not previously have",
+        "It makes the model factually accurate in that domain",
+        "It shifts the vocabulary, assumptions and priorities of the answer",
+        "It permanently changes the model for future conversations"
+      ],
+      a: 2,
+      e: "A role narrows the output toward text a person in that role would write, changing framing and style. It does not add knowledge and does not make the answer accurate — verification still applies."
+    },
+    {
+      q: "Your AI output keeps coming back generic. What is the most likely cause?",
+      o: [
+        "You need a more powerful model",
+        "You have not supplied enough context about your product, customer and situation",
+        "The model is overloaded with other users",
+        "Generic output is simply the limit of what AI can do"
+      ],
+      a: 1,
+      e: "Generic output almost always means a generic brief. The model fills anything you leave out with an average — supplying real specifics is the single biggest lever you have."
+    },
+    {
+      q: "When is few-shot prompting worth the extra setup over zero-shot?",
+      o: [
+        "Always — examples improve every prompt",
+        "Never, if your description is clearly written",
+        "When the task repeats and the results must be consistent and comparable",
+        "Only when the model gets the answer completely wrong"
+      ],
+      a: 2,
+      e: "Few-shot pays for itself on repeated tasks where consistency matters — categorising 500 enquiries the same way every month. For a one-off, a well-described zero-shot prompt is fine."
+    },
+    {
+      q: "Which instruction most directly reduces the risk of hallucination?",
+      o: [
+        "\"Be accurate and professional.\"",
+        "\"Act as an expert in this field.\"",
+        "\"Answer using only the document below; if it is not covered, say so and do not guess.\"",
+        "\"Think carefully before answering.\""
+      ],
+      a: 2,
+      e: "Grounding the model in a supplied source and giving it an explicit way to say it does not know removes the situation where invention is the most plausible continuation."
+    },
+    {
+      q: "Why ask the model to reason through the steps before giving a recommendation?",
+      o: [
+        "It guarantees the conclusion will be correct",
+        "The steps enter the context and the conclusion builds on them — and you can see where logic went wrong",
+        "It makes the response longer, which means more thorough",
+        "It stops the model from hallucinating entirely"
+      ],
+      a: 1,
+      e: "Explicit steps become part of the context the conclusion is predicted from, which helps on multi-step tasks. Just as importantly, visible reasoning is checkable — but it is not proof of correctness."
+    },
+    {
+      q: "What makes a prompt good enough to add to your reusable workbook?",
+      o: [
+        "It produced an impressive answer once",
+        "It is long and includes every component",
+        "It holds up on three genuinely different inputs, not just the one you tested",
+        "A colleague said the output looked professional"
+      ],
+      a: 2,
+      e: "Repeatability is the professional test. A prompt that works once may be luck; one that holds across different inputs is an asset you can hand to a colleague or build a process on."
+    }
+  ]
+};
+</script>
+<script src="course/assets/lesson.js"></script>
+
+</body>
+</html>
