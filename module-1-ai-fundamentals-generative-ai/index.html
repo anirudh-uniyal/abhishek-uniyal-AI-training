@@ -1,0 +1,1176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Module 1 — AI Fundamentals & Generative AI. Gold Technology AI Training Program for MBA and engineering graduates.">
+<title>Module 1 — AI Fundamentals &amp; Generative AI | Gold Technology</title>
+<link rel="stylesheet" href="../course/assets/lesson.css">
+</head>
+<body class="screens">
+
+<div class="progress"><i id="bar"></i></div>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <img src="../course/brand/logo-mark.png" alt="Gold Technology">
+      <div class="brand-txt">
+        <div class="brand-name">Gold Technology</div>
+        <div class="brand-sub">AI Training Program</div>
+      </div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="topbar-pct"><span class="track"><span class="fill"></span></span><span class="val">0%</span></div>
+    <div class="audio">
+      <button class="abtn" id="a-play" type="button" aria-label="Play narration" title="Play narration">&#9654;</button>
+      <button class="abtn" id="a-mute" type="button" aria-label="Turn narration off" title="Turn narration off">&#128266;</button>
+    </div>
+    <div class="topbar-chip">Module 1 of 11</div>
+  </div>
+</header>
+
+<!-- ================= STEP RAIL ================= -->
+<nav class="rail" aria-label="Module screens">
+  <div class="rail-in">
+    <button class="railstep" type="button"><span class="n">1</span><span class="lbl">What is AI</span></button>
+    <button class="railstep" type="button"><span class="n">2</span><span class="lbl">AI vs ML vs DL</span></button>
+    <button class="railstep" type="button"><span class="n">3</span><span class="lbl">Generative AI</span></button>
+    <button class="railstep" type="button"><span class="n">4</span><span class="lbl">How LLMs work</span></button>
+    <button class="railstep" type="button"><span class="n">5</span><span class="lbl">AI vs software</span></button>
+    <button class="railstep" type="button"><span class="n">6</span><span class="lbl">Strengths &amp; limits</span></button>
+    <button class="railstep" type="button"><span class="n">7</span><span class="lbl">Hallucination</span></button>
+    <button class="railstep" type="button"><span class="n">8</span><span class="lbl">Human + AI</span></button>
+    <button class="railstep" type="button"><span class="n">9</span><span class="lbl">Case &amp; activity</span></button>
+    <button class="railstep" type="button"><span class="n">10</span><span class="lbl">Knowledge check</span></button>
+    <button class="railstep" type="button"><span class="n">11</span><span class="lbl">Summary &amp; video</span></button>
+  </div>
+</nav>
+
+<div class="stage-wrap">
+
+<!-- ============================================================ 1 -->
+<section class="screen" data-title="What is Artificial Intelligence?">
+  <div class="screen-head">
+    <img class="hero-logo" src="../course/brand/logo-full.png" alt="Gold Technology" style="width:150px;margin-bottom:26px">
+    <p class="screen-kicker">Topic 01 of 11</p>
+    <h2>What is Artificial Intelligence?</h2>
+    <p class="sub">
+      Everyone uses the word. Very few can define it in a way that survives a follow-up question.
+      Start here, because every other topic in this module depends on getting this one right.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <p>
+      Artificial Intelligence is software that performs tasks which normally require human
+      intelligence — understanding language, recognising patterns, making a judgement, or producing
+      something new. That is the textbook definition, and on its own it is not very useful. The part
+      that matters for your career is the shift hiding underneath it.
+    </p>
+
+    <h3>The inversion that changed everything</h3>
+    <p>
+      For roughly fifty years, business software worked exactly one way. A human thought through
+      every rule, and a programmer wrote those rules down. If a situation was not anticipated, the
+      software could not handle it — it would error, or quietly do the wrong thing.
+    </p>
+    <p>
+      Your payroll system knows that PF is 12% because a person typed <em>12</em> into a
+      configuration screen. It does not know what PF is, why it exists, or that the rate might
+      change. It is following an instruction, precisely and blindly.
+    </p>
+    <p>
+      AI inverts this relationship. Instead of being given the rules, the system is given
+      <strong>examples</strong> and derives the rules itself. This matters because there are enormous
+      categories of business problem where nobody can write the rule down.
+    </p>
+
+    <div class="vs">
+      <div class="col bad">
+        <h5>Rules can be written</h5>
+        <p class="tag">Traditional software handles this</p>
+        <ol>
+          <li>If an invoice is unpaid after 30 days, flag it</li>
+          <li>PF is 12% of basic salary</li>
+          <li>Reorder when stock falls below 100 units</li>
+          <li>Apply 18% GST to this product category</li>
+        </ol>
+      </div>
+      <div class="col good">
+        <h5>Rules cannot be written</h5>
+        <p class="tag">This is where AI earns its place</p>
+        <ol>
+          <li>Is this customer email frustrated, or just blunt?</li>
+          <li>What is this enquiry actually asking for?</li>
+          <li>Summarise this 40-minute meeting</li>
+          <li>Does this resume match this job?</li>
+        </ol>
+      </div>
+    </div>
+
+    <p>
+      Nobody can write the rule for "this customer sounds frustrated". There are thousands of ways to
+      express frustration in English, more in Hindi, and more again in the Hinglish your customers
+      actually write. But show a system enough examples and it learns the pattern — including the
+      subtle cases a rulebook would never have covered.
+    </p>
+
+    <div class="call key">
+      <div class="call-t">Key idea</div>
+      <p>
+        Traditional software is <strong>told</strong> what to do. AI is <strong>shown</strong> what
+        good looks like and works out the rest. That is why AI can absorb messy, unpredictable human
+        input — and also why it is never 100% certain, which becomes the central theme of Topic 07.
+      </p>
+    </div>
+
+    <h3>Narrow AI vs General AI</h3>
+    <p>
+      Every AI system in commercial use today is <strong>Narrow AI</strong>: extremely capable inside
+      a defined range of tasks, and completely blank outside it. A model that writes excellent sales
+      emails has no awareness that it is doing sales, no goals of its own, and no memory of you
+      between conversations unless a product has been specifically built to store one.
+    </p>
+    <p>
+      <strong>General AI</strong> — a system with human-level ability across any domain, with genuine
+      understanding and its own intent — does not exist. It is a research ambition, not something you
+      can procure. When a vendor's pitch starts to sound like general AI, that is marketing, and you
+      should price it accordingly.
+    </p>
+
+    <h3>Why AI became useful now, and not in 1995</h3>
+    <p>
+      The field dates from the 1950s, and it spent decades being genuinely disappointing. Four things
+      changed in the last ten years:
+    </p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>What changed</th><th>Why it mattered</th></tr></thead>
+        <tbody>
+          <tr><td><b>Data</b></td><td>Digitisation produced the enormous text and image collections these systems learn from. No data, no patterns to learn.</td></tr>
+          <tr><td><b>Compute</b></td><td>GPUs made it economically possible to train on that data in months rather than centuries.</td></tr>
+          <tr><td><b>Architecture</b></td><td>The transformer design, published in 2017, let models hold long stretches of language in view at once instead of processing word by word.</td></tr>
+          <tr><td><b>Access</b></td><td>From late 2022, chat interfaces removed the need to be a programmer. A sales manager could use a frontier model directly, with no IT project.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      That last row is the one that affects you. The technology stopped being something a company
+      bought and became something an individual employee could simply start using — which is exactly
+      why the skill gap between two people in the same role is now so visible.
+    </p>
+
+    <div class="call job">
+      <div class="call-t">Career framing</div>
+      <p>
+        AI is not a product you buy — it is a <strong>capability you insert into a process</strong>.
+        Companies are not hiring people who can name AI tools; that list changes every quarter. They
+        are hiring people who can look at an existing business process, find the step that is slow
+        because a human is reading or writing something, and redesign it. Every module in this
+        program trains that one skill.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> AI learns rules from examples instead of being given them. That is why it handles messy human input — and why its answers are probabilities, never guarantees.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="01" data-src="../course/media/topic-01.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 2 -->
+<section class="screen" data-title="AI vs Machine Learning vs Deep Learning">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 02 of 11</p>
+    <h2>AI vs Machine Learning vs Deep Learning</h2>
+    <p class="sub">
+      Three terms, used interchangeably by almost everybody, that actually sit inside one another.
+      Placing them correctly is a standard interview question — and getting it wrong signals that you
+      learned AI from headlines.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <div class="figure">
+      <svg viewBox="0 0 720 340" role="img" aria-label="Nested diagram: Artificial Intelligence contains Machine Learning, which contains Deep Learning, which contains Generative AI">
+        <rect x="14" y="14" width="692" height="312" rx="18" fill="rgba(232,190,85,.05)" stroke="#E8BE55" stroke-opacity=".45"/>
+        <text x="36" y="46" fill="#E8BE55" font-family="Georgia,serif" font-size="17">Artificial Intelligence</text>
+        <text x="36" y="68" fill="#8B95A8" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">The goal — machines doing intelligent tasks</text>
+        <rect x="48" y="84" width="624" height="228" rx="15" fill="rgba(110,168,254,.06)" stroke="#6EA8FE" stroke-opacity=".42"/>
+        <text x="70" y="114" fill="#6EA8FE" font-family="Georgia,serif" font-size="16">Machine Learning</text>
+        <text x="70" y="135" fill="#8B95A8" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">The method — learning patterns from data</text>
+        <rect x="82" y="151" width="556" height="145" rx="13" fill="rgba(79,209,139,.06)" stroke="#4FD18B" stroke-opacity=".42"/>
+        <text x="104" y="180" fill="#4FD18B" font-family="Georgia,serif" font-size="15">Deep Learning</text>
+        <text x="104" y="200" fill="#8B95A8" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">Multi-layer neural networks that find features themselves</text>
+        <rect x="116" y="214" width="488" height="66" rx="11" fill="rgba(232,190,85,.13)" stroke="#E8BE55" stroke-opacity=".6"/>
+        <text x="138" y="242" fill="#EEF2F9" font-family="Georgia,serif" font-size="15">Generative AI</text>
+        <text x="138" y="263" fill="#C3CBD9" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5">Creates new content — this is where ChatGPT sits</text>
+      </svg>
+      <p class="cap">They nest. Generative AI is a specific use of deep learning, which is a specific kind of machine learning, which is one route to AI.</p>
+    </div>
+
+    <h3>How machine learning actually learns</h3>
+    <p>
+      Strip away the mathematics and the process is simple. You collect examples where you already
+      know the answer — say, 5,000 past leads and whether each one eventually bought. You show the
+      system the inputs together with the known outcomes. It adjusts its internal weights until its
+      predictions match those outcomes reasonably well. Then you give it a lead it has never seen,
+      and it predicts.
+    </p>
+    <div class="flow">
+      <div class="step"><b>1 · Training data</b><span>Past examples where the answer is already known.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>2 · Training</b><span>The model adjusts itself until its predictions match the known answers.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>3 · Prediction</b><span>It is given new, unseen input and produces an answer.</span></div>
+    </div>
+    <p>
+      This is why <strong>data quality decides model quality</strong>. If your past lead records are
+      incomplete, or your labels were applied inconsistently, the model faithfully learns that mess.
+      There is no clever algorithm that repairs bad training data — a point Module 6 returns to in
+      detail.
+    </p>
+
+    <h3>The distinction that actually matters</h3>
+    <p>
+      Classical machine learning needs a human to decide what the model should look at. To predict
+      lead quality, somebody must decide that company size, industry and budget are the useful
+      signals. That step is called feature engineering, and it puts a ceiling on the system: it can
+      only be as insightful as the person choosing the features.
+    </p>
+    <p>
+      <strong>Deep learning removes that ceiling.</strong> Given enough examples, a multi-layer
+      neural network works out for itself which signals matter — including combinations no human
+      would have thought to specify. That is precisely why deep learning took over everything
+      involving language, images and audio. Nobody can list the features that make a sentence sound
+      angry. A network trained on enough angry sentences finds them.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr><th>Term</th><th>What it is</th><th>How it works</th><th>Business example</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Artificial Intelligence</b></td>
+            <td>The overall goal — machines performing tasks that need intelligence</td>
+            <td>Any technique at all, including hand-written rules</td>
+            <td>A chatbot that routes a customer to the right department</td>
+          </tr>
+          <tr>
+            <td><b>Machine Learning</b></td>
+            <td>A method of achieving AI by learning from data instead of being programmed</td>
+            <td>Humans choose the features; the model learns the weights</td>
+            <td>Predicting which leads are likely to convert, from past sales data</td>
+          </tr>
+          <tr>
+            <td><b>Deep Learning</b></td>
+            <td>Machine learning using neural networks with many layers</td>
+            <td>The model discovers the features itself — no feature engineering</td>
+            <td>Reading a scanned purchase order and extracting the line items</td>
+          </tr>
+          <tr>
+            <td><b>Generative AI</b></td>
+            <td>Deep learning models that produce new content</td>
+            <td>Predicts the most probable next piece of content, repeatedly</td>
+            <td>Drafting a proposal, summarising a meeting, writing a job description</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">Say it like this in an interview</div>
+      <p>
+        "AI is the objective. Machine learning is the main way we get there — the system learns
+        patterns from data rather than following written rules. Deep learning is machine learning
+        with multi-layer neural networks, which is what finally made language and images work.
+        Generative AI is deep learning applied to creating new content."
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> They nest, they do not compete. AI is the goal, ML is the method, deep learning is the breakthrough, generative AI is the application you use every day.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="02" data-src="../course/media/topic-02.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 3 -->
+<section class="screen" data-title="What is Generative AI?">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 03 of 11</p>
+    <h2>What is Generative AI?</h2>
+    <p class="sub">
+      This is the change that pulled AI out of the data science team and put it on every desk in the
+      company — including, shortly, yours.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <p>
+      Until around 2020, virtually all commercial AI was <strong>predictive</strong>. You handed it
+      something that already existed and it told you something about it: is this transaction
+      fraudulent, will this customer churn, does this resume match, what is in this photograph.
+      Genuinely useful — but the output was always a label, a score or a number.
+    </p>
+    <p>
+      <strong>Generative AI creates something that did not exist before.</strong> You describe what
+      you need and it produces the artefact itself: the email, the summary, the analysis, the code,
+      the image, the structured record.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>Predictive AI</th><th>Generative AI</th></tr></thead>
+        <tbody>
+          <tr><td><b>Question it answers</b></td><td>"What is this?" / "What will happen?"</td><td>"Make me this."</td></tr>
+          <tr><td><b>Output</b></td><td>A category, score or number</td><td>New content — text, image, code, audio</td></tr>
+          <tr><td><b>Example</b></td><td>This lead scores 82 out of 100</td><td>Here is the follow-up email for this lead</td></tr>
+          <tr><td><b>Who used it</b></td><td>Data teams, through a project</td><td>Everyone, directly, from day one</td></tr>
+          <tr><td><b>Setup needed</b></td><td>Months of data work</td><td>Open a browser tab</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Why this changed business roles, not just IT</h3>
+    <p>
+      Look honestly at what a marketing executive, an HR generalist, a sales manager or a business
+      analyst produces in a working day. Emails. Job descriptions. Campaign copy. Meeting notes.
+      Proposals. Comparison sheets. Status reports. Almost all professional output is
+      <strong>content</strong> — and content is precisely what generative AI makes.
+    </p>
+    <p>
+      Predictive AI made data scientists more productive. Generative AI makes <em>everyone else</em>
+      more productive. That is the whole reason your employer now expects fluency in it regardless of
+      your function, and the reason this program exists at all.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Department</th><th>What generative AI produces</th></tr></thead>
+        <tbody>
+          <tr><td><b>Sales</b></td><td>Outreach emails, call preparation notes, objection responses, proposal drafts, meeting summaries</td></tr>
+          <tr><td><b>Marketing</b></td><td>Campaign concepts, ad copy, social posts, customer personas, content calendars</td></tr>
+          <tr><td><b>HR</b></td><td>Job descriptions, interview questions, candidate summaries, onboarding material</td></tr>
+          <tr><td><b>Finance</b></td><td>Variance explanations, management commentary, dashboard narratives</td></tr>
+          <tr><td><b>Operations</b></td><td>Process documentation, SOPs, supplier comparison notes, incident summaries</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call key">
+      <div class="call-t">Key idea</div>
+      <p>
+        Generative AI does not remove the need for judgement — it removes the cost of the first
+        draft. The value you add shifts from <em>producing</em> the document to <em>deciding whether
+        the document is right</em>. That shift is what the rest of this module prepares you for.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> Predictive AI describes what exists; generative AI creates what does not. Because business output is mostly content, this is the version that reaches every role.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="03" data-src="../course/media/topic-03.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 4 -->
+<section class="screen" data-title="How LLMs actually work">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 04 of 11</p>
+    <h2>How a ChatGPT-type system actually works</h2>
+    <p class="sub">
+      You do not need the mathematics. You do need an accurate mental model — because nearly every
+      expensive mistake people make with AI comes from holding the wrong one.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <p>
+      LLM stands for <strong>Large Language Model</strong>. "Large" refers to the number of internal
+      parameters — the adjustable values the model learned during training. Frontier models have
+      hundreds of billions of them. That scale is why the behaviour feels qualitatively different
+      from older systems, but the underlying operation is remarkably simple.
+    </p>
+
+    <h3>It predicts the next piece of text. That is genuinely all.</h3>
+    <p>
+      An LLM breaks language into <strong>tokens</strong> — roughly, word fragments. "Understanding"
+      might be two tokens, "ERP" might be one, a comma is one. Given every token so far, the model
+      calculates which token is most likely to come next, appends it, and repeats the whole
+      calculation. A 400-word email is that same prediction running several hundred times in
+      sequence.
+    </p>
+    <p>
+      The reason this produces something coherent rather than nonsense is scale. Trained on an
+      enormous body of human writing, the task "predict what comes next" forces the model to
+      internalise grammar, tone, document structure, domain conventions and a great deal of factual
+      association — because every one of those things shapes which word genuinely comes next.
+    </p>
+
+    <h3>The three stages of training</h3>
+    <div class="flow">
+      <div class="step"><b>1 · Pre-training</b><span>Reads a vast body of text and learns language, structure and world patterns. Enormously expensive, done once.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>2 · Fine-tuning</b><span>Trained on example instructions with good answers, so it responds to requests instead of merely continuing text.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>3 · Alignment</b><span>Humans rate competing answers; the model is tuned toward the ones people rated helpful, safe and well formatted.</span></div>
+    </div>
+    <p>
+      Stage 3 explains a great deal about how the model behaves. It was rewarded for answers people
+      <em>rated highly</em>. Confidence was rewarded, because confident answers read better. Accuracy
+      was rewarded only when the human rater happened to know the truth. Hold on to that — it is the
+      direct cause of everything in Topic 07.
+    </p>
+
+    <h3>The context window is its only memory</h3>
+    <p>
+      Everything the model can see at once — your instruction, the document you pasted, the
+      conversation so far — sits inside a fixed-size <strong>context window</strong>. Within that
+      window it has excellent access. Outside it, the information simply does not exist for the
+      model.
+    </p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Consequence</th><th>What it means in practice</th></tr></thead>
+        <tbody>
+          <tr><td><b>It knows nothing about your company</b></td><td>It has never seen your price list, your policies or your customers. If you do not paste it in, it will invent it.</td></tr>
+          <tr><td><b>Long documents must be broken up</b></td><td>Past a certain length the model is working with only part of your document — often without saying so.</td></tr>
+          <tr><td><b>A new chat starts blank</b></td><td>Nothing carries over between conversations unless the product was explicitly built to store it.</td></tr>
+          <tr><td><b>Earlier turns can fall out</b></td><td>In a very long conversation, the beginning may drop out of the window and be forgotten mid-discussion.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Why the same question gives different answers</h3>
+    <p>
+      The model does not always take the single most likely next token; it samples from a probability
+      distribution. This is deliberate — always taking the top choice produces flat, repetitive
+      writing. The side effect is that identical prompts can produce different output on different
+      days.
+    </p>
+    <p>
+      This is normal and expected behaviour, not a fault. But it has a hard consequence: an LLM must
+      never sit in a process that requires a byte-identical result every single time. Topic 05 turns
+      that into a decision rule you can apply.
+    </p>
+
+    <div class="call warn">
+      <div class="call-t">The single most important sentence in this module</div>
+      <p>
+        An LLM generates text that is <strong>statistically plausible</strong>. It is not looking
+        anything up, and it has no internal test for truth. Fluent and correct feel completely
+        identical coming out of it. Verification is your job, not the model's.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> An LLM predicts the next token from what is in its context window. It does not retrieve facts, and it cannot tell when it is wrong.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="04" data-src="../course/media/topic-04.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 5 -->
+<section class="screen" data-title="Generative AI vs traditional software">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 05 of 11</p>
+    <h2>Generative AI vs traditional software</h2>
+    <p class="sub">
+      Both are software, and that is where the similarity stops. Confusing the two is the most
+      expensive mistake a business makes with AI, so this comparison is worth learning properly.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <div class="tw">
+      <table>
+        <thead><tr><th></th><th>Traditional software</th><th>Generative AI</th></tr></thead>
+        <tbody>
+          <tr><td><b>Logic</b></td><td>Rules written by a human</td><td>Patterns learned from data</td></tr>
+          <tr><td><b>Same input twice</b></td><td>Identical output, always</td><td>May differ slightly each time</td></tr>
+          <tr><td><b>Accuracy</b></td><td>Exact</td><td>Approximate, usually very good</td></tr>
+          <tr><td><b>Unexpected input</b></td><td>Rejects it or throws an error</td><td>Attempts an answer anyway</td></tr>
+          <tr><td><b>How it fails</b></td><td>Loudly — it crashes or refuses</td><td>Quietly — a confident wrong answer</td></tr>
+          <tr><td><b>Handles ambiguity</b></td><td>No</td><td>Yes, this is its core strength</td></tr>
+          <tr><td><b>Testing</b></td><td>Pass or fail</td><td>Judged on quality, needs sampling and review</td></tr>
+          <tr><td><b>Changing behaviour</b></td><td>Edit code, test, redeploy</td><td>Change the instruction, immediate</td></tr>
+          <tr><td><b>Audit trail</b></td><td>Every step traceable</td><td>Reasoning is not reliably reconstructable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      Row five is the one that costs companies real money. When a conventional system fails you know
+      immediately — a screen errors, a batch job aborts, somebody raises a ticket. When an LLM fails,
+      you receive a well-written paragraph with a wrong number in it, formatted exactly like the
+      paragraphs that were right. Nothing alerts you. It reaches the customer.
+    </p>
+
+    <h3>A decision rule you can apply from day one</h3>
+    <div class="vs">
+      <div class="col bad">
+        <h5>Use traditional software</h5>
+        <p class="tag">When the answer must be exactly right, every time</p>
+        <ol>
+          <li>Salary, PF and TDS calculation</li>
+          <li>GST computation and return filing</li>
+          <li>Accounting entries and ledgers</li>
+          <li>Inventory quantity on hand</li>
+          <li>Invoice totals and payment reconciliation</li>
+          <li>Anything with a legal or audit consequence</li>
+        </ol>
+      </div>
+      <div class="col good">
+        <h5>Use generative AI</h5>
+        <p class="tag">When the task involves language, judgement or variety</p>
+        <ol>
+          <li>Summarising a long email thread</li>
+          <li>Drafting proposals and outreach</li>
+          <li>Categorising unstructured enquiries</li>
+          <li>Extracting fields from messy text</li>
+          <li>Explaining what a report implies</li>
+          <li>Generating options to choose between</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>The pattern that beats both</h3>
+    <p>
+      The strongest business systems do not choose. They use AI for the part that is unstructured and
+      human, and conventional software for the part that must be exact and auditable.
+    </p>
+    <div class="flow">
+      <div class="step"><b>1 · Messy input</b><span>An email, a scanned PO, a resume, a complaint — unstructured human text.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>2 · AI reads it</b><span>Extracts the fields: company, quantity, amount, date, requirement.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>3 · Human checks</b><span>Confirms the extraction, especially anything with a rupee value attached.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>4 · System computes</b><span>ERP or CRM does the exact, auditable work with clean structured data.</span></div>
+    </div>
+    <p>
+      Learn this shape now. Module 8 builds it out properly against ERP and CRM, and most real AI
+      projects in Indian mid-market companies are some version of it.
+    </p>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> Exactness and accountability belong to conventional software. Language, ambiguity and judgement belong to AI. Great systems use AI to feed clean data into software.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="05" data-src="../course/media/topic-05.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 6 -->
+<section class="screen" data-title="Capabilities and limitations">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 06 of 11</p>
+    <h2>AI capabilities and limitations</h2>
+    <p class="sub">
+      Professional competence with AI is mostly knowing where the boundary sits. Underestimate it and
+      you waste hours. Overestimate it and you send a customer something wrong.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <h3>What it is genuinely excellent at</h3>
+    <ul>
+      <li><strong>Summarising</strong> — a 30-page report, a 60-message thread, an hour of meeting notes, into what actually matters.</li>
+      <li><strong>Drafting</strong> — the first 80% of any document, in seconds rather than an hour.</li>
+      <li><strong>Rewriting</strong> — changing tone, length, language or audience while preserving meaning.</li>
+      <li><strong>Structuring the unstructured</strong> — turning a rambling email into clean fields. This is the single highest-value business use of the technology.</li>
+      <li><strong>Classifying at volume</strong> — sorting enquiries, tickets or feedback into consistent categories, at a scale no human will sustain.</li>
+      <li><strong>Explaining</strong> — making a technical or financial concept clear for a specific audience.</li>
+      <li><strong>Generating options</strong> — twelve subject lines, six objection responses, five campaign angles, so you can choose rather than invent.</li>
+      <li><strong>Translating</strong> — including into and out of Indian languages, for customer communication.</li>
+    </ul>
+
+    <h3>Where it is weak, and what you do about it</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Limitation</th><th>What goes wrong</th><th>How you work around it</th></tr></thead>
+        <tbody>
+          <tr><td><b>No live knowledge</b></td><td>Training has a cut-off date; recent events are unknown or guessed at</td><td>Use a tool with search, or paste the current information in yourself</td></tr>
+          <tr><td><b>No company knowledge</b></td><td>It invents your pricing, policies, modules and client names</td><td>Always supply the real document inside the prompt</td></tr>
+          <tr><td><b>Arithmetic at scale</b></td><td>Multi-step calculations drift; totals look plausible but do not add up</td><td>Let it set up the logic, then compute in Excel and verify</td></tr>
+          <tr><td><b>Not a source of truth</b></td><td>Statistics, citations and legal clauses can be fabricated wholesale</td><td>Verify every figure against a real source before it leaves your desk</td></tr>
+          <tr><td><b>No accountability</b></td><td>The model cannot own a decision or its consequences</td><td>A named human signs off anything that leaves the company</td></tr>
+          <tr><td><b>Confidentiality risk</b></td><td>Data pasted into a public tool may leave your control</td><td>Follow company policy; never paste customer, salary or contract data into public tools</td></tr>
+          <tr><td><b>Overconfidence</b></td><td>It rarely says "I do not know" unless you explicitly allow it to</td><td>Instruct it to flag uncertainty and to ask rather than guess</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call key">
+      <div class="call-t">The 80% principle</div>
+      <p>
+        Treat AI output as a strong first draft from a fast, exceptionally well-read intern who has
+        never met your customers and will not admit uncertainty. The last 20% — the facts, the
+        numbers, the relationship, the judgement — is exactly where you earn your salary. Skip it and
+        you have added no value at all, only risk.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> Excellent at language, structure and volume. Unreliable on current facts, exact arithmetic and anything requiring accountability.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="06" data-src="../course/media/topic-06.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 7 -->
+<section class="screen" data-title="Hallucination, bias and inaccuracy">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 07 of 11</p>
+    <h2>Hallucination, bias and inaccurate information</h2>
+    <p class="sub">
+      This is the topic that separates someone who is employable with AI from someone who is a
+      liability with it. Read this one twice.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <h3>Hallucination</h3>
+    <p>
+      A <strong>hallucination</strong> is output that is fluent, confident, well formatted and
+      factually false. It is not a bug awaiting a patch — it follows directly from the mechanism in
+      Topic 04. The model produces the most plausible continuation. When it does not hold the fact,
+      the most plausible continuation is still a fact-shaped sentence, so it writes one, in exactly
+      the same assured tone it uses when correct.
+    </p>
+    <p>What it looks like in an actual workplace:</p>
+    <ul>
+      <li><strong>Invented figures</strong> — "the Indian ERP market grew 23.4% in 2024", stated with total confidence and no basis whatsoever.</li>
+      <li><strong>Fake references</strong> — a plausible report title from a real consulting firm that was never published.</li>
+      <li><strong>Fabricated product detail</strong> — modules, features or integrations your product does not have, written into a proposal.</li>
+      <li><strong>Wrong attribution</strong> — a real quotation assigned to the wrong person or company.</li>
+      <li><strong>Confident compliance claims</strong> — a clause of law or a GST rule stated crisply and incorrectly.</li>
+    </ul>
+
+    <div class="call warn">
+      <div class="call-t">Why this is a business risk, not a technical curiosity</div>
+      <p>
+        A hallucinated number in a client proposal is a credibility loss. A hallucinated compliance
+        statement is legal exposure. A hallucinated specification in a tender may be a commitment
+        your company has to honour at its own cost. Lawyers in several countries have been formally
+        sanctioned for filing AI-generated case citations that did not exist — they did not check,
+        because the output looked professional.
+      </p>
+    </div>
+
+    <h3>Bias</h3>
+    <p>
+      The model learned from human-written text, so it absorbed human patterns — including the unfair
+      ones. Bias shows up as systematically different treatment of similar people or cases:
+    </p>
+    <ul>
+      <li>Resume screening that quietly favours certain colleges, cities, surnames or career paths.</li>
+      <li>Job descriptions written in language that measurably skews who applies.</li>
+      <li>Performance summaries that describe identical behaviour differently by gender.</li>
+      <li>Default assumptions — that a "software engineer" is male, that a strong candidate studied in a metro.</li>
+    </ul>
+    <p>
+      Bias is harder to catch than hallucination, because each individual output looks entirely
+      reasonable. You only see it in aggregate — which is why an AI-assisted process needs
+      <em>auditing</em>, not just spot-checking. Module 5 takes this much further in a recruitment
+      setting, where the legal and ethical stakes are highest.
+    </p>
+
+    <h3>Your verification playbook</h3>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Practice</th><th>What it means in daily work</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ground it</b></td><td>Paste the real source document instead of relying on the model's memory. A model working from your text hallucinates far less than one working from recall.</td></tr>
+          <tr><td><b>Check every number</b></td><td>Treat all figures, dates, percentages and names as unverified until you have seen them in a real source.</td></tr>
+          <tr><td><b>Demand checkable sources</b></td><td>Ask for references — then actually open them. An unopened citation is worth nothing at all.</td></tr>
+          <tr><td><b>Ask it to challenge itself</b></td><td>"What in this answer are you least confident about, and what would make it wrong?" surfaces weak claims quickly.</td></tr>
+          <tr><td><b>Give it permission to not know</b></td><td>"If you are not sure, say so and ask me" converts silent invention into a question you can answer.</td></tr>
+          <tr><td><b>Scale scrutiny to stakes</b></td><td>An internal brainstorm needs a glance. A customer proposal, an offer letter, or anything with a rupee figure needs line-by-line checking.</td></tr>
+          <tr><td><b>Protect confidential data</b></td><td>No salary data, customer records, contracts or unreleased plans in public tools.</td></tr>
+          <tr><td><b>Keep a human accountable</b></td><td>Every AI-assisted output that leaves the company has a named person who owns it.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">What this sounds like to an employer</div>
+      <p>
+        In an interview, "AI sometimes makes mistakes" is a weak answer that anyone could give.
+        "AI hallucinates because it predicts plausible text rather than retrieving facts, so I ground
+        it in source documents and verify every figure before anything goes to a client" is the
+        answer that gets you hired.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> Confident and correct are different things. Ground the model in real sources, verify every number, and never let unchecked output reach a customer.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="07" data-src="../course/media/topic-07.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 8 -->
+<section class="screen" data-title="Human + AI collaboration">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 08 of 11</p>
+    <h2>Human + AI collaboration</h2>
+    <p class="sub">
+      The useful question was never "will AI replace this job". It is "which parts of this job should
+      AI do, and which parts must stay human".
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <p>
+      Organisations that get this split right see genuine gains. Organisations that get it wrong go
+      one of two ways: they ban AI outright and fall behind, or they let it write to customers
+      unchecked and pay for it publicly. Both failures come from never thinking about the division of
+      labour.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Give to AI</th><th>Keep with the human</th></tr></thead>
+        <tbody>
+          <tr><td>Reading 500 documents nobody has time to read</td><td>Deciding what the organisation does about them</td></tr>
+          <tr><td>The first draft of anything</td><td>The final wording that carries your name</td></tr>
+          <tr><td>Converting messy text into structured fields</td><td>Confirming the extraction is actually correct</td></tr>
+          <tr><td>Generating options and angles</td><td>Choosing, based on the relationship and the context</td></tr>
+          <tr><td>Consistent formatting and repetitive rewriting</td><td>Ethics, fairness and the judgement calls</td></tr>
+          <tr><td>Speed and volume</td><td>Accountability for the outcome</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>The working loop</h3>
+    <div class="flow">
+      <div class="step"><b>1 · Frame</b><span>Define the task, the audience, the constraints and the output format you need.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>2 · Generate</b><span>Let AI produce the draft, the extraction or the set of options.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>3 · Verify</b><span>Check facts, figures, tone and fit. Correct or regenerate whatever fails.</span></div>
+      <div class="arw">→</div>
+      <div class="step"><b>4 · Decide</b><span>Apply judgement, take the decision, own the result.</span></div>
+    </div>
+    <p>
+      Notice that steps 1, 3 and 4 are entirely human, and that all of the professional skill lives
+      there. Someone who only knows step 2 has learned a tool, and tools change every year. Someone
+      who is strong at 1, 3 and 4 has learned a way of working — which is what the remaining nine
+      modules develop.
+    </p>
+
+    <div class="call key">
+      <div class="call-t">The honest version</div>
+      <p>
+        AI will not replace you. But a colleague who has restructured their work around AI will
+        produce roughly three times what you produce, at comparable quality — and that comparison,
+        not the technology, is what actually affects careers. The purpose of this program is to make
+        sure you are that colleague.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> AI does the reading, drafting and structuring. Humans frame the task, verify the output and own the decision. Frame → Generate → Verify → Decide.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="08" data-src="../course/media/topic-08.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 9 -->
+<section class="screen" data-title="Case study and practical activity">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 09 of 11 · Case &amp; activity</p>
+    <h2>500 customer enquiries every month</h2>
+    <p class="sub">
+      Everything so far, applied to one ordinary business problem — then handed to you to do
+      yourself.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <p>
+      A mid-sized technology company receives roughly <strong>500 enquiries a month</strong> through
+      its website, email and trade-show contacts. They arrive as free text — some detailed, some a
+      single line, and some not sales enquiries at all.
+    </p>
+
+    <div class="vs">
+      <div class="col bad">
+        <h5>Traditional approach</h5>
+        <p class="tag">One executive, manually</p>
+        <ol>
+          <li>Opens and reads every enquiry</li>
+          <li>Works out what the customer wants</li>
+          <li>Categorises it by hand</li>
+          <li>Assigns it to a salesperson</li>
+          <li>Types a short summary — when there is time</li>
+        </ol>
+      </div>
+      <div class="col good">
+        <h5>AI-assisted approach</h5>
+        <p class="tag">AI first pass, human review</p>
+        <ol>
+          <li>AI reads the enquiry</li>
+          <li>Identifies the actual requirement</li>
+          <li>Scores it Hot / Warm / Cold</li>
+          <li>Extracts company, budget, requirement, timeline</li>
+          <li>Writes a briefing for the salesperson</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>500</b><span>enquiries per month</span></div>
+      <div class="stat"><b>~6 min</b><span>manual handling, each</span></div>
+      <div class="stat"><b>50 hrs</b><span>per month, manual</span></div>
+      <div class="stat"><b>~8 hrs</b><span>with AI, review only</span></div>
+    </div>
+    <p class="cap" style="margin-top:-10px">
+      Indicative figures for discussion. The point is not the exact saving — it is that the executive
+      moves from processing enquiries to acting on the ones that matter.
+    </p>
+
+    <h3>The real benefit is not the time saved</h3>
+    <p>
+      When a human handles 500 enquiries manually, the last hundred receive less attention than the
+      first. Categorisation drifts with mood and workload. Enquiries arriving on a busy day sit
+      unread. Good leads go cold silently, and nobody can see it happening.
+    </p>
+    <ul>
+      <li><strong>Consistency.</strong> Enquiry 500 is assessed by the same standard as enquiry 1.</li>
+      <li><strong>Structure.</strong> Free text becomes fields, so the pipeline becomes measurable and reportable.</li>
+      <li><strong>Speed.</strong> Hot leads surface within minutes rather than days — and response time is the strongest single predictor of B2B conversion.</li>
+    </ul>
+
+    <div class="call warn">
+      <div class="call-t">Where the human stays</div>
+      <p>
+        AI proposes the category and drafts the summary. A salesperson still checks the Hot leads
+        before acting, because a misread budget or a missed nuance is a lost deal. The AI is doing
+        the reading, not the selling.
+      </p>
+    </div>
+
+    <h3>Your practical activity</h3>
+    <p>
+      Below are ten enquiries of the kind this company actually receives. Work through them with an
+      AI tool. <strong>Not all of them are sales leads</strong> — noticing that is part of the
+      exercise.
+    </p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>#</th><th>Enquiry as received</th></tr></thead>
+        <tbody>
+          <tr><td><b>1</b></td><td>"We are a manufacturing unit in Pune, around 120 staff. Current system is Tally and it is not handling production planning. Need ERP with production and quality modules. Budget approx 8–10 lakh. Want to go live before the next financial year."</td></tr>
+          <tr><td><b>2</b></td><td>"Sir please send me the price list."</td></tr>
+          <tr><td><b>3</b></td><td>"I am a final year B.Tech student. Do you offer internships in your development team?"</td></tr>
+          <tr><td><b>4</b></td><td>"Real estate developer, Nashik. Sales team of 25 people, currently on spreadsheets. Looking at CRM. We are evaluating three vendors and will decide within three weeks. Can you do a demo on Thursday?"</td></tr>
+          <tr><td><b>5</b></td><td>"Our GST report is showing wrong figures for last month. This is urgent, our filing is due. Ticket number GT-4412."</td></tr>
+          <tr><td><b>6</b></td><td>"IT services company, about 400 employees. Thinking about an HRMS at some point, probably next financial year. Just want to understand what is available. No budget approved yet."</td></tr>
+          <tr><td><b>7</b></td><td>"Pharma distribution, Mumbai. We need batch-wise inventory with expiry tracking — we are losing stock to expiry every quarter. Around 15 lakh approved. Need this running in 6 weeks."</td></tr>
+          <tr><td><b>8</b></td><td>"Textile SME in Surat. We implemented an ERP two years ago, it never worked properly and we want to migrate. 60 users. Budget around 12 lakh, planning for Q3."</td></tr>
+          <tr><td><b>9</b></td><td>"Hi, I have 6 years experience in ERP implementation. Attaching my CV, please consider me for any suitable opening."</td></tr>
+          <tr><td><b>10</b></td><td>"Auto component supplier, Chakan. Need ERP with quality module for our IATF audit. Audit is in four months. Please send a proposal and arrange a demo next week."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="task">
+      <h4>Your four tasks</h4>
+      <ol>
+        <li><strong>Categorise each enquiry.</strong> Sales lead, support request, careers, or not relevant. Three of the ten are not sales leads — find them.</li>
+        <li><strong>Extract the requirement.</strong> For every genuine lead, pull out company type, location, product needed, user count, budget and timeline. Mark anything not stated as "not stated" — do not let the AI fill the gap with an invented value.</li>
+        <li><strong>Assign a priority.</strong> Hot, Warm or Cold, with a one-line reason. Priority should reflect budget clarity, timeline urgency and how specific the requirement is.</li>
+        <li><strong>Write the sales summary.</strong> For the Hot leads, produce a three-line briefing a salesperson could read thirty seconds before calling: what they need, why now, and how to open the conversation.</li>
+      </ol>
+    </div>
+
+    <div class="call warn">
+      <div class="call-t">The trap to watch for</div>
+      <p>
+        Enquiry 2 gives the AI almost nothing. Many models will still confidently produce a company
+        size and an industry for it. Check your output for exactly this — the moment you catch the
+        model inventing a field, Topic 07 has stopped being theory.
+      </p>
+    </div>
+
+    <div class="call job">
+      <div class="call-t">Where this applies</div>
+      <p>
+        This one workflow — read unstructured input, classify it, extract fields, summarise for a
+        human — sits underneath a large share of business AI. You meet it again in
+        <strong>Sales</strong> as lead qualification, in <strong>Support</strong> as ticket triage,
+        in <strong>HR</strong> as resume screening, and in <strong>Operations</strong> as
+        purchase-order processing. Learn it properly here and the later modules become variations on
+        a pattern you already know.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>Take away:</b> AI reads and structures at volume with perfect consistency. The human still decides — and still catches what the model invented.</p>
+    </div>
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="09" data-src="../course/media/topic-09.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>A short recap of this topic.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================================================ 10 -->
+<section class="screen" data-title="Knowledge check">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 10 of 11</p>
+    <h2>Knowledge check</h2>
+    <p class="sub">
+      Eight questions covering the whole module. Each answer explains the reasoning, so a wrong
+      choice is still worth something.
+    </p>
+  </div>
+  <div class="screen-body">
+    <div id="quiz"></div>
+    <div class="score" id="score" hidden>
+      <b id="score-n">0/8</b>
+      <span id="score-t"></span>
+      <button class="btn" id="retry">Try again</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================ 11 -->
+<section class="screen" data-title="Module summary and video">
+  <div class="screen-head">
+    <p class="screen-kicker">Topic 11 of 11</p>
+    <h2>Module summary</h2>
+    <p class="sub">
+      The whole module in one place — the ten things worth remembering, and the video walkthrough.
+      Come back to this screen before Module 2, or before an interview.
+    </p>
+  </div>
+  <div class="screen-body">
+
+    <h3>The ten things to remember</h3>
+    <div class="recap">
+      <div class="recap-item"><span class="num">1</span><div><b>AI learns rules from examples</b><span>Traditional software is told what to do; AI is shown what good looks like. That is why it handles messy human input — and why it is never fully certain.</span></div></div>
+      <div class="recap-item"><span class="num">2</span><div><b>AI ⊃ ML ⊃ Deep Learning ⊃ Generative AI</b><span>They nest, they do not compete. AI is the goal, ML the method, deep learning the breakthrough, generative AI the part you use daily.</span></div></div>
+      <div class="recap-item"><span class="num">3</span><div><b>Generative AI creates, predictive AI describes</b><span>Because almost all business output is content, this is the version that reached every role rather than just the data team.</span></div></div>
+      <div class="recap-item"><span class="num">4</span><div><b>An LLM predicts the next token</b><span>It is not looking anything up. Everything it can see sits in the context window — if you did not paste it in, the model does not know it.</span></div></div>
+      <div class="recap-item"><span class="num">5</span><div><b>Exactness belongs to software</b><span>GST, payroll and invoice totals go to conventional systems. Language, ambiguity and judgement go to AI. The best designs use AI to feed clean data into software.</span></div></div>
+      <div class="recap-item"><span class="num">6</span><div><b>Strong at language, weak on facts</b><span>Excellent at summarising, drafting and structuring. Unreliable on current facts, exact arithmetic and anything needing accountability.</span></div></div>
+      <div class="recap-item"><span class="num">7</span><div><b>Confident is not the same as correct</b><span>Hallucination comes from the mechanism itself. Ground the model in real sources, verify every number, and never let unchecked output reach a customer.</span></div></div>
+      <div class="recap-item"><span class="num">8</span><div><b>Frame → Generate → Verify → Decide</b><span>AI does step 2. The other three are human, and that is where the professional skill and the accountability live.</span></div></div>
+      <div class="recap-item"><span class="num">9</span><div><b>Read, classify, extract, summarise</b><span>One workflow underpins most business AI. You will meet it again as lead qualification, ticket triage, resume screening and PO processing.</span></div></div>
+      <div class="recap-item"><span class="num">10</span><div><b>Redesign the process, not just the task</b><span>Employers are not hiring people who can name AI tools. They are hiring people who can find the slow step in a process and rebuild it.</span></div></div>
+    </div>
+
+    <div class="takeaway">
+      <span class="ico">★</span>
+      <p><b>You are ready for Module 2.</b> Everything from here on is this foundation pointed at a specific business function — starting with Prompt Engineering, which is the skill the rest of the program runs on.</p>
+    </div>
+
+
+
+    <h3>Summary video</h3>
+    <figure class="videobox" data-fallback="../course/media/ai-introduction-lesson.mp4" data-topic="11" data-src="../course/media/ai-introduction-lesson.mp4">
+      <div class="vidload">Checking for video&hellip;</div>
+      <figcaption>AI Introduction &mdash; video lesson covering the module.</figcaption>
+    </figure>
+    <nav class="mnav">
+      <p class="mnav-label">Continue the program</p>
+      <div class="ghost"></div>
+      <div class="next soon-card">
+        <small>Next module</small>
+        <b>02 · Prompt Engineering</b>
+        <span>Coming soon</span>
+      </div>
+    </nav>
+  </div>
+</section>
+
+</div><!-- /stage-wrap -->
+
+<!-- ================= FIXED PREV / NEXT ================= -->
+<div class="gatehint" id="gatehint">Scroll down to continue ↓</div>
+<div class="stepnav">
+  <div class="stepnav-in">
+    <button class="navbtn" id="nav-prev" type="button">←<span class="word"> Previous</span></button>
+    <div class="mid" id="nav-mid"></div>
+    <button class="navbtn primary" id="nav-next" type="button">Next<span class="word"> →</span></button>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <img src="../course/brand/logo-mark.png" alt="Gold Technology">
+    <p>
+      <b>Gold Technology — AI Training Program</b>
+      Module 1 of 10 · AI Fundamentals &amp; Generative AI · For MBA and engineering graduates
+    </p>
+  </div>
+</footer>
+
+<script>
+window.LESSON = {
+  id: "m1",
+  quiz: [
+    {
+      q: "What is the fundamental difference between AI and traditional software?",
+      o: [
+        "AI runs faster because it uses more powerful hardware",
+        "Traditional software follows rules a human wrote; AI learns patterns from examples",
+        "AI works online while traditional software works offline",
+        "There is no real difference, only the marketing terminology"
+      ],
+      a: 1,
+      e: "Traditional software executes rules a person wrote down. AI is shown examples and derives the pattern itself — which is why it can handle messy human input, and why it is never fully certain."
+    },
+    {
+      q: "How do AI, Machine Learning and Deep Learning relate to each other?",
+      o: [
+        "They are three competing technologies you choose between",
+        "Deep Learning contains Machine Learning, which contains AI",
+        "AI contains Machine Learning, which contains Deep Learning",
+        "They are unrelated fields that happen to share terminology"
+      ],
+      a: 2,
+      e: "They nest. AI is the overall goal, Machine Learning is the main method of reaching it, and Deep Learning is Machine Learning using multi-layer neural networks. Generative AI sits inside Deep Learning."
+    },
+    {
+      q: "What separates Generative AI from earlier predictive AI?",
+      o: [
+        "Generative AI creates new content; predictive AI classifies or scores what already exists",
+        "Generative AI is always accurate, predictive AI is not",
+        "Generative AI only works with images",
+        "Predictive AI needs no data to function"
+      ],
+      a: 0,
+      e: "Predictive AI answers questions about existing data — a label, a score, a forecast. Generative AI produces something new: the email, the summary, the analysis. That is why it became useful to every business function, not just data teams."
+    },
+    {
+      q: "At a technical level, what is an LLM doing when it answers you?",
+      o: [
+        "Searching a verified database of facts",
+        "Retrieving the closest matching answer it memorised during training",
+        "Repeatedly predicting the next most probable token, given everything so far",
+        "Applying a set of logical rules written by its developers"
+      ],
+      a: 2,
+      e: "It predicts the next token, adds it, and repeats — hundreds of times for a single paragraph. It is not looking anything up, which is exactly why it can produce fluent text that is factually wrong."
+    },
+    {
+      q: "Why does hallucination happen?",
+      o: [
+        "The model is deliberately programmed to be creative with facts",
+        "The internet contains wrong information and the model repeats it",
+        "The model optimises for plausible text, and has no internal test for truth",
+        "It is a temporary bug that the next model version will remove"
+      ],
+      a: 2,
+      e: "Hallucination follows from the mechanism itself. When the model lacks a fact, the most plausible continuation is still a fact-shaped sentence — so it writes one, in the same confident tone it uses when correct."
+    },
+    {
+      q: "A colleague asks AI to calculate the GST payable across 400 invoices and wants to file the return using that output. What is the right response?",
+      o: [
+        "Fine — AI handles calculations faster than any human",
+        "Fine, as long as the prompt is written well",
+        "Wrong tool. Tax computation must be exact and auditable, so it belongs in software, not an LLM",
+        "Fine if you run it twice and the answers match"
+      ],
+      a: 2,
+      e: "Anything requiring exactness and an audit trail — tax, payroll, accounting entries, invoice totals — belongs in traditional software. Use AI to explain or summarise the result, never to compute the filed figure."
+    },
+    {
+      q: "Which task is the strongest fit for generative AI in a business process?",
+      o: [
+        "Being the single source of truth for company pricing",
+        "Converting 500 unstructured customer enquiries into structured, categorised records",
+        "Taking the final decision on which candidate to hire",
+        "Producing the exact stock quantity available in the warehouse"
+      ],
+      a: 1,
+      e: "Turning messy human text into clean structured data is the highest-value business use of generative AI. The other three each require exactness or accountability, which is why a human or a conventional system must own them."
+    },
+    {
+      q: "What is the correct model for human + AI collaboration?",
+      o: [
+        "AI takes the routine decisions so humans handle only exceptions",
+        "Humans draft, AI reviews and approves the final version",
+        "AI does the reading, drafting and structuring; humans frame the task, verify and decide",
+        "Whoever produces the answer faster should be trusted"
+      ],
+      a: 2,
+      e: "AI handles volume, speed and the first pass. Framing the task, verifying the output and owning the decision stay human — those three steps are where professional judgement and accountability live."
+    }
+  ]
+};
+</script>
+<script src="../course/assets/lesson.js"></script>
+
+</body>
+</html>

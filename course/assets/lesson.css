@@ -625,3 +625,10 @@ body.screens{padding-bottom:96px}
   .brand-txt{display:none}
   .topbar-in{gap:10px}
 }
+
+/* ---------- rail chips for screens not yet unlocked ---------- */
+.railstep.locked{opacity:.42;cursor:not-allowed}
+.railstep.locked:hover{border-color:var(--line);color:var(--muted)}
+.railstep.locked .n::after{content:" 🔒";font-size:8px}
+
+.videobox figcaption.standin{color:var(--gold);background:var(--goldsoft)}

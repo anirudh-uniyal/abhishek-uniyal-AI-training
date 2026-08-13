@@ -319,7 +319,7 @@
   var VideoSlots = (function () {
     var handled = [];
 
-    function mountPlayer(box, path) {
+    function mountPlayer(box, path, isStandIn) {
       var v = document.createElement("video");
       v.controls = true;
       v.playsInline = true;
@@ -329,6 +329,13 @@
       src.type = "video/mp4";
       v.appendChild(src);
       box.replaceChild(v, box.firstElementChild);
+      if (isStandIn) {
+        var cap = box.querySelector("figcaption");
+        if (cap) {
+          cap.textContent = "Placeholder — the module video is standing in until this topic's own recording is added.";
+          cap.classList.add("standin");
+        }
+      }
     }
 
     function mountMissing(box, path) {
@@ -350,9 +357,18 @@
         if (handled.indexOf(box) !== -1) return;
         handled.push(box);
         var path = box.getAttribute("data-src");
+        var fallback = box.getAttribute("data-fallback");
         fetch(path, { method: "HEAD" })
-          .then(function (r) { r.ok ? mountPlayer(box, path) : mountMissing(box, path); })
-          .catch(function () { mountMissing(box, path); })
+          .then(function (r) {
+            if (r.ok) { mountPlayer(box, path, false); return; }
+            // the per-topic recording is not in yet, so stand in the module video
+            if (fallback) mountPlayer(box, fallback, true);
+            else mountMissing(box, path);
+          })
+          .catch(function () {
+            if (fallback) mountPlayer(box, fallback, true);
+            else mountMissing(box, path);
+          })
           .then(function () { if (after) after(); });
       });
     }
@@ -583,7 +599,13 @@
 
     function markSeen(i) {
       if (seen.indexOf(i) === -1) { seen.push(i); write(MODULE_ID + ":seen", seen); }
-      railSteps.forEach(function (s, k) { s.classList.toggle("seen", seen.indexOf(k) !== -1); });
+      railSteps.forEach(function (s, k) {
+        var reached = seen.indexOf(k) !== -1;
+        s.classList.toggle("seen", reached);
+        s.classList.toggle("locked", !reached);
+        s.disabled = !reached;
+        s.title = reached ? "" : "Finish the earlier topics first";
+      });
     }
 
     function show(i, push) {
@@ -650,6 +672,7 @@
 
     railSteps.forEach(function (s, k) {
       s.addEventListener("click", function () {
+        if (seen.indexOf(k) === -1) return;      // not unlocked yet
         if (Quiz && k === quizIdx && current !== quizIdx) Quiz.reset();
         show(k, true);
       });
@@ -668,13 +691,19 @@
       return isNaN(n) ? null : n - 1;
     }
 
+    // a pasted #s7 link cannot jump a learner past screens they have not cleared
+    function allowed(i) {
+      if (seen.indexOf(i) !== -1) return i;
+      return seen.length ? Math.max.apply(null, seen) : 0;
+    }
+
     window.addEventListener("hashchange", function () {
       var target = screenFromHash();
-      if (target !== null) show(target, false);
+      if (target !== null) show(allowed(target), false);
     });
 
     var linked = screenFromHash();
-    show(linked !== null ? linked : (read(MODULE_ID + ":screen", 0) || 0), false);
+    show(allowed(linked !== null ? linked : (read(MODULE_ID + ":screen", 0) || 0)), false);
     if (Narration) Narration.setScreen(screens[current]);
   }
 })();
