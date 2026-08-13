@@ -37,6 +37,10 @@
 
   /* ---------------- scroll progress (long-form pages only) ------------------- */
   var hasScreens = !!document.querySelector(".screen");
+  // screen pages do all their scrolling programmatically; CSS smooth scrolling
+  // turns those resets into animations and makes position reads unreliable
+  if (hasScreens) document.documentElement.style.scrollBehavior = "auto";
+
   if (!hasScreens) {
     var furthest = read(MODULE_ID + ":read", 0);
     var saveTimer = null;
@@ -310,6 +314,154 @@
     buildQuiz();
   }
 
+
+  /* ---------------- video slots: probed lazily, mounted only if present ----- */
+  var VideoSlots = (function () {
+    var handled = [];
+
+    function mountPlayer(box, path) {
+      var v = document.createElement("video");
+      v.controls = true;
+      v.playsInline = true;
+      v.preload = "metadata";
+      var src = document.createElement("source");
+      src.src = path;
+      src.type = "video/mp4";
+      v.appendChild(src);
+      box.replaceChild(v, box.firstElementChild);
+    }
+
+    function mountMissing(box, path) {
+      var ph = document.createElement("div");
+      ph.className = "vidmissing";
+      var t = document.createElement("b");
+      t.textContent = "Video not uploaded yet";
+      var code = document.createElement("code");
+      code.textContent = path;
+      var note = document.createElement("span");
+      note.textContent = "Drop the file at this path and it will appear here automatically.";
+      ph.appendChild(t); ph.appendChild(code); ph.appendChild(note);
+      box.replaceChild(ph, box.firstElementChild);
+    }
+
+    function ensure(root, after) {
+      var boxes = root.querySelectorAll(".videobox[data-src]");
+      Array.prototype.forEach.call(boxes, function (box) {
+        if (handled.indexOf(box) !== -1) return;
+        handled.push(box);
+        var path = box.getAttribute("data-src");
+        fetch(path, { method: "HEAD" })
+          .then(function (r) { r.ok ? mountPlayer(box, path) : mountMissing(box, path); })
+          .catch(function () { mountMissing(box, path); })
+          .then(function () { if (after) after(); });
+      });
+    }
+
+    return { ensure: ensure };
+  })();
+
+  /* ---------------- narration -------------------------------------------- */
+  var Narration = (function () {
+    if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") return null;
+
+    var synth   = window.speechSynthesis;
+    var playBtn = document.getElementById("a-play");
+    var muteBtn = document.getElementById("a-mute");
+    if (!playBtn || !muteBtn) return null;
+
+    var enabled = read("audio:on", false);   // narration is opt-in, never a surprise
+    var chunks  = [];
+    var at      = 0;
+    var playing = false;
+    var screenEl = null;
+
+    // pull the readable prose out of a screen, skipping tables, diagrams and captions
+    function textOf(el) {
+      var picked = el.querySelectorAll("h2, p.sub, h3, h4, p, li, .flow .step b, .flow .step span, .vs .col h5");
+      var lines = [];
+      Array.prototype.forEach.call(picked, function (node) {
+        if (node.closest("table") || node.closest("svg") || node.closest("figcaption")) return;
+        if (node.classList.contains("cap")) return;
+        var t = (node.textContent || "").replace(/\s+/g, " ").trim();
+        if (t) lines.push(t);
+      });
+      return lines.join(". ");
+    }
+
+    // long strings get truncated by some engines, so speak sentence-sized pieces
+    function split(text) {
+      var out = [], buf = "";
+      text.split(/(?<=[.?!])\s+/).forEach(function (sentence) {
+        if ((buf + " " + sentence).length > 220) { if (buf) out.push(buf.trim()); buf = sentence; }
+        else { buf += " " + sentence; }
+      });
+      if (buf.trim()) out.push(buf.trim());
+      return out;
+    }
+
+    function speakFrom(i) {
+      if (i >= chunks.length) { stop(); return; }
+      at = i;
+      var u = new SpeechSynthesisUtterance(chunks[i]);
+      u.rate = 0.98;
+      u.pitch = 1;
+      u.onend = function () { if (playing) speakFrom(at + 1); };
+      u.onerror = function () { stop(); };
+      synth.speak(u);
+    }
+
+    function start() {
+      if (!screenEl) return;
+      synth.cancel();
+      chunks = split(textOf(screenEl));
+      if (!chunks.length) return;
+      playing = true;
+      speakFrom(0);
+      sync();
+    }
+
+    function stop() {
+      playing = false;
+      try { synth.cancel(); } catch (e) { /* ignore */ }
+      sync();
+    }
+
+    function sync() {
+      playBtn.textContent = playing ? "⏸" : "▶";
+      playBtn.setAttribute("aria-label", playing ? "Pause narration" : "Play narration");
+      playBtn.classList.toggle("on", playing);
+      playBtn.disabled = !enabled;
+      playBtn.classList.toggle("off", !enabled);
+      muteBtn.textContent = enabled ? "🔊" : "🔇";
+      muteBtn.setAttribute("aria-label", enabled ? "Turn narration off" : "Turn narration on");
+      muteBtn.classList.toggle("on", enabled);
+    }
+
+    playBtn.addEventListener("click", function () {
+      if (!enabled) return;
+      if (playing) stop(); else start();
+    });
+
+    muteBtn.addEventListener("click", function () {
+      enabled = !enabled;
+      write("audio:on", enabled);
+      if (!enabled) stop(); else start();   // the tap itself is the gesture browsers require
+      sync();
+    });
+
+    window.addEventListener("beforeunload", function () { try { synth.cancel(); } catch (e) {} });
+
+    sync();
+
+    return {
+      setScreen: function (el) {
+        screenEl = el;
+        stop();
+        if (enabled) start();
+      }
+    };
+  })();
+
   /* ---------------- screen router -------------------------------------------- */
   var screens = Array.prototype.slice.call(document.querySelectorAll(".screen"));
   if (screens.length) {
@@ -324,6 +476,47 @@
     var quizIdx = -1;
     screens.forEach(function (s, i) { if (s.querySelector("#quiz")) quizIdx = i; });
     var onQuiz = function () { return Quiz && current === quizIdx; };
+
+    /* the learner must reach the bottom of a screen before Next unlocks.
+       once cleared a screen stays cleared, so going back is never punished. */
+    var cleared = read(MODULE_ID + ":cleared", []);
+    var hint = document.getElementById("gatehint");
+
+    var settled = false;       // layout for this screen has stopped moving
+    var userScrolled = false;  // the learner has actually scrolled on it
+
+    // a screen that fits entirely on the display has nothing to scroll through
+    function screenFits() {
+      var el = screens[current];
+      if (!el) return false;
+      return el.getBoundingClientRect().height <= window.innerHeight - 90;
+    }
+
+    // measured against the screen's own bottom, not the document height, so a
+    // video slot mounting later cannot flip the answer
+    function scrolledOut() {
+      var el = screens[current];
+      if (!el) return false;
+      return el.getBoundingClientRect().bottom <= window.innerHeight + 48;
+    }
+
+    function gateOpen() { return cleared.indexOf(current) !== -1; }
+
+    function checkGate() {
+      if (current < 0 || !settled || gateOpen()) return;
+      // never unlock from a stale scroll position: either the screen genuinely
+      // fits, or the learner has scrolled it themselves and reached the end
+      if (screenFits() || (userScrolled && scrolledOut())) {
+        cleared.push(current);
+        write(MODULE_ID + ":cleared", cleared);
+        syncNav();
+      }
+    }
+
+    function showHint(on) {
+      if (!hint) return;
+      hint.classList.toggle("show", on);
+    }
 
     function setBtn(btn, text, arrow) {
       btn.textContent = "";
@@ -344,11 +537,14 @@
 
     function syncNav() {
       if (onQuiz()) {
+        showHint(false);
         prevBtn.disabled = false;                 // question 1 steps back to topic 9
         setBtn(prevBtn, "Previous", "left");
         if (Quiz.atEnd()) {
-          nextBtn.disabled = true;
-          setBtn(nextBtn, "Finish", "tick");
+          // the score page must still lead on to whatever screen follows
+          var quizIsLast = current === total - 1;
+          nextBtn.disabled = quizIsLast;
+          setBtn(nextBtn, quizIsLast ? "Finish" : "Next", quizIsLast ? "tick" : "right");
         } else {
           nextBtn.disabled = !Quiz.answered();
           setBtn(nextBtn, Quiz.nextLabel(), "right");
@@ -364,16 +560,25 @@
       }
 
       var lastScreen = current === total - 1;
+      var locked = !gateOpen();
       prevBtn.disabled = current === 0;
-      nextBtn.disabled = lastScreen;
+      nextBtn.disabled = lastScreen || locked;
       setBtn(prevBtn, "Previous", "left");
       setBtn(nextBtn, lastScreen ? "Finish" : "Next", lastScreen ? "tick" : "right");
+      showHint(locked && !lastScreen);
 
       midLabel.innerHTML = "";
       var b = document.createElement("b");
       b.textContent = (current + 1) + " / " + total;
       midLabel.appendChild(b);
-      midLabel.appendChild(document.createTextNode(" · " + (screens[current].dataset.title || "")));
+      if (locked && !lastScreen) {
+        var g = document.createElement("span");
+        g.className = "gate";
+        g.textContent = " · scroll to continue";
+        midLabel.appendChild(g);
+      } else {
+        midLabel.appendChild(document.createTextNode(" · " + (screens[current].dataset.title || "")));
+      }
     }
 
     function markSeen(i) {
@@ -384,6 +589,10 @@
     function show(i, push) {
       i = Math.max(0, Math.min(total - 1, i));
       var changed = i !== current;
+      // close the gate first: toggling screens and resetting scroll both fire
+      // scroll events, and measuring those against a stale position would
+      // clear the incoming screen before the learner has seen any of it
+      if (changed) { settled = false; userScrolled = false; }
       current = i;
 
       screens.forEach(function (s, k) { s.classList.toggle("on", k === i); });
@@ -394,17 +603,37 @@
       setProgress(((i + 1) / total) * 100);
       syncNav();
 
+      if (changed) window.scrollTo({ top: 0, behavior: "instant" });
       var chip = railSteps[i];
       if (chip && chip.scrollIntoView) chip.scrollIntoView({ block: "nearest", inline: "center" });
       if (push) history.replaceState(null, "", "#s" + (i + 1));
-      if (changed) window.scrollTo({ top: 0, behavior: "auto" });
+
+      if (Narration && changed) Narration.setScreen(screens[i]);
+
+      // the video slot changes this screen's height, so the gate stays closed
+      // until the slot has resolved and layout has run at least once
+      var settle = function () {
+        settled = true;
+        checkGate();
+        syncNav();
+      };
+      VideoSlots.ensure(screens[i], function () {
+        requestAnimationFrame(function () { requestAnimationFrame(settle); });
+      });
+      setTimeout(settle, 600);   // fallback when there is no slot to resolve
     }
+
+    window.addEventListener("scroll", function () {
+      if (settled) userScrolled = true;
+      checkGate();
+    }, { passive: true });
+    window.addEventListener("resize", checkGate);
 
     if (Quiz) Quiz.setOnChange(function () { if (onQuiz()) syncNav(); });
 
     nextBtn.addEventListener("click", function () {
       if (onQuiz() && !Quiz.atEnd()) {
-        if (Quiz.answered()) { Quiz.next(); window.scrollTo({ top: 0, behavior: "auto" }); }
+        if (Quiz.answered()) { Quiz.next(); window.scrollTo({ top: 0, behavior: "instant" }); }
         return;
       }
       show(current + 1, true);
@@ -413,7 +642,7 @@
     prevBtn.addEventListener("click", function () {
       if (onQuiz() && !Quiz.atStart()) {
         Quiz.prev();
-        window.scrollTo({ top: 0, behavior: "auto" });
+        window.scrollTo({ top: 0, behavior: "instant" });
         return;
       }
       show(current - 1, true);
@@ -446,5 +675,6 @@
 
     var linked = screenFromHash();
     show(linked !== null ? linked : (read(MODULE_ID + ":screen", 0) || 0), false);
+    if (Narration) Narration.setScreen(screens[current]);
   }
 })();

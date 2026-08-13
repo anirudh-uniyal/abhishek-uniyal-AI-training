@@ -537,3 +537,91 @@ body.screens{padding-bottom:96px}
 /* ---------- paged knowledge check: one question at a time ---------- */
 .q{display:none}
 .q.on{display:block;animation:screenIn .2s ease}
+
+/* =====================================================================
+   NARRATION CONTROLS, VIDEO SCREEN, SCROLL GATE
+   ===================================================================== */
+
+/* ---------- narration buttons in the top bar ---------- */
+.audio{display:flex;align-items:center;gap:6px;flex:none}
+.abtn{
+  width:34px;height:34px;flex:none;border-radius:10px;
+  border:1px solid var(--line2);background:var(--panel);color:var(--ink);
+  font:inherit;font-size:14px;line-height:1;cursor:pointer;transition:.15s;
+  display:grid;place-items:center
+}
+.abtn:hover{border-color:var(--gold);color:var(--gold)}
+.abtn.on{border-color:var(--gold);background:var(--goldsoft);color:var(--gold)}
+.abtn.off{opacity:.5}
+.abtn[hidden]{display:none}
+
+/* ---------- highlighted sentence while narrating ---------- */
+.speaking{
+  background:linear-gradient(90deg,rgba(232,190,85,.16),rgba(232,190,85,.05));
+  box-shadow:inset 2px 0 0 var(--gold);border-radius:0 6px 6px 0
+}
+
+/* ---------- video screen ---------- */
+.videobox{
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  background:#05070C;margin:26px 0
+}
+.videobox video{display:block;width:100%;height:auto;background:#05070C}
+.videobox figcaption{
+  padding:12px 16px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--dim);line-height:1.6
+}
+.recap{display:grid;gap:10px;margin:26px 0}
+.recap-item{
+  display:flex;gap:14px;align-items:flex-start;
+  border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:14px 16px
+}
+.recap-item .num{
+  flex:none;width:26px;height:26px;border-radius:7px;background:var(--raise);color:var(--gold);
+  display:grid;place-items:center;font-size:12px;font-weight:800
+}
+.recap-item div{min-width:0}
+.recap-item b{display:block;font-size:14.5px;color:var(--ink);font-weight:650;line-height:1.45;margin-bottom:3px}
+.recap-item span{display:block;font-size:13.5px;color:var(--muted);line-height:1.55}
+
+/* ---------- scroll gate hint ---------- */
+.stepnav .mid .gate{color:var(--gold)}
+.gatehint{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:54;
+  border:1px solid var(--goldline);background:rgba(20,16,10,.94);color:var(--gold);
+  border-radius:999px;padding:7px 16px;font-size:12.5px;font-weight:700;
+  box-shadow:0 6px 20px rgba(0,0,0,.45);pointer-events:none;
+  opacity:0;transition:opacity .25s
+}
+.gatehint.show{opacity:1}
+@media (max-width:680px){
+  .abtn{width:32px;height:32px;font-size:13px}
+  .topbar-chip{padding:6px 10px;font-size:11.5px}
+  .gatehint{bottom:calc(74px + env(safe-area-inset-bottom,0px));font-size:12px}
+}
+
+/* ---------- placeholder shown when a topic video has not been uploaded ---------- */
+.vidmissing{
+  display:grid;gap:7px;place-items:center;text-align:center;
+  padding:34px 22px;background:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.014) 0 12px,transparent 12px 24px),#0A0E17
+}
+.vidmissing b{font-size:14.5px;font-weight:650;color:var(--muted)}
+.vidmissing code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;
+  color:var(--gold);background:var(--goldsoft);border:1px solid var(--goldline);
+  border-radius:7px;padding:4px 10px;word-break:break-all
+}
+.vidmissing span{font-size:12.5px;color:var(--dim);max-width:44ch;line-height:1.55}
+
+.vidload{
+  display:grid;place-items:center;padding:34px 22px;
+  font-size:13px;color:var(--dim);background:#0A0E17
+}
+
+/* narration buttons need the room on small phones — the mark carries the brand */
+@media (max-width:440px){
+  .brand-txt{display:none}
+  .topbar-in{gap:10px}
+}
