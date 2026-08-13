@@ -319,7 +319,7 @@
   var VideoSlots = (function () {
     var handled = [];
 
-    function mountPlayer(box, path, isStandIn) {
+    function mountPlayer(box, path) {
       var v = document.createElement("video");
       v.controls = true;
       v.playsInline = true;
@@ -329,24 +329,19 @@
       src.type = "video/mp4";
       v.appendChild(src);
       box.replaceChild(v, box.firstElementChild);
-      if (isStandIn) {
-        var cap = box.querySelector("figcaption");
-        if (cap) {
-          cap.textContent = "Placeholder — the module video is standing in until this topic's own recording is added.";
-          cap.classList.add("standin");
-        }
-      }
     }
 
     function mountMissing(box, path) {
       var ph = document.createElement("div");
       ph.className = "vidmissing";
       var t = document.createElement("b");
-      t.textContent = "Video not uploaded yet";
+      var name = box.getAttribute("data-name");
+      t.textContent = name ? "Summary video for \u201C" + name + "\u201D" : "Summary video";
       var code = document.createElement("code");
-      code.textContent = path;
+      // show the repository path, not the page-relative one
+      code.textContent = path.replace(/^(\.\.\/)+/, "");
       var note = document.createElement("span");
-      note.textContent = "Drop the file at this path and it will appear here automatically.";
+      note.textContent = "Not uploaded yet. Add the file at this path and it plays here automatically.";
       ph.appendChild(t); ph.appendChild(code); ph.appendChild(note);
       box.replaceChild(ph, box.firstElementChild);
     }
@@ -357,18 +352,9 @@
         if (handled.indexOf(box) !== -1) return;
         handled.push(box);
         var path = box.getAttribute("data-src");
-        var fallback = box.getAttribute("data-fallback");
         fetch(path, { method: "HEAD" })
-          .then(function (r) {
-            if (r.ok) { mountPlayer(box, path, false); return; }
-            // the per-topic recording is not in yet, so stand in the module video
-            if (fallback) mountPlayer(box, fallback, true);
-            else mountMissing(box, path);
-          })
-          .catch(function () {
-            if (fallback) mountPlayer(box, fallback, true);
-            else mountMissing(box, path);
-          })
+          .then(function (r) { r.ok ? mountPlayer(box, path) : mountMissing(box, path); })
+          .catch(function () { mountMissing(box, path); })
           .then(function () { if (after) after(); });
       });
     }
@@ -386,7 +372,43 @@
     if (!playBtn || !muteBtn) return null;
 
     var enabled = read("audio:on", false);   // narration is opt-in, never a surprise
+    var voice   = null;
     var chunks  = [];
+
+    // prefer a natural-sounding male English voice; names differ per platform,
+    // so try the known good ones in order before falling back to any English one
+    var MALE_VOICES = [
+      /Google UK English Male/i,
+      /Google US English/i,
+      /Microsoft (Guy|Ryan|Christopher|Eric|Davis|David|Mark)/i,
+      /\bDaniel\b/i,        // Apple en-GB male
+      /\bAlex\b/i,          // Apple en-US male
+      /\bRishi\b/i,         // Apple en-IN male
+      /\bOliver\b/i,
+      /\bTom\b/i
+    ];
+
+    function pickVoice() {
+      var all = synth.getVoices();
+      if (!all.length) return null;
+      for (var i = 0; i < MALE_VOICES.length; i++) {
+        for (var j = 0; j < all.length; j++) {
+          if (MALE_VOICES[i].test(all[j].name)) return all[j];
+        }
+      }
+      for (var k = 0; k < all.length; k++) {
+        if (/^en[-_]?(IN|GB|US)?/i.test(all[k].lang)) return all[k];
+      }
+      return all[0];
+    }
+
+    // the voice list is populated asynchronously in most browsers
+    voice = pickVoice();
+    if (synth.addEventListener) {
+      synth.addEventListener("voiceschanged", function () { voice = pickVoice(); });
+    } else {
+      synth.onvoiceschanged = function () { voice = pickVoice(); };
+    }
     var at      = 0;
     var playing = false;
     var screenEl = null;
@@ -419,8 +441,10 @@
       if (i >= chunks.length) { stop(); return; }
       at = i;
       var u = new SpeechSynthesisUtterance(chunks[i]);
-      u.rate = 0.98;
-      u.pitch = 1;
+      if (voice) { u.voice = voice; u.lang = voice.lang; }
+      u.rate = 0.94;    // a touch slower reads as calmer and more deliberate
+      u.pitch = 0.92;   // slightly lower, which warms up the default timbre
+      u.volume = 1;
       u.onend = function () { if (playing) speakFrom(at + 1); };
       u.onerror = function () { stop(); };
       synth.speak(u);
