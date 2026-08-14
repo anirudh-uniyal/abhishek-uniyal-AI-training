@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Summary slide renderer</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1280px;height:720px;overflow:hidden}
+  body{
+    background:#080B12;color:#EEF2F9;
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    display:grid;place-items:center;position:relative
+  }
+  body::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(900px 460px at 14% -8%,rgba(232,190,85,.16),transparent 62%),
+      radial-gradient(700px 420px at 92% 108%,rgba(110,168,254,.09),transparent 60%)
+  }
+  .stage{position:relative;width:1120px;height:600px}
+  .card{
+    position:absolute;inset:0;opacity:0;transition:opacity .5s ease, transform .5s ease;
+    transform:translateY(14px);display:flex;flex-direction:column;justify-content:center
+  }
+  .card.on{opacity:1;transform:none}
+
+  .mark{position:absolute;top:0;left:0;display:flex;align-items:center;gap:14px}
+  .mark img{width:52px;height:52px;object-fit:contain}
+  .mark span{font-size:15px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8B95A8}
+
+  .kicker{font-size:17px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#E8BE55;margin-bottom:22px}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:62px;line-height:1.12;letter-spacing:-.015em}
+  h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:40px;line-height:1.2;margin-bottom:40px;color:#EEF2F9}
+
+  .pts{display:flex;flex-direction:column;gap:22px}
+  .pt{
+    display:flex;gap:20px;align-items:flex-start;opacity:0;transform:translateX(-12px);
+    transition:opacity .45s ease, transform .45s ease
+  }
+  .pt.on{opacity:1;transform:none}
+  .pt i{
+    flex:none;width:40px;height:40px;border-radius:11px;background:rgba(232,190,85,.14);
+    border:1px solid rgba(232,190,85,.45);color:#E8BE55;display:grid;place-items:center;
+    font-style:normal;font-size:17px;font-weight:800
+  }
+  .pt p{font-size:27px;line-height:1.45;color:#C3CBD9;max-width:44ch}
+  .pt b{color:#EEF2F9;font-weight:650}
+
+  .away{border-left:4px solid #E8BE55;background:rgba(232,190,85,.10);border-radius:0 16px 16px 0;padding:34px 40px}
+  .away em{display:block;font-style:normal;font-size:16px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#E8BE55;margin-bottom:16px}
+  .away p{font-size:32px;line-height:1.45;color:#E7ECF4}
+
+  .end{align-items:center;text-align:center}
+  .end img{width:260px;margin-bottom:30px}
+  .end p{font-size:22px;color:#8B95A8;letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="mark"><img id="mark" alt=""><span id="modname"></span></div>
+
+  <div class="card" id="c-title">
+    <div class="kicker" id="k"></div>
+    <h1 id="title"></h1>
+  </div>
+
+  <div class="card" id="c-points">
+    <h2 id="ptitle"></h2>
+    <div class="pts" id="pts"></div>
+  </div>
+
+  <div class="card" id="c-away">
+    <div class="away"><em>Take away</em><p id="away"></p></div>
+  </div>
+
+  <div class="card end" id="c-end">
+    <img id="endlogo" alt="">
+    <p id="endtext"></p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var data = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+  var $ = function (id) { return document.getElementById(id); };
+
+  $("mark").src    = data.mark;
+  $("endlogo").src = data.logo;
+  $("modname").textContent = data.module;
+  $("k").textContent       = data.kicker;
+  $("title").textContent   = data.title;
+  $("ptitle").textContent  = data.pointsTitle || "The essentials";
+  $("away").textContent    = data.away;
+  $("endtext").textContent = data.endText || "Gold Technology — AI Training Program";
+
+  data.points.forEach(function (t, i) {
+    var row = document.createElement("div");
+    row.className = "pt";
+    var n = document.createElement("i");
+    n.textContent = i + 1;
+    var p = document.createElement("p");
+    p.textContent = t;
+    row.appendChild(n); row.appendChild(p);
+    $("pts").appendChild(row);
+  });
+
+  // the recorder simply captures the window; timings below define the edit
+  var steps = [];
+  function at(ms, fn) { steps.push(setTimeout(fn, ms)); }
+
+  var t = 400;
+  at(t, function () { $("c-title").classList.add("on"); });
+  t += 3200;
+  at(t, function () { $("c-title").classList.remove("on"); });
+  t += 600;
+  at(t, function () { $("c-points").classList.add("on"); });
+
+  var rows = document.querySelectorAll(".pt");
+  rows.forEach(function (row, i) {
+    at(t + 400 + i * 2600, function () { row.classList.add("on"); });
+  });
+  t += 700 + rows.length * 2600;
+
+  at(t, function () { $("c-points").classList.remove("on"); });
+  t += 600;
+  at(t, function () { $("c-away").classList.add("on"); });
+  t += 4200;
+  at(t, function () { $("c-away").classList.remove("on"); });
+  t += 600;
+  at(t, function () { $("c-end").classList.add("on"); });
+  t += 2600;
+  at(t, function () { window.__done = true; });
+
+  window.__runtime = t + 400;
+})();
+</script>
+</body>
+</html>

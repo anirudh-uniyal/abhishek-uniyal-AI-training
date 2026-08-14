@@ -326,7 +326,7 @@
       v.preload = "metadata";
       var src = document.createElement("source");
       src.src = path;
-      src.type = "video/mp4";
+      src.type = /\.webm$/i.test(path) ? "video/webm" : "video/mp4";
       v.appendChild(src);
       box.replaceChild(v, box.firstElementChild);
     }
@@ -352,10 +352,18 @@
         if (handled.indexOf(box) !== -1) return;
         handled.push(box);
         var path = box.getAttribute("data-src");
-        fetch(path, { method: "HEAD" })
-          .then(function (r) { r.ok ? mountPlayer(box, path) : mountMissing(box, path); })
-          .catch(function () { mountMissing(box, path); })
-          .then(function () { if (after) after(); });
+        // a real .mp4 wins if it is ever added; otherwise the generated .webm plays
+        var candidates = [path, path.replace(/\.mp4$/i, ".webm")];
+
+        (function tryNext(i) {
+          if (i >= candidates.length) { mountMissing(box, path); if (after) after(); return; }
+          fetch(candidates[i], { method: "HEAD" })
+            .then(function (r) {
+              if (r.ok) { mountPlayer(box, candidates[i]); if (after) after(); }
+              else tryNext(i + 1);
+            })
+            .catch(function () { tryNext(i + 1); });
+        })(0);
       });
     }
 
