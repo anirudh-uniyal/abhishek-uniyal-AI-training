@@ -117,14 +117,14 @@
 
   var rows = document.querySelectorAll(".pt");
   rows.forEach(function (row, i) {
-    at(t + 400 + i * 2600, function () { row.classList.add("on"); });
+    at(t + 400 + i * 4600, function () { row.classList.add("on"); });
   });
-  t += 700 + rows.length * 2600;
+  t += 900 + rows.length * 4600;
 
   at(t, function () { $("c-points").classList.remove("on"); });
   t += 600;
   at(t, function () { $("c-away").classList.add("on"); });
-  t += 4200;
+  t += 7000;
   at(t, function () { $("c-away").classList.remove("on"); });
   t += 600;
   at(t, function () { $("c-end").classList.add("on"); });

@@ -329,6 +329,19 @@
       src.type = /\.webm$/i.test(path) ? "video/webm" : "video/mp4";
       v.appendChild(src);
       box.replaceChild(v, box.firstElementChild);
+
+      // only one thing should be speaking at a time
+      v.addEventListener("play", function () {
+        if (!window.__gtNarration) return;
+        window.__gtNarration.stop();
+        var script = box.getAttribute("data-script");
+        if (script && window.__gtNarration.isOn()) window.__gtNarration.speakText(script);
+      });
+      ["pause", "ended", "emptied"].forEach(function (ev) {
+        v.addEventListener(ev, function () {
+          if (window.__gtNarration) window.__gtNarration.stop();
+        });
+      });
     }
 
     function mountMissing(box, path) {
@@ -501,7 +514,20 @@
 
     sync();
 
+    function speakText(text) {
+      if (!enabled || !text) return;
+      synth.cancel();
+      chunks = split(text);
+      if (!chunks.length) return;
+      playing = true;
+      speakFrom(0);
+      sync();
+    }
+
     return {
+      isOn:      function () { return enabled; },
+      stop:      stop,
+      speakText: speakText,
       setScreen: function (el) {
         screenEl = el;
         stop();
@@ -509,6 +535,8 @@
       }
     };
   })();
+
+  window.__gtNarration = Narration;
 
   /* ---------------- screen router -------------------------------------------- */
   var screens = Array.prototype.slice.call(document.querySelectorAll(".screen"));
