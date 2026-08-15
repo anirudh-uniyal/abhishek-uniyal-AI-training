@@ -319,15 +319,29 @@
   var VideoSlots = (function () {
     var handled = [];
 
-    function mountPlayer(box, path) {
+    function mountPlayer(box, paths, after) {
       var v = document.createElement("video");
       v.controls = true;
       v.playsInline = true;
       v.preload = "metadata";
-      var src = document.createElement("source");
-      src.src = path;
-      src.type = /\.webm$/i.test(path) ? "video/webm" : "video/mp4";
-      v.appendChild(src);
+
+      // hand the browser every candidate and let it pick the first that decodes;
+      // probing with fetch() would fail outright when the page is opened from disk
+      var last = null;
+      paths.forEach(function (p) {
+        var src = document.createElement("source");
+        src.src = p;
+        src.type = /\.webm$/i.test(p) ? "video/webm" : "video/mp4";
+        v.appendChild(src);
+        last = src;
+      });
+
+      // the final source erroring means every candidate was exhausted
+      last.addEventListener("error", function () {
+        if (v.readyState === 0) mountMissing(box, v, paths[0], after);
+      });
+      v.addEventListener("loadedmetadata", function () { if (after) after(); });
+
       box.replaceChild(v, box.firstElementChild);
 
       // only one thing should be speaking at a time
@@ -344,7 +358,7 @@
       });
     }
 
-    function mountMissing(box, path) {
+    function mountMissing(box, current, path, after) {
       var ph = document.createElement("div");
       ph.className = "vidmissing";
       var t = document.createElement("b");
@@ -356,7 +370,8 @@
       var note = document.createElement("span");
       note.textContent = "Not uploaded yet. Add the file at this path and it plays here automatically.";
       ph.appendChild(t); ph.appendChild(code); ph.appendChild(note);
-      box.replaceChild(ph, box.firstElementChild);
+      box.replaceChild(ph, current);
+      if (after) after();
     }
 
     function ensure(root, after) {
@@ -366,17 +381,12 @@
         handled.push(box);
         var path = box.getAttribute("data-src");
         // a real .mp4 wins if it is ever added; otherwise the generated .webm plays
-        var candidates = [path, path.replace(/\.mp4$/i, ".webm")];
+        var candidates = [path];
+        var webm = path.replace(/\.mp4$/i, ".webm");
+        if (webm !== path) candidates.push(webm);
 
-        (function tryNext(i) {
-          if (i >= candidates.length) { mountMissing(box, path); if (after) after(); return; }
-          fetch(candidates[i], { method: "HEAD" })
-            .then(function (r) {
-              if (r.ok) { mountPlayer(box, candidates[i]); if (after) after(); }
-              else tryNext(i + 1);
-            })
-            .catch(function () { tryNext(i + 1); });
-        })(0);
+        mountPlayer(box, candidates, after);
+        if (after) after();
       });
     }
 
