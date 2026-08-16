@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Add someone to the course allow list</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;padding:32px 20px;background:#080B12;color:#C3CBD9;
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    font-size:16px;line-height:1.7;display:grid;place-items:start center
+  }
+  .wrap{width:100%;max-width:620px}
+  h1{font-family:Georgia,serif;font-weight:400;font-size:30px;color:#EEF2F9;margin-bottom:10px}
+  .sub{color:#8B95A8;font-size:14.5px;margin-bottom:30px}
+  label{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;
+        text-transform:uppercase;color:#8B95A8;margin-bottom:8px}
+  input{
+    width:100%;padding:14px 16px;font:inherit;color:#EEF2F9;background:#0B0F18;
+    border:1px solid rgba(255,255,255,.14);border-radius:11px
+  }
+  input:focus{outline:none;border-color:#E8BE55}
+  .out{margin-top:26px;display:none}
+  .out.on{display:block}
+  pre{
+    background:#111725;border:1px solid rgba(255,255,255,.075);border-left:3px solid #E8BE55;
+    border-radius:0 11px 11px 0;padding:16px 18px;overflow-x:auto;
+    font-family:ui-monospace,"Cascadia Code",Consolas,monospace;font-size:13.5px;
+    color:#EEF2F9;white-space:pre-wrap;word-break:break-all
+  }
+  button{
+    margin-top:14px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;
+    color:#14100A;background:linear-gradient(135deg,#E8BE55,#C99B2E);
+    border:0;border-radius:10px;cursor:pointer
+  }
+  ol{margin:16px 0 0 20px;font-size:14.5px;color:#8B95A8}
+  ol li{margin-bottom:6px}
+  code{background:#161D2E;padding:2px 7px;border-radius:5px;font-size:13px;color:#E8BE55}
+  .note{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.075);
+        font-size:13.5px;color:#5F6A7D}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Add someone to the allow list</h1>
+  <p class="sub">
+    People on this list open the course straight away, without waiting for a
+    sign-in email. The address is turned into a hash so it never appears in
+    the page source.
+  </p>
+
+  <label for="e">Email address</label>
+  <input id="e" type="email" placeholder="someone@company.com" autocomplete="off" spellcheck="false">
+
+  <div class="out" id="out">
+    <label>Paste this into <code>course/assets/auth-config.js</code></label>
+    <pre id="line"></pre>
+    <button id="copy" type="button">Copy line</button>
+    <ol>
+      <li>Open <code>course/assets/auth-config.js</code></li>
+      <li>Add the line inside <code>skipVerification: [ … ]</code>, comma-separated</li>
+      <li>Change the label to a first name — never the full address</li>
+      <li>Commit and push</li>
+    </ol>
+  </div>
+
+  <p class="note">
+    Runs entirely in this page. Nothing is uploaded, and the address is not
+    stored anywhere.
+  </p>
+</div>
+
+<script>
+(function () {
+  var e = document.getElementById("e"), out = document.getElementById("out"),
+      line = document.getElementById("line"), copy = document.getElementById("copy");
+
+  function hash(text) {
+    var bytes = new TextEncoder().encode(text.trim().toLowerCase());
+    return crypto.subtle.digest("SHA-256", bytes).then(function (buf) {
+      return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+        return ("0" + b.toString(16)).slice(-2);
+      }).join("");
+    });
+  }
+
+  function render() {
+    var v = e.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { out.className = "out"; return; }
+    hash(v).then(function (h) {
+      line.textContent = '{ label: "Name", hash: "' + h + '" }';
+      out.className = "out on";
+    });
+  }
+
+  e.addEventListener("input", render);
+  copy.addEventListener("click", function () {
+    navigator.clipboard.writeText(line.textContent).then(function () {
+      copy.textContent = "Copied";
+      setTimeout(function () { copy.textContent = "Copy line"; }, 1400);
+    });
+  });
+})();
+</script>
+</body>
+</html>

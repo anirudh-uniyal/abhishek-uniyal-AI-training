@@ -7,6 +7,15 @@
 <meta name="description" content="Module 1 — AI Fundamentals & Generative AI. Gold Technology AI Training Program.">
 <title>Module 1 — AI Fundamentals &amp; Generative AI | Gold Technology</title>
 <link rel="stylesheet" href="../course/assets/lesson.css">
+<script>
+  /* settled before the first paint, so a learner who has already signed in
+     never sees the gate appear and then vanish */
+  try {
+    if (localStorage.getItem("gt-ai:auth:ok") === "1") {
+      document.documentElement.className += " authed";
+    }
+  } catch (e) {}
+</script>
 </head>
 <body class="screens">
 
@@ -1116,6 +1125,8 @@ window.LESSON = {
   ]
 };
 </script>
+<script src="../course/assets/auth-config.js"></script>
+<script src="../course/assets/auth.js"></script>
 <script src="../course/assets/lesson.js"></script>
 
 </body>

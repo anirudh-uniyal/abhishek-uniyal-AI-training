@@ -641,3 +641,88 @@ body.screens{padding-bottom:96px}
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 @media (max-width:680px){ .topbar-chip{max-width:150px} }
+
+/* ============================ SIGN-IN GATE ============================== */
+/* The gate sits above everything until the learner is known. A class on
+   <html> is set before first paint, so a returning learner never sees it
+   flash into view and back out.                                            */
+
+.signin{
+  position:fixed;inset:0;z-index:9000;
+  display:grid;place-items:center;padding:24px;
+  background:
+    radial-gradient(760px 420px at 15% -10%,rgba(232,190,85,.14),transparent 60%),
+    radial-gradient(620px 380px at 90% 110%,rgba(110,168,254,.08),transparent 58%),
+    var(--bg);
+  overflow-y:auto
+}
+html.authed .signin{display:none}
+html:not(.authed) body{overflow:hidden}
+
+.signin-card{
+  width:100%;max-width:430px;text-align:center;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);padding:38px 32px 32px;
+  box-shadow:0 24px 70px rgba(0,0,0,.5)
+}
+.signin-logo{width:150px;margin:0 auto 24px}
+.signin-kicker{
+  margin:0 0 14px;font-size:12px;font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--gold)
+}
+.signin-card h1{
+  margin:0 0 8px;font-family:var(--serif);font-weight:400;
+  font-size:30px;line-height:1.2;color:var(--ink)
+}
+.signin-sub{margin:0 0 28px;font-size:14px;color:var(--muted);line-height:1.5}
+
+.signin-form{display:block;text-align:left}
+.signin-form label{
+  display:block;margin-bottom:8px;font-size:12px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)
+}
+.signin-form input{
+  width:100%;padding:14px 16px;font-family:inherit;font-size:16px;
+  color:var(--ink);background:var(--bg2);
+  border:1px solid var(--line2);border-radius:11px
+}
+.signin-form input:focus{outline:none;border-color:var(--gold);background:var(--panel2)}
+.signin-form input::placeholder{color:var(--dim)}
+
+.signin-go{
+  width:100%;margin-top:16px;padding:14px 20px;
+  font-family:inherit;font-size:15px;font-weight:800;color:#14100A;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  border:0;border-radius:11px;cursor:pointer
+}
+.signin-go:hover:not(:disabled){filter:brightness(1.07)}
+.signin-go:disabled{opacity:.6;cursor:default}
+
+.signin-msg{margin:14px 0 0;font-size:13.5px;line-height:1.55;color:var(--muted);min-height:1px}
+.signin-msg.is-bad{color:var(--no)}
+
+.signin-sent{text-align:center}
+.signin-tick{
+  width:52px;height:52px;margin:0 auto 18px;border-radius:50%;
+  display:grid;place-items:center;font-size:24px;color:var(--ok);
+  background:var(--oksoft);border:1px solid rgba(79,209,139,.4)
+}
+.signin-sent h2{
+  margin:0 0 10px;font-family:var(--serif);font-weight:400;
+  font-size:23px;color:var(--ink)
+}
+.signin-sent p{margin:0;font-size:14.5px;line-height:1.6;color:var(--body)}
+.signin-sent b{color:var(--ink);word-break:break-all}
+.signin-back{
+  margin-top:22px;padding:9px 16px;font-family:inherit;font-size:13px;
+  color:var(--muted);background:transparent;
+  border:1px solid var(--line2);border-radius:9px;cursor:pointer
+}
+.signin-back:hover{color:var(--ink);border-color:var(--gold)}
+
+@media (max-width:420px){
+  .signin{padding:16px}
+  .signin-card{padding:30px 22px 26px}
+  .signin-card h1{font-size:26px}
+  .signin-logo{width:128px}
+}
