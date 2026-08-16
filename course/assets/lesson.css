@@ -1,29 +1,58 @@
+/* The page reads on a warm off-white. Pure white under a full screen of body
+   copy glares; a few points of warmth settles it and suits the gold brand.
+
+   Gold splits in two here. #E8BE55 is a fill colour — it carries dark text on
+   a button beautifully and is unreadable as text on a pale background, at
+   roughly 1.8:1. Text gold is darkened to --gold; the bright original stays
+   available as --goldfill for buttons, badges and bars.                     */
 :root{
-  --bg:#080B12;
-  --bg2:#0B0F18;
-  --panel:#111725;
-  --panel2:#161D2E;
-  --raise:#1C2436;
-  --line:rgba(255,255,255,.075);
-  --line2:rgba(255,255,255,.14);
-  --ink:#EEF2F9;
-  --body:#C3CBD9;
-  --muted:#8B95A8;
-  --dim:#5F6A7D;
-  --gold:#E8BE55;
-  --gold2:#C99B2E;
-  --goldsoft:rgba(232,190,85,.10);
-  --goldline:rgba(232,190,85,.28);
-  --ok:#4FD18B;
-  --oksoft:rgba(79,209,139,.10);
-  --no:#F0766E;
-  --nosoft:rgba(240,118,110,.10);
-  --info:#6EA8FE;
-  --infosoft:rgba(110,168,254,.10);
+  --bg:#FAF8F4;
+  --bg2:#F2EFE8;
+  --panel:#FFFFFF;
+  --panel2:#F6F3EC;
+  --raise:#EDE8DE;
+  --line:rgba(26,22,15,.11);
+  --line2:rgba(26,22,15,.18);
+  --ink:#1A1D23;
+  --body:#3A414D;
+  --muted:#5C6473;
+  --dim:#666E7B;
+  --gold:#8A6410;
+  --gold2:#6E4E08;
+  --goldfill:#E8BE55;
+  --goldfill2:#C99B2E;
+  --goldsoft:rgba(232,190,85,.16);
+  --goldline:rgba(138,100,16,.26);
+  --ok:#1E7A47;
+  --oksoft:rgba(30,122,71,.09);
+  --no:#B4392F;
+  --nosoft:rgba(180,57,47,.08);
+  --info:#1F5FBF;
+  --infosoft:rgba(31,95,191,.08);
   --serif:Georgia,"Times New Roman",Times,serif;
   --sans:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
   --r:14px;
   --maxw:1240px;
+}
+
+/* The bars stay dark, so they need the palette they were designed against.
+   Redeclaring the tokens here lets every child inherit the dark values
+   without any of them needing an override of its own.                       */
+.topbar,.rail,.stepnav,.gatehint{
+  --panel:#161D2E;
+  --panel2:#1C2436;
+  --raise:#232C42;
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.17);
+  --ink:#EEF2F9;
+  --body:#C3CBD9;
+  --muted:#99A3B4;
+  --dim:#7B8699;
+  --gold:#E8BE55;
+  --gold2:#C99B2E;
+  --goldsoft:rgba(232,190,85,.13);
+  --goldline:rgba(232,190,85,.34);
+  --ok:#4FD18B;
 }
 
 *{box-sizing:border-box}
@@ -31,7 +60,10 @@ html{scroll-behavior:smooth;scroll-padding-top:96px}
 body{
   margin:0;background:var(--bg);color:var(--body);
   font-family:var(--sans);font-size:17px;line-height:1.72;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  /* no -webkit-font-smoothing:antialiased here. It thins every stroke, which
+     dark text on a pale background reads as blurred; the platform default
+     keeps the stems solid.                                                  */
+  text-rendering:optimizeLegibility;
 }
 img{display:block;max-width:100%}
 a{color:var(--gold);text-decoration:none}
@@ -39,13 +71,13 @@ a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
 
 /* ============ reading progress ============ */
-.progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.06);z-index:60}
-.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold2),var(--gold));transition:width .12s linear}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.10);z-index:60}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--goldfill2),var(--goldfill));transition:width .12s linear}
 
 /* ============ top bar ============ */
 .topbar{
   position:sticky;top:0;z-index:50;
-  background:rgba(8,11,18,.86);backdrop-filter:blur(14px);
+  background:#0E1420;
   border-bottom:1px solid var(--line);
 }
 .topbar-in{
@@ -94,7 +126,7 @@ h1 em{font-style:italic;color:var(--gold)}
 .meta{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:34px}
 .meta span{
   font-size:12.5px;font-weight:600;color:var(--body);
-  border:1px solid var(--line2);border-radius:999px;padding:7px 14px;background:rgba(255,255,255,.02)
+  border:1px solid var(--line2);border-radius:999px;padding:7px 14px;background:rgba(26,22,15,.02)
 }
 .meta span b{color:var(--gold);font-weight:700}
 
@@ -106,7 +138,7 @@ h1 em{font-style:italic;color:var(--gold)}
   margin:0 0 9px;font-size:11px;font-weight:800;letter-spacing:.16em;
   text-transform:uppercase;color:var(--gold);font-family:var(--sans)
 }
-.outcome p{margin:0;color:#E4E9F2;font-size:16px;line-height:1.66}
+.outcome p{margin:0;color:var(--body);font-size:16px;line-height:1.66}
 
 /* ============ journey strip ============ */
 .journey{border-bottom:1px solid var(--line);background:var(--bg2)}
@@ -245,11 +277,11 @@ td b{color:var(--ink);font-weight:650}
   flex:none;width:23px;height:23px;border-radius:6px;border:1px solid var(--line2);
   display:grid;place-items:center;font-size:11.5px;font-weight:800;color:var(--muted)
 }
-.opt.right{border-color:var(--ok);background:var(--oksoft);color:#E4F6EC}
-.opt.right .k{border-color:var(--ok);background:var(--ok);color:#08210F}
-.opt.wrong{border-color:var(--no);background:var(--nosoft);color:#F8E3E1}
-.opt.wrong .k{border-color:var(--no);background:var(--no);color:#2A0A08}
-.exp{margin-top:14px;padding:13px 16px;border-left:2px solid var(--gold);background:var(--goldsoft);border-radius:0 9px 9px 0;font-size:14px;line-height:1.62;color:#DFE5F0}
+.opt.right{border-color:var(--ok);background:var(--oksoft);color:#14532B}
+.opt.right .k{border-color:var(--ok);background:var(--ok);color:#EAF7EF}
+.opt.wrong{border-color:var(--no);background:var(--nosoft);color:#6E1F18}
+.opt.wrong .k{border-color:var(--no);background:var(--no);color:#FDECEA}
+.exp{margin-top:14px;padding:13px 16px;border-left:2px solid var(--gold);background:var(--goldsoft);border-radius:0 9px 9px 0;font-size:14px;line-height:1.62;color:var(--body)}
 .exp b{color:var(--gold)}
 .score{
   border:1px solid var(--goldline);background:var(--goldsoft);border-radius:var(--r);
@@ -294,7 +326,7 @@ footer{border-top:1px solid var(--line);background:var(--bg2);margin-top:20px}
 }
 @media print{
   .topbar,.progress,.toc,.journey{display:none}
-  body{background:#fff;color:#111}
+  body{background:#fff}
 }
 
 /* =====================================================================
@@ -323,7 +355,7 @@ a.mod:hover span{color:var(--ink)}
 /* ---------- prompt block + copy ---------- */
 .prompt{
   position:relative;border:1px solid var(--line);border-radius:var(--r);
-  background:#0C111B;margin:22px 0;overflow:hidden
+  background:#12151C;margin:22px 0;overflow:hidden
 }
 .prompt-h{
   display:flex;align-items:center;gap:10px;padding:10px 15px;
@@ -387,7 +419,7 @@ a.mod:hover span{color:var(--ink)}
 }
 .field label em{font-style:normal;color:var(--dim);letter-spacing:.02em;text-transform:none;font-weight:600;font-size:11.5px}
 .field textarea{
-  width:100%;border:1px solid var(--line2);border-radius:10px;background:#0C111B;
+  width:100%;border:1px solid var(--line2);border-radius:10px;background:var(--panel);
   color:var(--ink);padding:11px 14px;font:inherit;font-size:14.5px;line-height:1.6;
   resize:vertical;min-height:52px
 }
@@ -437,7 +469,7 @@ body.screens{padding-bottom:96px}
 /* ---------- step rail ---------- */
 .rail{
   position:sticky;top:57px;z-index:45;
-  background:rgba(8,11,18,.92);backdrop-filter:blur(14px);
+  background:#131A28;
   border-bottom:1px solid var(--line)
 }
 .rail-in{
@@ -488,16 +520,16 @@ body.screens{padding-bottom:96px}
   border:1px solid var(--goldline);border-radius:var(--r);background:var(--goldsoft)
 }
 .takeaway .ico{
-  flex:none;width:26px;height:26px;border-radius:7px;background:var(--gold);color:#14100A;
+  flex:none;width:26px;height:26px;border-radius:7px;background:var(--goldfill);color:#14100A;
   display:grid;place-items:center;font-size:14px;font-weight:800
 }
-.takeaway p{margin:0;color:#E7ECF4;font-size:15.5px;line-height:1.62}
+.takeaway p{margin:0;color:var(--body);font-size:15.5px;line-height:1.62}
 .takeaway b{color:var(--gold)}
 
 /* ---------- fixed prev / next bar ---------- */
 .stepnav{
   position:fixed;left:0;right:0;bottom:0;z-index:55;
-  background:rgba(8,11,18,.94);backdrop-filter:blur(16px);
+  background:#0E1420;
   border-top:1px solid var(--line2);
   padding-bottom:env(safe-area-inset-bottom,0)
 }
@@ -512,7 +544,8 @@ body.screens{padding-bottom:96px}
   cursor:pointer;transition:.15s
 }
 .navbtn:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
-.navbtn:disabled{opacity:.34;cursor:not-allowed}
+.navbtn:disabled{opacity:.45;cursor:not-allowed}
+.navbtn.primary:disabled{background:var(--panel2);color:var(--dim);opacity:1}
 .navbtn.primary{
   background:linear-gradient(135deg,var(--gold),var(--gold2));border-color:transparent;color:#14100A
 }
@@ -562,9 +595,11 @@ body.screens{padding-bottom:96px}
 }
 
 /* ---------- video screen ---------- */
+/* only the frame the film sits in stays black — the caption below it belongs
+   to the page and has to be readable against it */
 .videobox{
   border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
-  background:#05070C;margin:26px 0
+  background:var(--panel);margin:26px 0
 }
 .videobox video{display:block;width:100%;height:auto;background:#05070C}
 .videobox figcaption{
@@ -605,7 +640,7 @@ body.screens{padding-bottom:96px}
 .vidmissing{
   display:grid;gap:7px;place-items:center;text-align:center;
   padding:34px 22px;background:
-    repeating-linear-gradient(45deg,rgba(255,255,255,.014) 0 12px,transparent 12px 24px),#0A0E17
+    repeating-linear-gradient(45deg,rgba(26,22,15,.02) 0 12px,transparent 12px 24px),var(--panel2)
 }
 .vidmissing b{font-size:14.5px;font-weight:650;color:var(--muted)}
 .vidmissing code{
@@ -617,7 +652,7 @@ body.screens{padding-bottom:96px}
 
 .vidload{
   display:grid;place-items:center;padding:34px 22px;
-  font-size:13px;color:var(--dim);background:#0A0E17
+  font-size:13px;color:var(--dim);background:var(--panel2)
 }
 
 /* narration buttons need the room on small phones — the mark carries the brand */
@@ -643,16 +678,15 @@ body.screens{padding-bottom:96px}
 @media (max-width:680px){ .topbar-chip{max-width:150px} }
 
 /* ============================ SIGN-IN GATE ============================== */
-/* The gate sits above everything until the learner is known. A class on
-   <html> is set before first paint, so a returning learner never sees it
-   flash into view and back out.                                            */
+/* Sits above everything until the learner is known. A class on <html> is set
+   before first paint, so a returning learner never sees it flash in and out. */
 
 .signin{
   position:fixed;inset:0;z-index:9000;
   display:grid;place-items:center;padding:24px;
   background:
-    radial-gradient(760px 420px at 15% -10%,rgba(232,190,85,.14),transparent 60%),
-    radial-gradient(620px 380px at 90% 110%,rgba(110,168,254,.08),transparent 58%),
+    radial-gradient(680px 380px at 12% -12%,rgba(232,190,85,.20),transparent 62%),
+    radial-gradient(560px 340px at 92% 112%,rgba(31,95,191,.07),transparent 60%),
     var(--bg);
   overflow-y:auto
 }
@@ -660,69 +694,80 @@ html.authed .signin{display:none}
 html:not(.authed) body{overflow:hidden}
 
 .signin-card{
-  width:100%;max-width:430px;text-align:center;
+  position:relative;width:100%;max-width:432px;text-align:center;
   background:var(--panel);border:1px solid var(--line);
-  border-radius:var(--r);padding:38px 32px 32px;
-  box-shadow:0 24px 70px rgba(0,0,0,.5)
+  border-radius:18px;padding:40px 34px 34px;
+  box-shadow:0 1px 2px rgba(26,22,15,.05),0 12px 34px rgba(26,22,15,.09)
 }
-.signin-logo{width:150px;margin:0 auto 24px}
+/* a thin gold seam across the top, so the card reads as branded rather than
+   as a stock login box */
+.signin-card::before{
+  content:"";position:absolute;top:0;left:26px;right:26px;height:2px;
+  border-radius:0 0 2px 2px;
+  background:linear-gradient(90deg,transparent,var(--goldfill),transparent)
+}
+
+.signin-logo{width:154px;margin:0 auto 22px}
 .signin-kicker{
-  margin:0 0 14px;font-size:12px;font-weight:800;letter-spacing:.2em;
+  margin:0 0 12px;font-size:11px;font-weight:800;letter-spacing:.2em;
   text-transform:uppercase;color:var(--gold)
 }
 .signin-card h1{
-  margin:0 0 8px;font-family:var(--serif);font-weight:400;
-  font-size:30px;line-height:1.2;color:var(--ink)
+  margin:0 0 9px;font-family:var(--serif);font-weight:400;
+  font-size:31px;line-height:1.18;color:var(--ink);letter-spacing:-.01em
 }
-.signin-sub{margin:0 0 28px;font-size:14px;color:var(--muted);line-height:1.5}
+.signin-sub{margin:0 0 30px;font-size:14px;color:var(--muted);line-height:1.55}
 
 .signin-form{display:block;text-align:left}
 .signin-form label{
-  display:block;margin-bottom:8px;font-size:12px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)
+  display:block;margin-bottom:8px;font-size:11px;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted)
 }
 .signin-form input{
   width:100%;padding:14px 16px;font-family:inherit;font-size:16px;
-  color:var(--ink);background:var(--bg2);
-  border:1px solid var(--line2);border-radius:11px
+  color:var(--ink);background:var(--bg);
+  border:1px solid var(--line2);border-radius:11px;transition:.15s
 }
-.signin-form input:focus{outline:none;border-color:var(--gold);background:var(--panel2)}
+.signin-form input:focus{
+  outline:none;border-color:var(--gold);background:var(--panel);
+  box-shadow:0 0 0 3px rgba(232,190,85,.22)
+}
 .signin-form input::placeholder{color:var(--dim)}
 
 .signin-go{
   width:100%;margin-top:16px;padding:14px 20px;
-  font-family:inherit;font-size:15px;font-weight:800;color:#14100A;
-  background:linear-gradient(135deg,var(--gold),var(--gold2));
-  border:0;border-radius:11px;cursor:pointer
+  font-family:inherit;font-size:15px;font-weight:800;color:#2A1F05;
+  background:linear-gradient(135deg,var(--goldfill),var(--goldfill2));
+  border:0;border-radius:11px;cursor:pointer;transition:.15s
 }
-.signin-go:hover:not(:disabled){filter:brightness(1.07)}
-.signin-go:disabled{opacity:.6;cursor:default}
+.signin-go:hover:not(:disabled){filter:brightness(1.05)}
+.signin-go:disabled{opacity:.55;cursor:default}
 
 .signin-msg{margin:14px 0 0;font-size:13.5px;line-height:1.55;color:var(--muted);min-height:1px}
-.signin-msg.is-bad{color:var(--no)}
+.signin-msg.is-bad{color:var(--no);font-weight:600}
 
 .signin-sent{text-align:center}
 .signin-tick{
-  width:52px;height:52px;margin:0 auto 18px;border-radius:50%;
-  display:grid;place-items:center;font-size:24px;color:var(--ok);
-  background:var(--oksoft);border:1px solid rgba(79,209,139,.4)
+  width:54px;height:54px;margin:0 auto 18px;border-radius:50%;
+  display:grid;place-items:center;font-size:25px;color:var(--ok);
+  background:var(--oksoft);border:1px solid rgba(30,122,71,.32)
 }
 .signin-sent h2{
   margin:0 0 10px;font-family:var(--serif);font-weight:400;
-  font-size:23px;color:var(--ink)
+  font-size:24px;color:var(--ink)
 }
-.signin-sent p{margin:0;font-size:14.5px;line-height:1.6;color:var(--body)}
-.signin-sent b{color:var(--ink);word-break:break-all}
+.signin-sent p{margin:0;font-size:14.5px;line-height:1.62;color:var(--body)}
+.signin-sent b{color:var(--ink);font-weight:700;word-break:break-all}
 .signin-back{
-  margin-top:22px;padding:9px 16px;font-family:inherit;font-size:13px;
+  margin-top:22px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;
   color:var(--muted);background:transparent;
-  border:1px solid var(--line2);border-radius:9px;cursor:pointer
+  border:1px solid var(--line2);border-radius:9px;cursor:pointer;transition:.15s
 }
-.signin-back:hover{color:var(--ink);border-color:var(--gold)}
+.signin-back:hover{color:var(--ink);border-color:var(--gold);background:var(--panel2)}
 
 @media (max-width:420px){
   .signin{padding:16px}
-  .signin-card{padding:30px 22px 26px}
-  .signin-card h1{font-size:26px}
-  .signin-logo{width:128px}
+  .signin-card{padding:32px 22px 26px;border-radius:16px}
+  .signin-card h1{font-size:27px}
+  .signin-logo{width:132px}
 }
