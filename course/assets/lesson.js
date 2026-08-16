@@ -777,3 +777,22 @@
     if (Narration) Narration.setScreen(screens[current]);
   }
 })();
+
+/* ---------------------------------------------------------------------------
+   The page reserves room at its foot for the fixed prev/next bar. Hardcoding
+   that reserve meant it drifted every time the bar changed height, leaving a
+   band of empty page between the footer and the bar. Measure the bar instead.
+   --------------------------------------------------------------------------- */
+(function () {
+  var nav = document.querySelector(".stepnav");
+  if (!nav || !document.body.classList.contains("screens")) return;
+
+  function fit() {
+    document.body.style.paddingBottom = nav.offsetHeight + "px";
+  }
+
+  fit();
+  window.addEventListener("resize", fit);
+  window.addEventListener("orientationchange", fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(nav);
+})();
