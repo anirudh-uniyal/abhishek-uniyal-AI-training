@@ -53,9 +53,10 @@
   function firebase() {
     if (fbLoad) return fbLoad;
     var c = CFG.firebase || {};
-    var usable = c.apiKey && c.authDomain && c.projectId &&
-                 location.protocol !== "file:";
-    if (!usable) { fbLoad = Promise.resolve(null); return fbLoad; }
+    // a file:// page cannot load the SDK at all, so local runs stay in open mode
+    if (!configured() || location.protocol === "file:") {
+      fbLoad = Promise.resolve(null); return fbLoad;
+    }
 
     fbLoad = Promise.all([
       import(SDK + "firebase-app.js"),
@@ -112,6 +113,22 @@
 
     var remembered = get(K_EMAIL);
     if (remembered) input.value = remembered;
+
+    // Without a project there is nothing to send a link with, so every address
+    // is admitted. Say so on the screen rather than letting it look like
+    // verification that silently passes everyone.
+    if (!configured()) {
+      var note = document.createElement("p");
+      note.className = "signin-note";
+      note.textContent = "Setup pending — email verification is not switched on yet, "
+                       + "so any address opens the course.";
+      gate.querySelector(".signin-card").appendChild(note);
+    }
+  }
+
+  function configured() {
+    var c = CFG.firebase || {};
+    return !!(c.apiKey && c.authDomain && c.projectId);
   }
 
   function say(text, kind) {

@@ -19,8 +19,6 @@
 </head>
 <body class="screens">
 
-<div class="progress"><i id="bar"></i></div>
-
 <header class="topbar">
   <div class="topbar-in">
     <div class="brand">
@@ -31,11 +29,6 @@
       </div>
     </div>
     <div class="topbar-spacer"></div>
-    <div class="topbar-pct"><span class="track"><span class="fill"></span></span><span class="val">0%</span></div>
-    <div class="audio">
-      <button class="abtn" id="a-play" type="button" aria-label="Play narration" title="Play narration">&#9654;</button>
-      <button class="abtn" id="a-mute" type="button" aria-label="Turn narration off" title="Turn narration off">&#128266;</button>
-    </div>
     <div class="topbar-chip"><b>Module 1</b><span>AI Fundamentals &amp; Generative AI</span></div>
   </div>
 </header>
@@ -62,7 +55,7 @@
 <!-- ============================================================ 1 -->
 <section class="screen" data-title="What is Artificial Intelligence?">
   <div class="screen-head">
-    <img class="hero-logo" src="../course/brand/logo-full.png" alt="Gold Technology" style="width:150px;margin-bottom:26px">
+    <img class="hero-logo" src="../course/brand/logo-full.png" alt="Gold Technology" style="width:104px;margin-bottom:20px">
     <p class="screen-kicker">Topic 01 of 11</p>
     <h2>What is Artificial Intelligence?</h2>
     <p class="sub">
@@ -1011,11 +1004,16 @@
 </div><!-- /stage-wrap -->
 
 <!-- ================= FIXED PREV / NEXT ================= -->
-<div class="gatehint" id="gatehint">Scroll down to continue ↓</div>
 <div class="stepnav">
+  <div class="progress"><i id="bar"></i></div>
   <div class="stepnav-in">
     <button class="navbtn" id="nav-prev" type="button">←<span class="word"> Previous</span></button>
     <div class="mid" id="nav-mid"></div>
+    <div class="audio">
+      <button class="abtn" id="a-play" type="button" aria-label="Play narration" title="Play narration">&#9654;</button>
+      <button class="abtn" id="a-mute" type="button" aria-label="Turn narration off" title="Turn narration off">&#128266;</button>
+    </div>
+    <div class="topbar-pct"><span class="track"><span class="fill"></span></span><span class="val">0%</span></div>
     <button class="navbtn primary" id="nav-next" type="button">Next<span class="word"> →</span></button>
   </div>
 </div>
