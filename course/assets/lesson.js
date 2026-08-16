@@ -571,11 +571,24 @@
     var settled = false;       // layout for this screen has stopped moving
     var userScrolled = false;  // the learner has actually scrolled on it
 
+    // how much of the display the two bars are covering right now. Reading it
+    // rather than assuming it keeps the gate honest when either bar changes,
+    // and on iOS where the browser's own chrome resizes the viewport mid-scroll
+    function barsHeight() {
+      var top = document.querySelector(".chrome");
+      var bot = document.querySelector(".stepnav");
+      return (top ? top.offsetHeight : 0) + (bot ? bot.offsetHeight : 0);
+    }
+
+    function viewH() {
+      return (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+    }
+
     // a screen that fits entirely on the display has nothing to scroll through
     function screenFits() {
       var el = screens[current];
       if (!el) return false;
-      return el.getBoundingClientRect().height <= window.innerHeight - 90;
+      return el.getBoundingClientRect().height <= viewH() - barsHeight();
     }
 
     // measured against the screen's own bottom, not the document height, so a
@@ -583,7 +596,8 @@
     function scrolledOut() {
       var el = screens[current];
       if (!el) return false;
-      return el.getBoundingClientRect().bottom <= window.innerHeight + 48;
+      var bot = document.querySelector(".stepnav");
+      return el.getBoundingClientRect().bottom <= viewH() - (bot ? bot.offsetHeight : 0) + 56;
     }
 
     function gateOpen() { return cleared.indexOf(current) !== -1; }
@@ -784,15 +798,31 @@
    band of empty page between the footer and the bar. Measure the bar instead.
    --------------------------------------------------------------------------- */
 (function () {
-  var nav = document.querySelector(".stepnav");
-  if (!nav || !document.body.classList.contains("screens")) return;
+  var nav    = document.querySelector(".stepnav");
+  var chrome = document.querySelector(".chrome");
+  if (!document.body.classList.contains("screens")) return;
 
   function fit() {
-    document.body.style.paddingBottom = nav.offsetHeight + "px";
+    var top = chrome ? chrome.offsetHeight : 0;
+    var bot = nav ? nav.offsetHeight : 0;
+    document.body.style.paddingTop    = top + "px";
+    document.body.style.paddingBottom = bot + "px";
+    // anchors and the deep-link jump have to clear the fixed header too
+    document.documentElement.style.scrollPaddingTop = (top + 12) + "px";
   }
 
   fit();
   window.addEventListener("resize", fit);
   window.addEventListener("orientationchange", fit);
-  if (window.ResizeObserver) new ResizeObserver(fit).observe(nav);
+  // Safari resizes the visual viewport as its own toolbars slide away, which
+  // fires here but not always on window resize
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", fit);
+    window.visualViewport.addEventListener("scroll", fit);
+  }
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(fit);
+    if (nav) ro.observe(nav);
+    if (chrome) ro.observe(chrome);
+  }
 })();

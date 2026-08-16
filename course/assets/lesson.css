@@ -56,7 +56,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:96px}
+html{scroll-behavior:smooth;scroll-padding-top:96px} /* replaced at runtime */
 body{
   margin:0;background:var(--bg);color:var(--body);
   font-family:var(--sans);font-size:17px;line-height:1.72;
@@ -79,7 +79,7 @@ a:hover{text-decoration:underline}
 /* ============ top bar ============ */
 /* the header and the rail stick as one block. Offsetting the rail by a
    hardcoded header height meant any change to the header opened a gap. */
-.chrome{position:sticky;top:0;z-index:50}
+.chrome{position:fixed;top:0;left:0;right:0;z-index:50}
 .topbar{
   background:#0E1420;
   border-bottom:1px solid var(--line);
@@ -468,7 +468,7 @@ a.mod:hover span{color:var(--ink)}
    SCREEN MODE — one topic per screen, with persistent prev/next
    ===================================================================== */
 
-body.screens{padding-bottom:60px}   /* replaced at runtime by the bar's real height */
+body.screens{padding-top:99px;padding-bottom:48px} /* both replaced at runtime */
 
 /* ---------- step rail ---------- */
 .rail{
